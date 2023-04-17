@@ -27,7 +27,7 @@ public class Board {
     @Column(nullable = false)
     private Timestamp createdAt = new Timestamp(new Date().getTime());
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
-    private Timestamp modifiedAt = new Timestamp(new Date().getTime());
+    private Timestamp modifiedAt;
     @Enumerated(EnumType.STRING)
     private BoardStatus boardStatus = BoardStatus.BOARD_REGISTRATION;
 
