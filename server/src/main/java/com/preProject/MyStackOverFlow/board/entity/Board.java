@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,6 +31,8 @@ public class Board {
     private Timestamp modifiedAt;
     @Enumerated(EnumType.STRING)
     private BoardStatus boardStatus = BoardStatus.BOARD_REGISTRATION;
+    @OneToMany(mappedBy = "board")
+    private List<BoardTag> boardTags = new ArrayList<>();
 
 //    @ManyToOne
 //    @JoinColumn(name = "MEMBER_ID")
@@ -49,5 +52,11 @@ public class Board {
         BoardStatus(String status) {
             this.status = status;
         }
+    }
+
+    public Board(String title, String content, String contentTry) {
+        this.title = title;
+        this.content = content;
+        this.contentTry = contentTry;
     }
 }
