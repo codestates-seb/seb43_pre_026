@@ -47,8 +47,8 @@ public class BoardController {
     }
 
     // 게시글 조회(전체)
-    @GetMapping
-    public ResponseEntity getAllBoards(@PageableDefault(page = 0, size = 10, sort = "board-id", direction = Sort.Direction.DESC) Pageable pageable) {
+    @GetMapping("/list")
+    public ResponseEntity getAllBoards(@PageableDefault(sort = "board-id", direction = Sort.Direction.DESC) Pageable pageable) {
         List<Board> boards = boardService.getAllBoards();
 
         if (boards.isEmpty()) {
@@ -66,6 +66,19 @@ public class BoardController {
     // 게시글 조회(작성자)
     // 게시글 조회(내용)
     // 게시글 조회(태그)
+    @GetMapping
+    public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String title,
+                                                   @RequestParam(required = false) String content,
+                                                   @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+
+        // 3글자 이하로 검색하면 에러 발생
+        Page<Board> boards = boardService.getAllBoardsBySearchType(title, content, pageable);
+        List<BoardDto.Response> response = boards.getContent().stream()
+                .map(mapper::boardToBoardResponse)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @DeleteMapping("/{board-id}")
     public ResponseEntity deleteBoard(@PathVariable("board-id") long boardId) {
