@@ -4,10 +4,12 @@ import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,16 +44,34 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
+    // TODO tag, username 검색 기능도 추가해야함
+    public Page<Board> getAllBoardsBySearchType(String title, String content, Pageable pageable) {
+
+        Page<Board> response = null;
+
+        if (title != null && !title.isEmpty()) {
+            response = boardRepository.findByTitleContaining(title, pageable);
+        } else if (content != null && !content.isEmpty()) {
+            response = boardRepository.findByContentContaining(content, pageable);
+        }
+//        else {
+//            throw new BusinessLogicException
+//        }
+
+        return response;
+    }
+
     public void deleteBoard(long boardId) {
         Board findBoard = findVerifiedBoard(boardId);
+
+        boardRepository.delete(findBoard);
 
 // TODO   if (findBoard.getBoardStatus() == Board.BoardStatus.BOARD_DELETE) {
 //            throw new BusinessLogicException(ExceptionCode.BOARD_ALREADY_DELETED);
 //        }
-
-        findBoard.setBoardStatus(Board.BoardStatus.BOARD_DELETE);
-        // TODO 게시글이 삭제되었다는 문구를 출력해주는 페이지?? 필요?
-        findBoard.setTitle("삭제된 게시글입니다.");
+//        findBoard.setBoardStatus(Board.BoardStatus.BOARD_DELETE);
+//       게시글이 삭제되었다는 문구를 출력해주는 페이지?? 필요?
+//        findBoard.setTitle("삭제된 게시글입니다.");
 //        findBoard.setContent("삭제된 게시글입니다.");
 //        findBoard.setContentTry("삭제된 게시글입니다.");
     }
