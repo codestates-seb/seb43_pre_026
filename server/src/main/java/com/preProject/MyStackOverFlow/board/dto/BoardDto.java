@@ -39,10 +39,10 @@ public class BoardDto {
     @Builder
     public static class Response {
         private long boardId;
-        @Length(max = 100, message = "제목은 100자 이상 작성할 수 없습니다.")
         private String title;
         private String content;
         private String contentTry;
+        private int likeCount;
         private Board.BoardStatus boardStatus;
     }
 }
