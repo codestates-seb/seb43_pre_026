@@ -23,10 +23,10 @@ public class Board {
     private String content;
     @Column(nullable = false)
     private String contentTry;
-    private int like;
+    private int likeCount;
     @Column(nullable = false)
     private Timestamp createdAt = new Timestamp(new Date().getTime());
-    @Column(nullable = false, name = "LAST_MODIFIED_AT")
+    @Column(name = "LAST_MODIFIED_AT")
     private Timestamp modifiedAt;
     @Enumerated(EnumType.STRING)
     private BoardStatus boardStatus = BoardStatus.BOARD_REGISTRATION;
