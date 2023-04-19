@@ -4,7 +4,7 @@ import SignupOauth from '../components/Logins/LoginOauth';
 import logoImg from '../assets/logo.png';
 
 const Container = styled.div`
-  position: relative;
+  /* position: relative; */
   display: flex;
   justify-content: center;
   align-items: center;
