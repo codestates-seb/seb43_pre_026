@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class BoardService {
 
@@ -22,6 +24,9 @@ public class BoardService {
 
     public Board createBoard(Board board) {
         // TODO verifyExistsMember : 해당 멤버가 있는지 조회하는 로직 추가
+        board.setLikeCount(0);
+        board.setViewCount(0L);
+
         return boardRepository.save(board);
     }
 
@@ -40,11 +45,21 @@ public class BoardService {
         return boardRepository.save(findBoard);
     }
 
+    public Board findBoard(long boardId) {
+        Board findBoard = findVerifiedBoard(boardId);
+
+        findBoard.setViewCount(findBoard.getViewCount() + 1);
+
+        return boardRepository.save(findBoard);
+    }
+
+    @Transactional(readOnly = true)
     public List<Board> getAllBoards() {
         return boardRepository.findAll();
     }
 
     // TODO tag, username 검색 기능도 추가해야함
+    @Transactional(readOnly = true)
     public Page<Board> getAllBoardsBySearchType(String title, String content, Pageable pageable) {
 
         Page<Board> response = null;
@@ -81,5 +96,14 @@ public class BoardService {
 
         return optionalBoard.get();
         // TODO BusinessLogicException 추가 후 optionalBoard.orElseThrow()로 변경
+    }
+
+    private void addLike(Board board) {
+        // TODO verifyExistsMember : 해당 멤버가 있는지 조회하는 로직 추가
+        Board findBoard = findVerifiedBoard(board.getBoardId());
+        // TODO if (멤버가 해당 게시글에 좋아요를 눌렀는가?) {눌렀으면 throw exception}
+
+        findBoard.setLikeCount(findBoard.getLikeCount() + 1);
+
     }
 }

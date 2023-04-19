@@ -46,6 +46,14 @@ public class BoardController {
         return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.OK);
     }
 
+    @GetMapping("/{board-id}")
+    public ResponseEntity getBoard(@PathVariable("board-id") long boardId) {
+
+        Board response = boardService.findBoard(boardId);
+
+        return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.OK);
+    }
+
     // 게시글 조회(전체)
     @GetMapping("/list")
     public ResponseEntity getAllBoards(@PageableDefault(sort = "board-id", direction = Sort.Direction.DESC) Pageable pageable) {

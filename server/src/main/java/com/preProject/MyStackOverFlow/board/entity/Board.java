@@ -24,7 +24,8 @@ public class Board {
     private String content;
     @Column(nullable = false)
     private String contentTry;
-    private int likeCount;
+    private Integer likeCount;
+    private Long viewCount;
     @Column(nullable = false)
     private Timestamp createdAt = new Timestamp(new Date().getTime());
     @Column(name = "LAST_MODIFIED_AT")
@@ -55,6 +56,13 @@ public class Board {
     }
 
     public Board(String title, String content, String contentTry) {
+        this.title = title;
+        this.content = content;
+        this.contentTry = contentTry;
+    }
+
+    public Board(Long boardId, String title, String content, String contentTry) {
+        this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.contentTry = contentTry;
