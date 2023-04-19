@@ -17,7 +17,7 @@ const QuestionHead = styled.h1`
   margin-left: 20px;
 `;
 
-const QuestionsSubmit = () => {
+const QuestionSubmit = () => {
   return (
     <Container>
       <QuestionHead>Ask a public question</QuestionHead>
@@ -26,4 +26,4 @@ const QuestionsSubmit = () => {
   );
 };
 
-export default QuestionsSubmit;
+export default QuestionSubmit;
