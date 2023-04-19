@@ -11,7 +11,7 @@ const HomeList = () => {
       <HomeItem />
       <HomeItem />
     </div>
-  )
-}
+  );
+};
 
 export default HomeList;
