@@ -1,11 +1,10 @@
 package com.preProject.MyStackOverFlow.board.dto;
 
 import com.preProject.MyStackOverFlow.board.entity.Board;
-import com.preProject.MyStackOverFlow.board.entity.Tag;
+import com.preProject.MyStackOverFlow.board.entity.BoardTag;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
 public class BoardDto {
 
     @Getter
-    @AllArgsConstructor
     public static class Post {
 
         @Positive
@@ -25,11 +23,17 @@ public class BoardDto {
         private String content;
         @NotEmpty(message = "문제를 해결하기 위해 시도한 내용을 작성해 주세요.")
         private String contentTry;
-        private List<String> tagNames;
+        private List<BoardTagDto.Add> tagNames;
+
+        public Post(long memberId, String title, String content, String contentTry) {
+            this.memberId = memberId;
+            this.title = title;
+            this.content = content;
+            this.contentTry = contentTry;
+        }
     }
 
     @Data
-    @AllArgsConstructor
     public static class Patch {
 
         @Positive
@@ -38,6 +42,13 @@ public class BoardDto {
         private String title;
         private String content;
         private String contentTry;
+
+        public Patch(long boardId, String title, String content, String contentTry) {
+            this.boardId = boardId;
+            this.title = title;
+            this.content = content;
+            this.contentTry = contentTry;
+        }
     }
 
     @Data
@@ -50,5 +61,7 @@ public class BoardDto {
         private int likeCount;
         private long viewCount;
         private Board.BoardStatus boardStatus;
+        private List<BoardTagDto.Response> tagNames;
+
     }
 }
