@@ -1,16 +1,8 @@
 import React from 'react';
 import SignupForm from '../components/SignupForm';
 import SignupOauth from '../components/SignupOauth';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import SignupText from '../components/SignupText';
-import Header from '../components/Header';
-
-const GlobalStyle = createGlobalStyle`
-  html, body {
-    margin: 0;
-    padding: 0;
-  }
-`;
 
 const Signup = () => {
   const Global = styled.div`
@@ -38,8 +30,6 @@ const Signup = () => {
 
   return (
     <>
-      <GlobalStyle />
-      <Header />
       <Global>
         <SignupContainer>
           <SignupText />

@@ -3,52 +3,15 @@ import styled from 'styled-components';
 import stackoverflow from '../assets/stackoverflow.svg';
 import { TbZoomQuestion } from 'react-icons/tb';
 
-const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('All');
-
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
-  return (
-    <Fixed>
-      <Wrapper>
-        <Logo src={stackoverflow} />
-        <Search>
-          <SelectBox value={selectedOption} onChange={handleOptionChange}>
-            <option value="All">All</option>
-            <option value="Title">Title</option>
-            <option value="Writer">Writer</option>
-            <option value="Tag">Tag</option>
-          </SelectBox>
-          <SearchIcon />
-          <SearchInput type="text" placeholder="Search..." />
-        </Search>
-        {isLoggedIn ? (
-          <>
-            <UserInfo />
-            <Logout handleLogout={handleLogout}>Log out</Logout>
-          </>
-        ) : (
-          <>
-            <Loginbutton>Log in</Loginbutton>
-            <Signupbutton>Sign up</Signupbutton>
-          </>
-        )}
-      </Wrapper>
-    </Fixed>
-  );
-};
+const Line = styled.div`
+  border: 2px solid #f48225;
+`;
 
 const Fixed = styled.div`
   position: fixed;
   width: 100%;
   background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 1px 4px;
 `;
 
 const Wrapper = styled.div`
@@ -163,5 +126,48 @@ const Logout = styled.button`
     border: 1.2px solid #006bb3;
   }
 `;
+
+const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('All');
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  return (
+    <Fixed>
+      <Line />
+      <Wrapper>
+        <Logo src={stackoverflow} />
+        <Search>
+          <SelectBox value={selectedOption} onChange={handleOptionChange}>
+            <option value="All">All</option>
+            <option value="Title">Title</option>
+            <option value="Writer">Writer</option>
+            <option value="Tag">Tag</option>
+          </SelectBox>
+          <SearchIcon />
+          <SearchInput type="text" placeholder="Search..." />
+        </Search>
+        {isLoggedIn ? (
+          <>
+            <UserInfo />
+            <Logout handleLogout={handleLogout}>Log out</Logout>
+          </>
+        ) : (
+          <>
+            <Loginbutton>Log in</Loginbutton>
+            <Signupbutton>Sign up</Signupbutton>
+          </>
+        )}
+      </Wrapper>
+    </Fixed>
+  );
+};
 
 export default Header;
