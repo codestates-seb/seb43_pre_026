@@ -76,7 +76,7 @@ public class MemberControllerTest implements MemberControllerTestHelper {
                 .andExpect(jsonPath("$.data.memberEmail").value(put.getMemberEmail()))
                 .andExpect(jsonPath("$.data.memberName").value(put.getMemberName()))
                 .andExpect(jsonPath("$.data.memberNickname").value(put.getMemberNickname()))
-                .andExpect(jsonPath("$.data.memberDescription").value(this.post.getMemberDescription()));
+                .andExpect(jsonPath("$.data.memberDescription").value(put.getMemberDescription()));
     }
 
     @Test
