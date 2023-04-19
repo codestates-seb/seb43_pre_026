@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import stackoverflow from '../assets/stackoverflow.svg';
 import { TbZoomQuestion } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 
 const Line = styled.div`
   border: 2px solid #f48225;
@@ -131,6 +132,20 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedOption, setSelectedOption] = useState('All');
 
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleSignup = () => {
+    navigate('/signup');
+  };
+
+  const handleMain = () => {
+    navigate('/');
+  };
+
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
@@ -143,7 +158,7 @@ const Header = () => {
     <Fixed>
       <Line />
       <Wrapper>
-        <Logo src={stackoverflow} />
+        <Logo onClick={handleMain} src={stackoverflow} />
         <Search>
           <SelectBox value={selectedOption} onChange={handleOptionChange}>
             <option value="All">All</option>
@@ -161,8 +176,8 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Loginbutton>Log in</Loginbutton>
-            <Signupbutton>Sign up</Signupbutton>
+            <Loginbutton onClick={handleLogin}>Log in</Loginbutton>
+            <Signupbutton onClick={handleSignup}>Sign up</Signupbutton>
           </>
         )}
       </Wrapper>

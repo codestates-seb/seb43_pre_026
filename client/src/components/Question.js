@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TbTriangleInverted } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 
 const dummy = {
   title: 'How do I get the current date in typst?',
@@ -13,7 +14,7 @@ const dummy = {
   
   As an aside, I figure that if typst is truly meant to become a LaTeX successor/alternative, we had better get started on matching all of the incredibly helpful Stack Exchange Q&A!
   `,
-  tag: ['javassss', 'react'],
+  tag: ['java', 'react', 'cors'],
 };
 
 const dummyComment = [
@@ -84,6 +85,7 @@ const AskButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   &:hover {
     background-color: #006bb3;
@@ -229,6 +231,7 @@ const AnswerButton = styled.button`
   border: 1.2px solid #0a95ff;
   background-color: #0a95ff;
   flex-shrink: 0;
+  margin-top: 5px;
   box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
 
   &:hover {
@@ -262,16 +265,19 @@ const CommentAround = styled.div`
 `;
 
 const CommentContent = styled.div`
-  font-size: 16px;
+  font-size: 15px;
 `;
 
 const CommentId = styled.div`
+  font-size: 17px;
+  font-weight: 500;
   margin-left: auto;
 `;
 
 const CommentNumber = styled.div`
   color: gray;
-  width: 30px;
+  width: 25px;
+  font-size: 17px;
 `;
 
 //================================================================
@@ -280,6 +286,12 @@ const Question = () => {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comment, setComment] = useState('');
   const [answer, setAnswer] = useState('');
+
+  const navigate = useNavigate();
+
+  const handleAsk = () => {
+    navigate('/questionsubmit');
+  };
 
   const handleAddCommentClick = () => {
     setShowCommentForm(true);
@@ -316,7 +328,7 @@ const Question = () => {
     <Container>
       <TitleContainer>
         <Title>{dummy.title}</Title>
-        <AskButton>Ask Question</AskButton>
+        <AskButton onClick={handleAsk}>Ask Question</AskButton>
       </TitleContainer>
       <DateContainer>
         <CreatedAt>Asked: {dummy.createAt}</CreatedAt>
