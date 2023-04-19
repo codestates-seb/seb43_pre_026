@@ -9,6 +9,7 @@ const Container = styled.div`
   margin-right: 345px;
   border-left: solid gray 1px;
   border-right: solid gray 1px;
+  padding-top: 70px;
 `;
 const Head = styled.div`
   margin-left: 30px;
@@ -21,18 +22,24 @@ const Head = styled.div`
     > h1 {
     }
     > button {
-      width: 100px;
-      height: 30px;
-
-      background-color: hsl(206, 100%, 52%);
+      height: 38px;
+      width: 120px;
+      font-size: 15px;
       color: white;
-      border: #73adfa;
-      border-radius: 5px;
+      border-radius: 3px;
+      border: 1.2px solid #0a95ff;
+      background-color: #0a95ff;
+      box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
+      flex-shrink: 0;
+
+      justify-content: center;
+      align-items: center;
+
       &:hover {
-        background-color: hsl(206, 100%, 40%);
-        color: white;
+        background-color: #006bb3;
+        border: 1.2px solid #006bb3;
       }
-      cursor: text;
+      cursor: pointer;
     }
   }
   > .bottom-head {
@@ -48,10 +55,10 @@ const QuestionNum = styled.div`
 
 const Buttons = styled.div`
   > button {
-    height: 30px;
+    height: 38px;
     width: 80px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 2px;
     border: solid 1px #bdbdbd;
 
     text-align: center;

@@ -44,18 +44,22 @@ const Textarea = styled.textarea`
 const Tag = styled(Title)``;
 
 const Button = styled.button`
-  height: 40px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-top: 10px;
-
-  background-color: hsl(206, 100%, 52%);
+  height: 38px;
+  width: 150px;
+  font-size: 15px;
   color: white;
-  border: #73adfa;
-  border-radius: 5px;
+  border-radius: 3px;
+  border: 1.2px solid #0a95ff;
+  background-color: #0a95ff;
+  box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
+  flex-shrink: 0;
+
+  justify-content: center;
+  align-items: center;
+
   &:hover {
-    background-color: hsl(206, 100%, 40%);
-    color: white;
+    background-color: #006bb3;
+    border: 1.2px solid #006bb3;
   }
   cursor: pointer;
 `;

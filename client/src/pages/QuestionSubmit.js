@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import QuestionForm from '../components/QuestionForm';
 
 const Container = styled.div`
-  height: auto;
   width: 1000px;
   margin-left: 345px;
   margin-right: 345px;
+  padding-top: 70px;
+  padding-bottom: 100px;
 `;
 
 //background-color: #f1f2f3;
@@ -14,7 +15,7 @@ const Container = styled.div`
 const QuestionHead = styled.h1`
   display: flex;
   justify-content: flex-start;
-  margin-left: 20px;
+  padding-bottom: 20px;
 `;
 
 const QuestionSubmit = () => {

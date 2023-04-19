@@ -5,7 +5,7 @@ import UserInfoEdit from '../components/UserInfoEdit';
 const UserEdit = () => {
   return (
     <div>
-      {/* <UserInfo /> */}
+      <UserInfo />
       <UserInfoEdit />
     </div>
   );
