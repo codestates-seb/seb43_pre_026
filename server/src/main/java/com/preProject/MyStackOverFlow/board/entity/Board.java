@@ -1,5 +1,6 @@
 package com.preProject.MyStackOverFlow.board.entity;
 
+import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,9 +36,9 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<BoardTag> boardTags = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 //
 //    @OneToMany(mappedBy = "board")
 //    private List<Answer> answers = new ArrayList<>();
@@ -66,5 +67,12 @@ public class Board {
         this.title = title;
         this.content = content;
         this.contentTry = contentTry;
+    }
+
+    public void addBoardTag(BoardTag boardTag) {
+        this.boardTags.add(boardTag);
+        if (boardTag.getBoard() != this) {
+            boardTag.addBoard(this);
+        }
     }
 }
