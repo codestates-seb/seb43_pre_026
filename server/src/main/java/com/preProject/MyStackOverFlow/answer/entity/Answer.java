@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +19,12 @@ import java.util.List;
 @Entity(name = "answer")
 public class Answer {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long answerId;
 
+<<<<<<< HEAD
     @ManyToOne (fetch = FetchType.LAZY) // 게시글과 댓글 - N:1 관계 설정
     @JoinColumn(name = "BOARD_ID", nullable = false)
     private Board board;
@@ -29,6 +32,15 @@ public class Answer {
     @ManyToOne(fetch = FetchType.LAZY) // 멤버와 댓글 - N:1 관계 설정
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;
+=======
+    @ManyToOne(fetch = FetchType.LAZY) // 멤버와 댓글 - N:1 관계 설정
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
+>>>>>>> 8a5b40ddf546e51d71fc96902f71e58a76b9f4a5
 
     @Column(nullable = false)
     @Lob

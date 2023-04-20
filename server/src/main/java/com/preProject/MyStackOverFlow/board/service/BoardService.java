@@ -113,7 +113,7 @@ public class BoardService {
 //        findBoard.setContentTry("삭제된 게시글입니다.");
     }
 
-    private Board findVerifiedBoard(long boardId) {
+    public Board findVerifiedBoard(long boardId) {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
 
         return optionalBoard.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));

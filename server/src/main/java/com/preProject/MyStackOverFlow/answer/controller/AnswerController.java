@@ -48,6 +48,13 @@ public class AnswerController {
         return likeCount;
     }
 
+    @GetMapping("/{answerId}")
+    public ResponseEntity getAnswer(@PathVariable("answerId") @Positive long answerId) {
+        List<AnswerDto.Response> answers = response.answersToResponse(answerService.getAnswer(answerId));
+
+        return new ResponseEntity<>(answers, HttpStatus.OK);
+    }
+
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAnswers() {

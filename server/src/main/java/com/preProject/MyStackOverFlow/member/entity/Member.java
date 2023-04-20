@@ -1,5 +1,6 @@
 package com.preProject.MyStackOverFlow.member.entity;
 
+import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answers = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)

@@ -6,11 +6,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 public class AnswerDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
+        @Positive
+        private long memberId;
+        @Positive
+        private long boardId;
         private String content;
         private Answer parent;
         public Post(String content){
