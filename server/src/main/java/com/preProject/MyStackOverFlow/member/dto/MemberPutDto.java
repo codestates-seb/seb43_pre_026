@@ -25,8 +25,6 @@ public class MemberPutDto {
 
     private String memberDescription;
 
-    private Member.MemberStatus memberStatus;
-
     public void setMemberId(long memberId) {
         this.memberId = memberId;
     }

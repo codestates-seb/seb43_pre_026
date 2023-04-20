@@ -22,7 +22,9 @@ public class MemberService {
     public Member createMember(Member member) {
         // 이미 등록된 이메일인지 확인
         verifyExistsEmail(member.getMemberEmail());
-        return memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
+
+        return savedMember;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

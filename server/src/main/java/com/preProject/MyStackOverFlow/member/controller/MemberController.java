@@ -33,9 +33,11 @@ public class MemberController {
 
     // 회원 정보 등록
     @PostMapping("")
-    public ResponseEntity postMember(@Valid @RequestBody MemberPostDto memberDto) {
-        Member member = memberService.createMember(mapper.memberPostDtoToMember(memberDto));
-        URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, member.getMemberId());
+    public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
+        Member member = mapper.memberPostDtoToMember(requestBody);
+
+        Member createdMember = memberService.createMember(member);
+        URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, createdMember.getMemberId());
 
         return ResponseEntity.created(location).build();
     }
@@ -45,28 +47,19 @@ public class MemberController {
     public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.memberToMemberResponseDto(member)), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
-
-    // 회원 목록 조회
-//    @GetMapping
-//    public ResponseEntity getMembers(@Positive @RequestParam int page,
-//                                     @Positive @RequestParam int size) {
-//        Page<Member> pageMembers = memberService.findMembers(page -1, size);
-//        List<Member> members = pageMembers.getContent();
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(mapper.membersToMemberResponseDtos(members), pageMembers), HttpStatus.OK);
-//    }
 
     // 회원 정보 수정
     @PutMapping("/{member-id}")
     public ResponseEntity putMember(
             @PathVariable("member-id") @Positive long memberId,
-            @Valid @RequestBody MemberPutDto memberPutDto) {
-        memberPutDto.setMemberId(memberId);
+            @Valid @RequestBody MemberPutDto requestBody) {
+        requestBody.setMemberId(memberId);
+
         Member member =
-                memberService.updateMember(mapper.memberPutDtoToMember(memberPutDto));
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.memberToMemberResponseDto(member)), HttpStatus.OK);
+                memberService.updateMember(mapper.memberPutDtoToMember(requestBody));
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
 
     // 회원 정보 삭제
