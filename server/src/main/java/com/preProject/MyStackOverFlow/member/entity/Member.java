@@ -39,7 +39,7 @@ public class Member {
     @Column(length = 20, nullable = false, unique = true)
     private String memberNickname;
 
-    @Column(length = 50, nullable = true)
+    @Column(length = 50)
     private String memberDescription;
 
     @OneToMany(mappedBy = "member")
