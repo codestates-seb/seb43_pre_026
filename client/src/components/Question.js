@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TbTriangleInverted } from 'react-icons/tb';
-import { useNavigate } from 'react-router-dom';
 
-const dummy = {
+export const dummy = {
   title: 'How do I get the current date in typst?',
   createAt: '2020-02-20',
   modifiedAt: '2020-03-22',
@@ -30,68 +29,6 @@ const dummyComment = [
     content: 'Comment test test test~',
   },
 ];
-
-const Container = styled.div`
-  padding-top: 100px;
-  width: 800px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin: 0 auto;
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const Title = styled.div`
-  font-size: 35px;
-`;
-const DateContainer = styled.div`
-  width: 100%;
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-start;
-`;
-
-const CreatedAt = styled.div`
-  flex: 1;
-`;
-
-const ModifiedAt = styled.div`
-  flex: 1;
-  margin-right: 350px;
-`;
-
-const Line = styled.div`
-  border: 1px solid black;
-  width: 100%;
-  margin-top: 20px;
-`;
-
-const AskButton = styled.div`
-  height: 38px;
-  width: 100px;
-  font-size: 15px;
-  color: white;
-  border-radius: 3px;
-  margin-left: 5px;
-  border: 1.2px solid #0a95ff;
-  background-color: #0a95ff;
-  box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #006bb3;
-    border: 1.2px solid #006bb3;
-  }
-`;
 
 const LikeCountContainer = styled.div`
   display: flex;
@@ -142,7 +79,7 @@ const Tag = styled.div`
 const TagContainer = styled.div`
   margin-top: 10px;
 `;
-// ========================================================================
+
 const AddComment = styled.div`
   margin-top: 30px;
   font-size: 16px;
@@ -203,44 +140,6 @@ const ButtonContainer = styled.div`
   display: flex;
 `;
 
-// ==============================================================
-
-const AnswerContainer = styled.div`
-  margin-top: 100px;
-  width: 100%;
-`;
-
-const AnswerForm = styled.form``;
-
-const Answer = styled.div`
-  font-size: 25px;
-`;
-
-const AnswerTextArea = styled.textarea`
-  margin-top: 12px;
-  width: 100%;
-  height: 130px;
-`;
-
-const AnswerButton = styled.button`
-  height: 40px;
-  width: 135px;
-  font-size: 14px;
-  color: white;
-  border-radius: 3px;
-  border: 1.2px solid #0a95ff;
-  background-color: #0a95ff;
-  flex-shrink: 0;
-  margin-top: 5px;
-  box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
-
-  &:hover {
-    background-color: #006bb3;
-    border: 1.2px solid #006bb3;
-  }
-`;
-
-//================================================================
 const CommentListContainer = styled.div``;
 
 const CommentLine = styled.div`
@@ -280,18 +179,9 @@ const CommentNumber = styled.div`
   font-size: 17px;
 `;
 
-//================================================================
-//================================================================
 const Question = () => {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comment, setComment] = useState('');
-  const [answer, setAnswer] = useState('');
-
-  const navigate = useNavigate();
-
-  const handleAsk = () => {
-    navigate('/questionsubmit');
-  };
 
   const handleAddCommentClick = () => {
     setShowCommentForm(true);
@@ -314,27 +204,8 @@ const Question = () => {
     setComment(e.target.value);
   };
 
-  const handleAnswerSubmit = (e) => {
-    e.preventDefault();
-    console.log(answer);
-    setAnswer('');
-    alert('등록되었습니다!');
-  };
-
-  const handleAnswerChange = (e) => {
-    setAnswer(e.target.value);
-  };
   return (
-    <Container>
-      <TitleContainer>
-        <Title>{dummy.title}</Title>
-        <AskButton onClick={handleAsk}>Ask Question</AskButton>
-      </TitleContainer>
-      <DateContainer>
-        <CreatedAt>Asked: {dummy.createAt}</CreatedAt>
-        <ModifiedAt>Modified: {dummy.modifiedAt}</ModifiedAt>
-      </DateContainer>
-      <Line />
+    <>
       <Body>
         <LikeCountContainer>
           <LikeCount />
@@ -381,19 +252,7 @@ const Question = () => {
           </CommentForm>
         </ContentContainer>
       </Body>
-      <AnswerContainer>
-        <Answer>Your Answer</Answer>
-        <AnswerForm onSubmit={handleAnswerSubmit}>
-          <AnswerTextArea
-            value={answer}
-            onChange={handleAnswerChange}
-            required
-          />
-          <AnswerButton type="submit">Post Your Answer</AnswerButton>
-        </AnswerForm>
-      </AnswerContainer>
-    </Container>
+    </>
   );
 };
-
 export default Question;

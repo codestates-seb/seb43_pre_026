@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeItem from './HomoItem';
+import HomeItem from './HomeItem';
 
 const HomeList = () => {
   return (
