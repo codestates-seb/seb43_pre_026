@@ -10,6 +10,8 @@ public enum ExceptionCode {
     NOT_IMPLEMENTATION(501, "Not Implementation"),
 
     BOARD_NOT_FOUND(404, "Board not found"),
+    ANSWER_NOT_FOUND(404, "Answer not found"),
+    PARENT_ANSWER_NOT_FOUND(404, "Parent answer not found"),
     TAG_NOT_FOUND(404, "Tag not found");
 
 
