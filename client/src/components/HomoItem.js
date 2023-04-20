@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  width: 1000px;
+  width: 800px;
   height: 150px;
   border-top: solid gray 1px;
 
+  margin: 0 auto;
   margin-top: 20px;
   padding-top: 10px;
   padding-bottom: 10px;

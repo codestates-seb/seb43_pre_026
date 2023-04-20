@@ -3,10 +3,8 @@ import HomeList from './HomeList';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  height: auto;
-  width: 1000px;
-  margin-left: 345px;
-  margin-right: 345px;
+  width: 800px;
+  margin: 0 auto;
   border-left: solid gray 1px;
   border-right: solid gray 1px;
   padding-top: 70px;
@@ -19,8 +17,6 @@ const Head = styled.div`
     display: flex;
     justify-content: space-between;
 
-    > h1 {
-    }
     > button {
       height: 38px;
       width: 120px;
@@ -65,13 +61,17 @@ const Buttons = styled.div`
   }
 `;
 
-const Tail = styled.div`
+const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  margin: 100px;
+  margin-top: 20px;
+  border-top: 1px solid gray;
+
   > span {
     padding-right: 10px;
+    margin-bottom: 30px;
+    margin-top: 50px;
   }
 `;
 
@@ -93,10 +93,10 @@ const Template = () => {
         </div>
       </Head>
       <HomeList />
-      <Tail>
+      <Page>
         <span>1</span>
         <span>next</span>
-      </Tail>
+      </Page>
     </Container>
   );
 };

@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Container = styled.div`
+  margin: 0 auto;
+`;
+
 const Title = styled.div`
-  width: 1000px;
+  width: 800px;
   height: 126px;
   border: 1px solid gray;
   margin-bottom: 20px;
-  padding: 30px;
+  padding: 20px;
   padding-bottom: 10px;
   font-weight: bold;
   font-size: 20px;
@@ -29,6 +33,7 @@ const Addition = styled.div`
   font-weight: normal;
   color: hsl(210, 8%, 25%);
   cursor: text;
+  margin-top: 5px;
 `;
 
 const Input = styled.input`
@@ -66,7 +71,7 @@ const Button = styled.button`
 
 const QuestionForm = () => {
   return (
-    <div>
+    <Container>
       <Title>
         <div>Title</div>
         <Addition>
@@ -99,7 +104,7 @@ const QuestionForm = () => {
         <Input />
       </Tag>
       <Button>post your question</Button>
-    </div>
+    </Container>
   );
 };
 

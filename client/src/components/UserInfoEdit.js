@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import profile from '../assets/profile.png';
 
 const Container = styled.div`
   height: auto;
-  width: 1000px;
-  margin-left: 345px;
-  margin-right: 345px;
+  width: 800px;
+  margin: 0 auto;
   margin-bottom: 70px;
 `;
 
@@ -33,23 +33,25 @@ const EditTitleInput = styled.div`
   font-weight: bold;
 `;
 
-const Image = styled.form`
-  width: 115px;
-  height: 115px;
-  border: 1px solid gray;
-  margin-top: 10px;
+const Image = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 5%;
+
+  margin-right: 30px;
+  margin-top: 15px;
 `;
 
 const NameInput = styled.div`
   margin-top: 25px;
   > input {
     height: 30px;
-    width: 950px;
+    width: 750px;
     margin-top: 10px;
   }
   > textarea {
     height: 100px;
-    width: 950px;
+    width: 750px;
     margin-top: 10px;
   }
 `;
@@ -64,7 +66,7 @@ const OtherInfo = styled.div`
 `;
 
 const Input = styled.input`
-  width: 950px;
+  width: 750px;
   height: 30px;
   margin-top: 10px;
   margin-bottom: 30px;
@@ -124,7 +126,7 @@ const UserInfoEdit = () => {
       <Subhead>Public information</Subhead>
       <EditTitleInput>
         <div>profile image</div>
-        <Image />
+        <Image src={profile} alt="profile" />
         <NameInput>
           <div>name</div>
           <input />
