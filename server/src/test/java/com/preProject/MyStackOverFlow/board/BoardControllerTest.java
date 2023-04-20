@@ -98,7 +98,7 @@ public class BoardControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        get("/boards/list")
+                        get("/boards")
                                 .accept(MediaType.APPLICATION_JSON)
                 );
 
@@ -116,7 +116,7 @@ public class BoardControllerTest {
 
         Page<Board> page = new PageImpl<>(boards);
 
-        given(boardService.getAllBoardsBySearchType(Mockito.anyString(), Mockito.anyString(), Mockito.any(Pageable.class)))
+        given(boardService.getAllBoardsBySearchType(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(Pageable.class)))
                 .willReturn(page);
 
         ResultActions actions =

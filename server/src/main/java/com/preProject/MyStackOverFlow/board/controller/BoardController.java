@@ -4,6 +4,8 @@ import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
 import com.preProject.MyStackOverFlow.board.service.BoardService;
+import com.preProject.MyStackOverFlow.member.entity.Member;
+import com.preProject.MyStackOverFlow.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +56,7 @@ public class BoardController {
     }
 
     // 게시글 조회(전체)
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity getAllBoards(@PageableDefault(sort = "board-id", direction = Sort.Direction.DESC) Pageable pageable) {
         List<Board> boards = boardService.getAllBoards();
 
@@ -69,25 +71,22 @@ public class BoardController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // 게시글 조회(제목)
-    // 게시글 조회(작성자)
-    // 게시글 조회(내용)
-    // 게시글 조회(태그)
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String title,
                                                    @RequestParam(required = false) String content,
-//                                                   @RequestParam(required = false) String memberNickname,
-//                                                   @RequestParam(required = false) String tagName,
+                                                   @RequestParam(required = false) String memberNickname,
+                                                   @RequestParam(required = false) String tagName,
                                                    @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
 
-        // 3글자 이하로 검색하면 에러 발생
-        Page<Board> boards = boardService.getAllBoardsBySearchType(title, content, pageable);
+        Page<Board> boards = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+
         List<BoardDto.Response> response = boards.getContent().stream()
                 .map(mapper::boardToBoardResponse)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{board-id}")
     public ResponseEntity deleteBoard(@PathVariable("board-id") long boardId) {

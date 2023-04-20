@@ -4,6 +4,8 @@ import com.preProject.MyStackOverFlow.board.entity.Board;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -11,5 +13,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findByTitleContaining(String title, Pageable pageable);
     Page<Board> findByContentContaining(String content, Pageable pageable);
-//    Page<Board> findByMemberNicknameContaining(String memberNickname, Pageable pageable);
+    Page<Board> findByMemberMemberNicknameContaining(String memberNickname, Pageable pageable);
+    @Query("SELECT b FROM Board b JOIN b.boardTags bt JOIN bt.tag t WHERE t.tagName LIKE %:tagName%")
+    Page<Board> findByTagNameContaining(@Param("tagName") String tagName, Pageable pageable);
 }
