@@ -28,12 +28,24 @@ configurations {
 	asciidoctorExtensions
 }
 
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+}
+
+configurations {
+	asciidoctorExtensions
+}
+
 dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+<<<<<<< HEAD
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+=======
 
 	// (5)
 	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	implementation 'com.google.code.gson:gson:2.8.5' //gson 사용
+>>>>>>> f91ae11e70ef791c15baeb9549453f40aef93ea4
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -53,13 +65,34 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+<<<<<<< HEAD
+=======
 // (7)
+>>>>>>> f91ae11e70ef791c15baeb9549453f40aef93ea4
 tasks.named('asciidoctor') {
 	configurations "asciidoctorExtensions"
 	inputs.dir snippetsDir
 	dependsOn test
 }
 
+<<<<<<< HEAD
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor
+	from file("${asciidoctor.outputDir}")
+	into file("src/main/resources/static/docs")
+}
+
+build {
+	dependsOn copyDocument
+}
+
+bootJar {
+	dependsOn copyDocument
+	from ("${asciidoctor.outputDir}") {
+		into 'statics/docs'
+	}
+}
+=======
 // (8)
 task copyDocument(type: Copy) {
 	dependsOn asciidoctor            // (8-1)
@@ -78,3 +111,4 @@ bootJar {
 		into 'static/docs'     // (10-3)
 	}
 }
+>>>>>>> f91ae11e70ef791c15baeb9549453f40aef93ea4

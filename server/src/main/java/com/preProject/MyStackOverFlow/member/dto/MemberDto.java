@@ -55,8 +55,6 @@ public class MemberDto {
 
         private String memberDescription;
 
-        private Member.MemberStatus memberStatus;
-
         public void setMemberId(long memberId) {
             this.memberId = memberId;
         }
@@ -64,15 +62,15 @@ public class MemberDto {
 
     @Getter
     @AllArgsConstructor
-    public static class response {
+    public static class Response {
         private long memberId;
         private String memberUserid;
         private String memberPassword;
+        private String memberEmail;
         private String memberName;
         private String memberNickname;
         private String memberDescription;
         private Member.MemberStatus memberStatus;
-        private LocalDateTime createdAt = LocalDateTime.now();
 
         public String getMemberStatus() {
             return memberStatus.getStatus();

@@ -4,6 +4,8 @@ import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 public class MemberResponseDto {
