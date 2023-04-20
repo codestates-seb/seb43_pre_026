@@ -3,12 +3,11 @@ import HomeList from './HomeList';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  height: auto;
-  width: 1000px;
-  margin-left: 345px;
-  margin-right: 345px;
-  border-left: solid gray 1px;
-  border-right: solid gray 1px;
+  width: 800px;
+  margin: 0 auto;
+  //border-left: solid gray 1px;
+  //border-right: solid gray 1px;
+  padding-top: 70px;
 `;
 const Head = styled.div`
   margin-left: 30px;
@@ -18,21 +17,25 @@ const Head = styled.div`
     display: flex;
     justify-content: space-between;
 
-    > h1 {
-    }
     > button {
-      width: 100px;
-      height: 30px;
-
-      background-color: hsl(206, 100%, 52%);
+      height: 38px;
+      width: 120px;
+      font-size: 15px;
       color: white;
-      border: #73adfa;
-      border-radius: 5px;
+      border-radius: 3px;
+      border: 1.2px solid #0a95ff;
+      background-color: #0a95ff;
+      box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
+      flex-shrink: 0;
+
+      justify-content: center;
+      align-items: center;
+
       &:hover {
-        background-color: hsl(206, 100%, 40%);
-        color: white;
+        background-color: #006bb3;
+        border: 1.2px solid #006bb3;
       }
-      cursor: text;
+      cursor: pointer;
     }
   }
   > .bottom-head {
@@ -48,23 +51,27 @@ const QuestionNum = styled.div`
 
 const Buttons = styled.div`
   > button {
-    height: 30px;
+    height: 38px;
     width: 80px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 2px;
     border: solid 1px #bdbdbd;
 
     text-align: center;
   }
 `;
 
-const Tail = styled.div`
+const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  margin: 100px;
+  margin-top: 20px;
+  border-top: 1px solid #dbdcdd;
+
   > span {
     padding-right: 10px;
+    margin-bottom: 30px;
+    margin-top: 50px;
   }
 `;
 
@@ -86,10 +93,10 @@ const Template = () => {
         </div>
       </Head>
       <HomeList />
-      <Tail>
+      <Page>
         <span>1</span>
         <span>next</span>
-      </Tail>
+      </Page>
     </Container>
   );
 };
