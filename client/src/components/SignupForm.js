@@ -99,7 +99,7 @@ const SignupForm = () => {
         </Container>
       </Form>
       <Endtext>
-        Already have an account? <a href="www.naver.com">Log in</a>
+        Already have an account? <a href="/login">Log in</a>
       </Endtext>
     </>
   );

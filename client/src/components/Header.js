@@ -26,6 +26,7 @@ const Wrapper = styled.div`
 
 const Logo = styled.img`
   width: 160px;
+  cursor: pointer;
 `;
 const Loginbutton = styled.button`
   height: 38px;
@@ -38,6 +39,7 @@ const Loginbutton = styled.button`
   background-color: #daecf9;
   box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
   flex-shrink: 0;
+  cursor: pointer;
 
   &:hover {
     background-color: #b3d3ea;
@@ -55,6 +57,7 @@ const Signupbutton = styled.button`
   background-color: #0a95ff;
   box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
   flex-shrink: 0;
+  cursor: pointer;
 
   &:hover {
     background-color: #006bb3;
@@ -102,6 +105,7 @@ const SelectBox = styled.select`
   text-align: center;
   border: 1.2px solid #babfc4;
   border-radius: 2px;
+  cursor: pointer;
 `;
 
 const UserInfo = styled.div`

@@ -33,7 +33,7 @@ const dummyComment = [
 
 const Container = styled.div`
   padding-top: 100px;
-  width: 700px;
+  width: 800px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -102,7 +102,7 @@ const LikeCountContainer = styled.div`
   height: 120px;
   color: gray;
   font-weight: 600;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-top: 30px;
 `;
 
