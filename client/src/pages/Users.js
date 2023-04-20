@@ -140,7 +140,6 @@ const Users = () => {
             <Name>user name</Name>
             <DayInfo>
               <div>Member since today</div>
-              <div>Last seen this week</div>
             </DayInfo>
             <EditProfileButton>Edit profile</EditProfileButton>
           </Profile>

@@ -67,7 +67,6 @@ const UserInfo = () => {
             <Name>user name</Name>
             <DayInfo>
               <div>Member since today</div>
-              <div>Last seen this week</div>
             </DayInfo>
           </Profile>
         </ProfileInfoWrapper>

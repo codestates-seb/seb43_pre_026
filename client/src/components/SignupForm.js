@@ -83,10 +83,10 @@ const SignupForm = () => {
           <Input type="text" id="nicname" />
           <Label htmlFor="username">Username</Label>
           <Input type="text" id="username" />
-          <Label htmlFor="email">Password</Label>
-          <Input type="text" id="email" />
           <Label htmlFor="password">Email</Label>
           <Input type="text" id="password" />
+          <Label htmlFor="email">Password</Label>
+          <Input type="text" id="email" />
           <Passtext>
             Passwords must contain at least eight characters, including at least
             1 letter and 1 number.
