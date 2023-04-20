@@ -7,7 +7,6 @@ import com.preProject.MyStackOverFlow.board.entity.BoardTag;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.tag.entitiy.Tag;
 import org.mapstruct.Mapper;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
 
-    Board boardPatchToBoard(BoardDto.Patch patch);
+    Board boardPutToBoard(BoardDto.Put put);
 
     default Board boardPostToBoard(BoardDto.Post post) {
         Board board = new Board();
