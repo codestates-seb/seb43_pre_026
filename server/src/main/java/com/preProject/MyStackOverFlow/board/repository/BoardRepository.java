@@ -11,5 +11,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findByTitleContaining(String title, Pageable pageable);
     Page<Board> findByContentContaining(String content, Pageable pageable);
-    Page<Board> findByMemberNicknameContaining(String memberNickname, Pageable pageable);
+
+    //Page<Board> findByMemberNicknameContaining(String memberNickname, Pageable pageable);
+    //Member entity에서 nickname을 못찾는다는 에러가 나와 일단 주석처리
 }

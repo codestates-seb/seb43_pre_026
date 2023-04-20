@@ -3,8 +3,13 @@ package com.preProject.MyStackOverFlow.answer.service;
 
 import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.answer.repository.AnswerRepository;
+import com.preProject.MyStackOverFlow.board.entity.Board;
+import com.preProject.MyStackOverFlow.board.service.BoardService;
 import com.preProject.MyStackOverFlow.exceptionme.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exceptionme.ExceptionCode;
+import com.preProject.MyStackOverFlow.member.entity.Member;
+import com.preProject.MyStackOverFlow.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,17 +17,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AnswerService {
+    private final MemberService memberService;
+    private final BoardService boardService;
     private final AnswerRepository answerRepository;
 
-    public AnswerService(AnswerRepository answerRepository) {
-        this.answerRepository = answerRepository;
-    }
 
     public Answer createAnswer(Answer answer) {
+//        answer.getMember()
+//        System.out.println("@@@"+answer.getMember().getMemberId());
+//        Member findMember = memberService.verifyExistsMemberId(answer.getMember().getMemberId());
+//        answer.setMember(findMember); // 1.멤버 외래키 등록
+
+        Board findBoard = boardService.findVerifiedBoard(answer.getBoard().getBoardId());
+        answer.setBoard(findBoard); // 2.게시글 외래키 등록
+
         answer.setLikeCount(1);
         if(answer.getParent() != null){
             findVerifiedParentAnswer(answer.getParent().getAnswerId());
+            // 3. 부모 답변 있으면 등록 없으면 미등록
         }
         return answerRepository.save(answer);
     }
@@ -41,6 +55,12 @@ public class AnswerService {
                 .ifPresent(title->answerDB.setContent(title));
 
         return answerRepository.save(answerDB);
+    }
+
+    public List<Answer> getAnswer(long boardId){
+        Board board = boardService.findVerifiedBoard(boardId);
+
+        return answerRepository.findByBoard(board);
     }
 
     public List<Answer> getAnswers(){
