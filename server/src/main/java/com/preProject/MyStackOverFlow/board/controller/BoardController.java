@@ -31,6 +31,7 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity postBoard(@RequestBody @Valid BoardDto.Post requestBody) {
+
         Board board = mapper.boardPostToBoard(requestBody);
         Board response = boardService.createBoard(board);
 
@@ -77,6 +78,8 @@ public class BoardController {
     @GetMapping
     public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String title,
                                                    @RequestParam(required = false) String content,
+//                                                   @RequestParam(required = false) String memberNickname,
+//                                                   @RequestParam(required = false) String tagName,
                                                    @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
 
         // 3글자 이하로 검색하면 에러 발생
