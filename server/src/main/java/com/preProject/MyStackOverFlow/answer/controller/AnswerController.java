@@ -5,6 +5,7 @@ import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.answer.mapper.AnswerMapper;
 import com.preProject.MyStackOverFlow.answer.mapper.Response;
 import com.preProject.MyStackOverFlow.answer.service.AnswerService;
+import com.preProject.MyStackOverFlow.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,13 +15,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/answer")
 @Validated
 @Slf4j
 public class AnswerController {
+    private final static String ANSWER_DEFAULT_URL = "/answer";
     private AnswerMapper answerMapper;
     private AnswerService answerService;
     private Response response;
@@ -31,12 +34,12 @@ public class AnswerController {
         this.response = response;
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post answerPostDto) {
         Answer answer = answerService.createAnswer(answerMapper.answertoToAnswer(answerPostDto));
-        AnswerDto.Response responseDTO = response.answerToResponse(answerService.createAnswer(answer));
+        URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
 
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{answerId}")
