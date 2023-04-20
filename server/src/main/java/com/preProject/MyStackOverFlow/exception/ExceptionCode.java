@@ -10,7 +10,7 @@ public enum ExceptionCode {
     NOT_IMPLEMENTATION(501, "Not Implementation"),
 
     BOARD_NOT_FOUND(404, "Board not found"),
-    TA_NOT_FOUND(404, "Tag not found");
+    TAG_NOT_FOUND(404, "Tag not found");
 
 
     @Getter
