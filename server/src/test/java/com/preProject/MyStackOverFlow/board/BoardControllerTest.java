@@ -5,7 +5,6 @@ import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
 import com.preProject.MyStackOverFlow.board.service.BoardService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -65,16 +63,16 @@ public class BoardControllerTest {
     }
 
     @Test
-    void patchBoardTest() throws Exception {
+    void putBoardTest() throws Exception {
 
         long boardId = 1L;
-        BoardDto.Patch patch = new BoardDto.Patch(1L, "테스트 수정된 제목", "테스트 수정된 내용", "테스트 수정된 시도 내용");
-        Board board = mapper.boardPatchToBoard(patch);
+        BoardDto.Put put = new BoardDto.Put(1L, "테스트 수정된 제목", "테스트 수정된 내용", "테스트 수정된 시도 내용");
+        Board board = mapper.boardPutToBoard(put);
 
         given(boardService.updateBoard(Mockito.any(Board.class)))
                 .willReturn(board);
 
-        String content = gson.toJson(patch);
+        String content = gson.toJson(put);
 
         ResultActions actions =
                 mockMvc.perform(

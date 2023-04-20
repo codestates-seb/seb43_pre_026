@@ -4,7 +4,6 @@ import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
 import com.preProject.MyStackOverFlow.board.service.BoardService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,10 +36,10 @@ public class BoardController {
         return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{board-id}")
-    public ResponseEntity patchBoard(@PathVariable("board-id") long boardId,
-                                     @RequestBody @Valid BoardDto.Patch requestBody) {
-        Board board = mapper.boardPatchToBoard(requestBody);
+    @PutMapping("/{board-id}")
+    public ResponseEntity putBoard(@PathVariable("board-id") long boardId,
+                                   @RequestBody @Valid BoardDto.Put requestBody) {
+        Board board = mapper.boardPutToBoard(requestBody);
         Board response = boardService.updateBoard(board);
 
         return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.OK);

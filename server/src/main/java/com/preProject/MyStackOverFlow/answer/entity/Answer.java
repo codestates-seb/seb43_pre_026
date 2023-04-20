@@ -1,5 +1,7 @@
 package com.preProject.MyStackOverFlow.answer.entity;
 
+import com.preProject.MyStackOverFlow.board.entity.Board;
+import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,13 +22,13 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long answerId;
 
-//    @ManyToOne (fetch = FetchType.LAZY) // 게시글과 댓글 - N:1 관계 설정
-//    @JoinColumn(name = "BOARD_ID", nullable = false)
-//    private Board board;
-//
-//    @ManyToOne(fetch = FetchType.LAZY) // 멤버와 댓글 - N:1 관계 설정
-//    @JoinColumn(name = "MEMBER_ID", nullable = false)
-//    private Member member;
+    @ManyToOne (fetch = FetchType.LAZY) // 게시글과 댓글 - N:1 관계 설정
+    @JoinColumn(name = "BOARD_ID", nullable = false)
+    private Board board;
+
+    @ManyToOne(fetch = FetchType.LAZY) // 멤버와 댓글 - N:1 관계 설정
+    @JoinColumn(name = "MEMBER_ID", nullable = false)
+    private Member member;
 
     @Column(nullable = false)
     @Lob
