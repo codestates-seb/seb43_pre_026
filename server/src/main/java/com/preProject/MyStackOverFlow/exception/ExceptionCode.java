@@ -7,7 +7,7 @@ public enum ExceptionCode {
     MEMBER_EXISTS(409, "Member exists"),
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     BOARD_NOT_FOUND(404, "Board not found"),
-    TAG_NOT_FOUND(404, "Tag not found");
+    TA_NOT_FOUND(404, "Tag not found");
 
     @Getter
     private int status;
