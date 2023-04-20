@@ -8,6 +8,7 @@ import com.preProject.MyStackOverFlow.board.repository.BoardTagRepository;
 import com.preProject.MyStackOverFlow.exception.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exception.ExceptionCode;
 import com.preProject.MyStackOverFlow.member.entity.Member;
+import com.preProject.MyStackOverFlow.member.repository.MemberRepository;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
 import com.preProject.MyStackOverFlow.tag.entitiy.Tag;
 import com.preProject.MyStackOverFlow.tag.repository.TagRepository;
@@ -31,6 +32,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardTagRepository boardTagRepository;
     private final TagRepository tagRepository;
+    private final MemberRepository memberRepository;
 
     public Board createBoard(Board board) {
 
@@ -38,11 +40,16 @@ public class BoardService {
         board.setMember(findMember);
         board.setLikeCount(0);
         board.setViewCount(0L);
+
+        for (BoardTag boardTag : board.getBoardTags()) {
+            boardTag.setBoard(board);
+        }
+
         Board savedBoard = boardRepository.save(board);
 
         putInformationForTag(savedBoard);
 
-        return boardRepository.save(board);
+        return boardRepository.save(savedBoard);
     }
 
     public Board updateBoard(Board board) {
@@ -73,9 +80,8 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    // TODO tag, username 검색 기능도 추가해야함
     @Transactional(readOnly = true)
-    public Page<Board> getAllBoardsBySearchType(String title, String content, Pageable pageable) {
+    public Page<Board> getAllBoardsBySearchType(String title, String content, String memberNickname, String tagName, Pageable pageable) {
 
         Page<Board> response = null;
 
@@ -83,13 +89,11 @@ public class BoardService {
             response = boardRepository.findByTitleContaining(title, pageable);
         } else if (content != null && !content.isEmpty()) {
             response = boardRepository.findByContentContaining(content, pageable);
+        } else if (memberNickname != null && !memberNickname.isEmpty()) {
+            response = boardRepository.findByMemberMemberNicknameContaining(memberNickname, pageable);
+        } else if (tagName != null && !tagName.isEmpty()) {
+            response = boardRepository.findByTagNameContaining(tagName, pageable);
         }
-//        else if (memberNickname != null && !memberNickname.isEmpty()) {
-//            response = boardRepository.findByMemberNicknameContaining(memberNickname, pageable);
-//        }
-//        else {
-//            throw new BusinessLogicException(ExceptionCode.)
-//        }
 
         return response;
     }
@@ -109,7 +113,7 @@ public class BoardService {
 //        findBoard.setContentTry("삭제된 게시글입니다.");
     }
 
-    private Board findVerifiedBoard(long boardId) {
+    public Board findVerifiedBoard(long boardId) {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
 
         return optionalBoard.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));

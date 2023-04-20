@@ -34,7 +34,7 @@ public class BoardDto {
     }
 
     @Data
-    public static class Patch {
+    public static class Put {
 
         @Positive
         private long boardId;
@@ -43,7 +43,7 @@ public class BoardDto {
         private String content;
         private String contentTry;
 
-        public Patch(long boardId, String title, String content, String contentTry) {
+        public Put(long boardId, String title, String content, String contentTry) {
             this.boardId = boardId;
             this.title = title;
             this.content = content;
