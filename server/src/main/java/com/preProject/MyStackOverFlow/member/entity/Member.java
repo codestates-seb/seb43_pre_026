@@ -1,11 +1,14 @@
 package com.preProject.MyStackOverFlow.member.entity;
 
+import com.preProject.MyStackOverFlow.board.entity.Board;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,6 +40,9 @@ public class Member {
 
     @Column(length = 50)
     private String memberDescription;
+
+    @OneToMany(mappedBy = "member")
+    private List<Board> boards = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
