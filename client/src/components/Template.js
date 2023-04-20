@@ -5,8 +5,8 @@ import styled from 'styled-components';
 const Container = styled.div`
   width: 800px;
   margin: 0 auto;
-  border-left: solid gray 1px;
-  border-right: solid gray 1px;
+  //border-left: solid gray 1px;
+  //border-right: solid gray 1px;
   padding-top: 70px;
 `;
 const Head = styled.div`
@@ -66,7 +66,7 @@ const Page = styled.div`
   justify-content: center;
   align-items: flex-end;
   margin-top: 20px;
-  border-top: 1px solid gray;
+  border-top: 1px solid #dbdcdd;
 
   > span {
     padding-right: 10px;

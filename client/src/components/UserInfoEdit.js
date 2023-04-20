@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
   padding-left: 20px;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #cacaca;
   padding-bottom: 40px;
 `;
 
@@ -24,7 +24,7 @@ const Subhead = styled.div`
 const EditTitleInput = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid;
+  border: 1px solid gray;
   margin-top: 20px;
   margin-bottom: 30px;
   padding: 20px;
@@ -48,11 +48,13 @@ const NameInput = styled.div`
     height: 30px;
     width: 750px;
     margin-top: 10px;
+    border: 1px solid #cacaca;
   }
   > textarea {
     height: 100px;
     width: 750px;
     margin-top: 10px;
+    border: 1px solid #cacaca;
   }
 `;
 const TitleInput = styled(NameInput)``;
@@ -70,6 +72,7 @@ const Input = styled.input`
   height: 30px;
   margin-top: 10px;
   margin-bottom: 30px;
+  border: 1px solid #cacaca;
 `;
 
 const Button = styled.div`

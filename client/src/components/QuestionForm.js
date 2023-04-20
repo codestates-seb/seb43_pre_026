@@ -8,7 +8,7 @@ const Container = styled.div`
 const Title = styled.div`
   width: 800px;
   height: 126px;
-  border: 1px solid gray;
+  border: 1px solid #dbdcdd;
   margin-bottom: 20px;
   padding: 20px;
   padding-bottom: 10px;
@@ -39,11 +39,13 @@ const Addition = styled.div`
 const Input = styled.input`
   height: 40px;
   margin-top: 15px;
+  border: 1px solid #cacaca;
 `;
 
 const Textarea = styled.textarea`
   height: 155px;
   margin-top: 15px;
+  border: 1px solid #cacaca;
 `;
 
 const Tag = styled(Title)``;

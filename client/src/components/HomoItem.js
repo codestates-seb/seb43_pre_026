@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import HomeItemInfo from './HomeItemInfo';
 
 const Container = styled.div`
   width: 800px;
   height: 150px;
-  border-top: solid gray 1px;
+  border-top: solid 1px #dbdcdd;
 
   margin: 0 auto;
   margin-top: 20px;
@@ -26,30 +27,14 @@ const ItemBody = styled.div`
 const List = styled.div`
   display: flex;
   height: 90px;
-  padding-top: 20px;
+  padding-top: 30px;
   flex-direction: column;
-  justify-content: space-between;
   color: gray;
   > .vote {
     width: 80px;
   }
 `;
 
-const Preview = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 30px;
-
-  > h3 {
-    flex-wrap: wrap;
-    color: #5393f8;
-    margin-bottom: 10px;
-  }
-  > .content {
-    font-size: 17px;
-    flex-wrap: wrap;
-  }
-`;
 const Tags = styled.div`
   width: 1000px;
   display: flex;
@@ -84,14 +69,7 @@ const HomeItem = () => {
           <div className="vote">65 votes</div>
           <div className="answers">8 answers</div>
         </List>
-        <Preview>
-          <h3>Should an application on a local network run on HTTPS?</h3>
-          <div className="content">
-            I have a Java web application (Tomcat) that runs on HTTP (not HTTPS)
-            on a local network and is not accessible from the Internet. Only
-            from local network, restricted by firewall. Apache running on ...
-          </div>
-        </Preview>
+        <HomeItemInfo />
       </ItemBody>
       <Tags>
         <div className="tags">
