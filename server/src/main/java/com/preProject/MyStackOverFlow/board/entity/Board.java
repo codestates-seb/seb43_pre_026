@@ -34,7 +34,7 @@ public class Board {
     private Timestamp modifiedAt;
     @Enumerated(EnumType.STRING)
     private BoardStatus boardStatus = BoardStatus.BOARD_REGISTRATION;
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<BoardTag> boardTags = new ArrayList<>();
 
     @ManyToOne
