@@ -9,6 +9,9 @@ group = 'com.preProject'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+
+//@@@@@ Juseok!!!
+//@@@@@ Juseok!!!
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -21,6 +24,8 @@ repositories {
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
 }
+//fwefwefe
+//fewfewfwe
 
 configurations {
 	asciidoctorExtensions
@@ -79,11 +84,7 @@ bootJar {
 		into 'statics/docs'
 	}
 }
-task copyDocument(type: Copy) {
-	dependsOn asciidoctor
-	from file("${asciidoctor.outputDir}")
-	into file("src/main/resources/static/docs")
-}
+
 
 build {
 	dependsOn copyDocument
