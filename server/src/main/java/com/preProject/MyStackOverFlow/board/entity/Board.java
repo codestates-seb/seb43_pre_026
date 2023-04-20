@@ -1,5 +1,6 @@
 package com.preProject.MyStackOverFlow.board.entity;
 
+import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.Data;
 import lombok.Getter;
@@ -39,9 +40,9 @@ public class Board {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-//
-//    @OneToMany(mappedBy = "board")
-//    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board")
+    private List<Answer> answers = new ArrayList<>();
 
     public enum BoardStatus {
         BOARD_REGISTRATION("게시글 등록 상태"),
