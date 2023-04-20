@@ -36,6 +36,7 @@ public class BoardController {
         Board response = boardService.createBoard(board);
         System.out.println("fweknfkwenf");
 
+        System.out.println("test");
         return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.CREATED);
     }
 
