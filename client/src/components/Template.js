@@ -1,6 +1,7 @@
 import React from 'react';
 import HomeList from './HomeList';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 800px;
@@ -76,12 +77,18 @@ const Page = styled.div`
 `;
 
 const Template = () => {
+  const navigate = useNavigate();
+
+  const handleAsk = () => {
+    navigate('/questionsubmit');
+  };
+
   return (
     <Container>
       <Head>
         <div className="top-head">
           <h1>All Questions</h1>
-          <button>Ask Question</button>
+          <button onClick={handleAsk}>Ask Question</button>
         </div>
         <div className="bottom-head">
           <QuestionNum>37questions</QuestionNum>
