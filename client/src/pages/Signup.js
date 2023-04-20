@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import SignupText from '../components/SignupText';
 
 const Signup = () => {
-  const Global = styled.div`
+  const Container = styled.div`
     height: 100vh;
     width: 100vw;
     background-color: #f1f2f3;
@@ -30,7 +30,7 @@ const Signup = () => {
 
   return (
     <>
-      <Global>
+      <Container>
         <SignupContainer>
           <SignupText />
           <FormOauth>
@@ -38,7 +38,7 @@ const Signup = () => {
             <SignupForm />
           </FormOauth>
         </SignupContainer>
-      </Global>
+      </Container>
     </>
   );
 };
