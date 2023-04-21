@@ -5,10 +5,6 @@ const HomeList = () => {
   return (
     <div>
       <HomeItem />
-      <HomeItem />
-      <HomeItem />
-      <HomeItem />
-      <HomeItem />
     </div>
   );
 };

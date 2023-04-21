@@ -1,5 +1,5 @@
 import React from 'react';
-import HemeList from './HomeList';
+import HomeItem from './HomeItem';
 import styled from 'styled-components';
 
 const Page = styled.div`
@@ -19,7 +19,7 @@ const Page = styled.div`
 const Template = () => {
   return (
     <>
-      <HemeList />
+      <HomeItem />
       <Page>
         <span>1</span>
         <span>next</span>
