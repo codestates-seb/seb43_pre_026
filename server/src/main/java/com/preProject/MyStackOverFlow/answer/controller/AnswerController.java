@@ -48,12 +48,21 @@ public class AnswerController {
         return likeCount;
     }
 
-    @GetMapping("/{answerId}")
-    public ResponseEntity getAnswer(@PathVariable("answerId") @Positive long answerId) {
-        List<AnswerDto.Response> answers = response.answersToResponse(answerService.getAnswer(answerId));
+//    @GetMapping("/board/{boardId}")
+//    public ResponseEntity getBoardAnswers(@PathVariable("boardId") @Positive long boardId) {
+//        List<AnswerDto.Response> answers = response.answersToResponse(answerService.getBoardAnswers(boardId));
+//
+//        return new ResponseEntity<>(answers, HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/member/{memberId}")
+//    public ResponseEntity getMemberAnswers(@PathVariable("memberId") @Positive long memberId) {
+//        List<AnswerDto.Response> answers = response.answersToResponse(answerService.getMemberAnswers(memberId));
+//
+//        return new ResponseEntity<>(answers, HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(answers, HttpStatus.OK);
-    }
+
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

@@ -14,6 +14,7 @@ public interface AnswerMapper {
         if (answerDto == null) {
             return null;
         }
+
         Member member = new Member();
         member.setMemberId(answerDto.getMemberId());
 
@@ -21,6 +22,7 @@ public interface AnswerMapper {
         board.setBoardId(answerDto.getBoardId());
 
         Answer answer = new Answer();
+        answer.setAnswerCheck(answerDto.isAnswerCheck());
         answer.setMember(member);
         answer.setBoard(board);
         answer.setContent(answerDto.getContent());

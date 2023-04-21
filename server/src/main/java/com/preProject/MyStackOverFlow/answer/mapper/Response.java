@@ -20,12 +20,15 @@ public class Response {
         String content = null;
         content = answer.getContent();
 
+        boolean answerCheck = Boolean.parseBoolean(null);
+        answerCheck = answer.isAnswerCheck();
+
         long parentId = 0L;
         if(answer.getParent() !=null){
             parentId = answer.getParent().getAnswerId();
         }
 
-        AnswerDto.Response response = new AnswerDto.Response( answerId,content, parentId );
+        AnswerDto.Response response = new AnswerDto.Response( answerCheck ,answerId,content, parentId);
 
         return response;
     }

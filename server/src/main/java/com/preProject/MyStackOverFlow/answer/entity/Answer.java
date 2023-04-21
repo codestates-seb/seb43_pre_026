@@ -1,5 +1,6 @@
 package com.preProject.MyStackOverFlow.answer.entity;
 
+import com.preProject.MyStackOverFlow.answerVote.entity.AnswerVote;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.Getter;
@@ -39,13 +40,18 @@ public class Answer {
     @Column()
     private int likeCount;
 
+    @Column(name="answer_check", columnDefinition="BOOLEAN")
+    private boolean answerCheck;
+
     @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdAt = LocalDateTime.now();
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Answer parent;
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
 
 
