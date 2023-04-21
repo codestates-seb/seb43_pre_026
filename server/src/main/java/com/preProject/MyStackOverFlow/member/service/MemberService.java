@@ -24,6 +24,7 @@ public class MemberService {
         verifyExistsEmail(member.getMemberEmail());
         Member savedMember = memberRepository.save(member);
 
+
         return savedMember;
     }
 
@@ -43,8 +44,6 @@ public class MemberService {
                 .ifPresent(memberNickname-> findMember.setMemberNickname(memberNickname));
         Optional.ofNullable(member.getMemberDescription())
                 .ifPresent(memberDescription -> findMember.setMemberDescription(memberDescription));
-        Optional.ofNullable(member.getMemberStatus())
-                .ifPresent(memberStatus -> findMember.setMemberStatus(memberStatus));
 
         return memberRepository.save(findMember);
     }
@@ -53,11 +52,6 @@ public class MemberService {
     public Member findMember(long memberId) {
         return findVerifiedMember(memberId);
     }
-
-//    public Page<Member> findMembers(int page, int size) {
-//        return memberRepository.findAll(PageRequest.of(page, size,
-//                Sort.by("memberId").descending()));
-//    }
 
     public void deleteMember(long memberId) {
         Member findMember = findVerifiedMember(memberId);

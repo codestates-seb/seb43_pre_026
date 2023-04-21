@@ -1,8 +1,8 @@
-package com.preProject.MyStackOverFlow.slice.repository;
+package com.preProject.MyStackOverFlow.member.repository;
 
 import com.preProject.MyStackOverFlow.member.entity.Member;
-import com.preProject.MyStackOverFlow.member.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 
 @DataJpaTest
