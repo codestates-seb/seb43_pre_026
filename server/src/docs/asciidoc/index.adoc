@@ -1,0 +1,29 @@
+= 답변 관련 API    // (1)
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+Chanung Cheon <cjscksdnd@nate.co>   // (2)
+
+v1.0.0, 2023.04.19    // (3)
+
+// (4)
+***
+== AnswerController
+=== 부모 답변 등록
+.curl-request
+include::{snippets}/answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/answer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/answer/http-response.adoc[]
+
+.response-headers
+include::{snippets}/answer-member/response-headers.adoc[]
