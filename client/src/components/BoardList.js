@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 800px;
@@ -64,6 +65,11 @@ const Title = styled.div`
   font-size: 21px;
   margin-top: 10px;
   margin-bottom: 15px;
+
+  &:hover {
+    color: #0a95ff;
+    cursor: pointer;
+  }
 `;
 const Content = styled.div`
   /* white-space: pre-wrap; */
@@ -74,6 +80,7 @@ const Content = styled.div`
 
 function BoardList() {
   const [boards, setBoards] = useState([]);
+  // const { searchData } = useParams
 
   useEffect(() => {
     const getData = async () => {
@@ -84,13 +91,19 @@ function BoardList() {
           },
         });
         setBoards(response.data);
-        console.log(1, response.data);
+        // console.log(1, response.data);
       } catch (error) {
         console.log(error);
       }
     };
     getData();
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleToQuestion = (id) => {
+    navigate(`/boards/${id}`);
+  };
 
   return (
     <>
@@ -104,7 +117,9 @@ function BoardList() {
               </VoteViewContainer>
 
               <ContentContainer>
-                <Title>{board.title}</Title>
+                <Title onClick={() => handleToQuestion(board.boardId)}>
+                  {board.title}
+                </Title>
                 <Content>
                   {board.content.slice(0, 200) +
                     (board.content.length > 200 ? '...' : '')}

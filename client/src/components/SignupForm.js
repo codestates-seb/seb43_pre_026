@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Label = styled.label`
@@ -102,22 +102,6 @@ const SignupForm = () => {
     emailConfirm(newFormData);
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get('/boards', {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
-        console.log(1, response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getData();
-  }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
@@ -141,6 +125,15 @@ const SignupForm = () => {
       .then((response) => {
         console.log(response);
         alert('회원가입에 성공하였습니다!');
+        setFormData({
+          nickname: '',
+          username: '',
+          email: '',
+          password: '',
+        });
+        Array.from(document.querySelectorAll('input')).forEach(
+          (input) => (input.value = '')
+        );
       })
       .catch((error) => {
         console.error(error);

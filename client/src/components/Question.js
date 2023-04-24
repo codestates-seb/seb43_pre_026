@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { TbTriangleInverted } from 'react-icons/tb';
+import LikeCount from './LikeCount';
+import Comment from './Comment';
+import PropTypes from 'prop-types';
 
 export const dummy = {
   title: 'How do I get the current date in typst?',
@@ -30,29 +32,15 @@ const dummyComment = [
   },
 ];
 
-const LikeCountContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 30px;
-  height: 120px;
-  color: gray;
-  font-weight: 600;
-  margin-left: 5px;
-  margin-top: 30px;
-`;
-
-const LikeCount = styled(TbTriangleInverted)`
-  font-size: 30px;
-  color: #babfc4;
-  transform: rotate(180deg);
-`;
-
-const DisLikeCount = styled(TbTriangleInverted)`
-  font-size: 30px;
-  color: #babfc4;
-`;
+export const answer = [
+  {
+    number: '5',
+    id: 'taeyoung1',
+    content:
+      'Comment test test test~Comment test test test~Comment test test test~Comment test test test~',
+    likeCount: 5,
+  },
+];
 
 const ContentContainer = styled.div`
   margin-left: 20px;
@@ -78,66 +66,6 @@ const Tag = styled.div`
 
 const TagContainer = styled.div`
   margin-top: 10px;
-`;
-
-const AddComment = styled.div`
-  margin-top: 30px;
-  font-size: 16px;
-  color: #888889;
-  cursor: pointer;
-`;
-
-const CommentForm = styled.form`
-  margin-top: 20px;
-  display: ${(props) => (props.show ? 'block' : 'none')};
-`;
-
-const CommentTextArea = styled.textarea`
-  width: 100%;
-  height: 100px;
-`;
-
-const CommentButton = styled.button`
-  height: 30px;
-  width: 60px;
-  font-size: 15px;
-  color: white;
-  border-radius: 3px;
-  border: 1.2px solid #0a95ff;
-  background-color: #0a95ff;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: #006bb3;
-    border: 1.2px solid #006bb3;
-  }
-`;
-
-const CancleButton = styled.button`
-  height: 30px;
-  width: 60px;
-  font-size: 15px;
-  color: #0a95ff;
-  border-radius: 3px;
-  margin-left: 3px;
-  border: 1.2px solid #0a95ff;
-  background-color: white;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: #d0e3f1;
-    border: 1.2px solid #0a95ff;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
 `;
 
 const CommentListContainer = styled.div``;
@@ -179,44 +107,17 @@ const CommentNumber = styled.div`
   font-size: 17px;
 `;
 
-const Question = () => {
-  const [showCommentForm, setShowCommentForm] = useState(false);
-  const [comment, setComment] = useState('');
-
-  const handleAddCommentClick = () => {
-    setShowCommentForm(true);
-  };
-
-  const handleCancelClick = () => {
-    setShowCommentForm(false);
-    setComment('');
-  };
-
-  const handleCommentSubmit = (e) => {
-    e.preventDefault();
-    console.log(comment);
-    setShowCommentForm(false);
-    setComment('');
-    alert('등록되었습니다!');
-  };
-
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
-
+const Question = ({ content, contentTry, likeCount, tagNames }) => {
   return (
     <>
       <Body>
-        <LikeCountContainer>
-          <LikeCount />
-          {dummy.likeCount}
-          <DisLikeCount />
-        </LikeCountContainer>
+        <LikeCount likeCount={likeCount} />
         <ContentContainer>
-          {dummy.content}
+          <div>{content}</div>
+          <div>{contentTry}</div>
           <TagContainer>
-            {dummy.tag.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
+            {tagNames.map(({ tagId, tagName }) => (
+              <Tag key={tagId}>{tagName}</Tag>
             ))}
           </TagContainer>
           {/*              코멘트              */}
@@ -234,25 +135,18 @@ const Question = () => {
               </CommentContainer>
             ))}
           </CommentListContainer>
-          {/*              코멘트 추가            */}
-          <AddComment onClick={handleAddCommentClick}>Add a comment</AddComment>
-          <CommentForm show={showCommentForm} onSubmit={handleCommentSubmit}>
-            <CommentTextArea
-              value={comment}
-              onChange={handleCommentChange}
-              placeholder="댓글을 입력해주세요!"
-              required
-            />
-            <ButtonContainer>
-              <CommentButton type="submit">Submit</CommentButton>
-              <CancleButton type="button" onClick={handleCancelClick}>
-                Cancle
-              </CancleButton>
-            </ButtonContainer>
-          </CommentForm>
+          <Comment />
         </ContentContainer>
       </Body>
     </>
   );
 };
+
+Question.propTypes = {
+  content: PropTypes.string.isRequired,
+  contentTry: PropTypes.string.isRequired,
+  likeCount: PropTypes.number.isRequired,
+  tagNames: PropTypes.array.isRequired,
+};
+
 export default Question;
