@@ -154,4 +154,8 @@ public class BoardService {
 
         board.setBoardTags(boardTagList);
     }
+
+    public List<Board> getBoardsByMember (Member member, Pageable pageable) {
+        return boardRepository.findByMember(member);
+    }
 }

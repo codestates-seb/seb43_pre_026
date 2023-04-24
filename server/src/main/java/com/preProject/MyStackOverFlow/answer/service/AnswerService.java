@@ -7,8 +7,12 @@ import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.service.BoardService;
 import com.preProject.MyStackOverFlow.exception.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exception.ExceptionCode;
+import com.preProject.MyStackOverFlow.member.dto.MemberDto;
+import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,6 +93,4 @@ public class AnswerService {
                 optionalAnswer.orElseThrow(() ->
                         new BusinessLogicException(ExceptionCode.PARENT_ANSWER_NOT_FOUND));
     }
-
-
 }
