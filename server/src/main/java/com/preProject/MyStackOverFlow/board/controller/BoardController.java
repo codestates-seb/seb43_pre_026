@@ -94,4 +94,10 @@ public class BoardController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PatchMapping("/{board-id}")
+    public int patchBoardVote(@PathVariable("board-id") long boardId) {
+
+        return boardService.voteCount(boardId);
+    }
 }

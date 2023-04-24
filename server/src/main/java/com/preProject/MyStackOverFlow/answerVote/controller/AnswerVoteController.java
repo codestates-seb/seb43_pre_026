@@ -20,7 +20,7 @@ import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @Validated
-@RequestMapping("/vote")
+@RequestMapping("/answer/vote")
 @RestController
 public class AnswerVoteController {
     private AnswerVoteMapper answerVoteMapper;
@@ -32,7 +32,7 @@ public class AnswerVoteController {
     }
 
 
-    @PatchMapping("")
+    @PatchMapping
     public int patchAnswerlike(@Valid @RequestBody AnswerVoteDto.Post answerVotePostDto) {
 
         AnswerVote answerVote = answerVoteMapper.answerVotetoToAnswerVote(answerVotePostDto);
