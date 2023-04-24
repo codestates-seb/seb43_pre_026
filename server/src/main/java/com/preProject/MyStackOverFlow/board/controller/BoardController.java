@@ -6,6 +6,7 @@ import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
 import com.preProject.MyStackOverFlow.board.service.BoardService;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
+import com.preProject.MyStackOverFlow.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +34,10 @@ public class BoardController {
     @PostMapping
     public ResponseEntity postBoard(@RequestBody @Valid BoardDto.Post requestBody) {
 
-        Board board = mapper.boardPostToBoard(requestBody);
-        Board response = boardService.createBoard(board);
+        Board board = boardService.createBoard(mapper.boardPostToBoard(requestBody));
+        URI location = UriCreator.createUri("/boards", board.getBoardId());
 
-        return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{board-id}")
