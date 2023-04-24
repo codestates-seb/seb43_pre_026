@@ -21,8 +21,6 @@ public class InMemoryMemberService implements MemberService1 {
     private final UserDetailsManager userDetailsManager;
     private final PasswordEncoder passwordEncoder;
 
-
-
     public InMemoryMemberService(UserDetailsManager userDetailsManager, PasswordEncoder passwordEncoder
                                  ) {
 
