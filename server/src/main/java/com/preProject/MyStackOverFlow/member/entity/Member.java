@@ -45,7 +45,7 @@ public class Member {
     @Column(length = 50)
     private String memberDescription;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
