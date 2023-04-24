@@ -10,9 +10,6 @@ group = 'com.preProject'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-
-//@@@@@ Juseok!!!
-//@@@@@ Juseok!!!
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor

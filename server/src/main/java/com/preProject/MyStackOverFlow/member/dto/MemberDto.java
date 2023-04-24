@@ -2,7 +2,9 @@ package com.preProject.MyStackOverFlow.member.dto;
 
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,8 +12,8 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class MemberDto {
-    @Getter
-    @AllArgsConstructor
+    @Data
+    @NoArgsConstructor
     public static class Post {
 
         @NotBlank(message = "아이디는 필수 입력 값입니다.")
@@ -35,8 +37,8 @@ public class MemberDto {
         private String memberDescription;
     }
 
-    @Getter
-    @AllArgsConstructor
+    @Data
+    @NoArgsConstructor
     public static class Put {
         private long memberId;
 
@@ -60,7 +62,8 @@ public class MemberDto {
         }
     }
 
-    @Getter
+    @Data
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
         private long memberId;
@@ -70,12 +73,8 @@ public class MemberDto {
         private String memberName;
         private String memberNickname;
         private String memberDescription;
-        private Member.MemberStatus memberStatus;
+//  TODO 논의 후 변경 예정        private Member.MemberStatus memberStatus;
 
-        public String getMemberStatus() {
-            return memberStatus.getStatus();
-        }
     }
 }
-
 

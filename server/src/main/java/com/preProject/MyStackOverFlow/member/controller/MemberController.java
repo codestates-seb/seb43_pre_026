@@ -1,5 +1,6 @@
 package com.preProject.MyStackOverFlow.member.controller;
 
+import com.preProject.MyStackOverFlow.member.dto.MemberDto;
 import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
 import com.preProject.MyStackOverFlow.member.dto.MemberPostDto;
 import com.preProject.MyStackOverFlow.member.dto.MemberPutDto;
@@ -33,7 +34,7 @@ public class MemberController {
 
     // 회원 정보 등록
     @PostMapping("")
-    public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
         Member member = mapper.memberPostDtoToMember(requestBody);
 
         Member createdMember = memberService.createMember(member);
@@ -54,7 +55,7 @@ public class MemberController {
     @PutMapping("/{member-id}")
     public ResponseEntity putMember(
             @PathVariable("member-id") @Positive long memberId,
-            @Valid @RequestBody MemberPutDto requestBody) {
+            @Valid @RequestBody MemberDto.Put requestBody) {
         requestBody.setMemberId(memberId);
 
         Member member =

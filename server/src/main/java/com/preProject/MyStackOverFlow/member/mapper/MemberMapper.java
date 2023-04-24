@@ -10,8 +10,8 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
-    Member memberPostDtoToMember(MemberPostDto memberPostDto);
-    Member memberPutDtoToMember(MemberPutDto memberPutDto);
+    Member memberPostDtoToMember(MemberDto.Post memberPostDto);
+    Member memberPutDtoToMember(MemberDto.Put memberPutDto);
 
     MemberDto.Response memberToMemberResponse(Member member);
 }
