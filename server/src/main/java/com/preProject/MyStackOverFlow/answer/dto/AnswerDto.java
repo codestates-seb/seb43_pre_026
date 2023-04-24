@@ -2,6 +2,7 @@ package com.preProject.MyStackOverFlow.answer.dto;
 
 import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,13 +35,13 @@ public class AnswerDto {
 
     @AllArgsConstructor
     @Getter
+    @Builder
     public static class Response {
 
-        private boolean answerCheck;
-
         private long answerId;
-
-        private String content;
         private long parentId;
+        private int likeCount;
+        private String content;
+        private String memberNickname;
     }
 }

@@ -1,5 +1,6 @@
 package com.preProject.MyStackOverFlow.member.controller;
 
+import com.preProject.MyStackOverFlow.member.dto.MemberDto;
 import com.preProject.MyStackOverFlow.answer.mapper.Response;
 import com.preProject.MyStackOverFlow.answer.service.AnswerService;
 import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
@@ -63,7 +64,7 @@ public class MemberController {
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") long memberId) {
         Member member = memberService.findMember(memberId);
-        return new ResponseEntity<>(new SingleResponseDto<>(memberMapper.memberTomemberResponse2(member)), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(memberMapper.memberToMemberResponse2(member)), HttpStatus.OK);
     }
 
     // 회원 정보 수정

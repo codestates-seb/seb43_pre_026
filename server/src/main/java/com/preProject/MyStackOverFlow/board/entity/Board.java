@@ -1,6 +1,7 @@
 package com.preProject.MyStackOverFlow.board.entity;
 
 import com.preProject.MyStackOverFlow.answer.entity.Answer;
+import com.preProject.MyStackOverFlow.boardVote.entity.BoardVote;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.Data;
 import lombok.Getter;
@@ -23,11 +24,14 @@ public class Board {
     @Column(nullable = false, length = 100)
     private String title;
     @Column(nullable = false)
+    @Lob
     private String content;
     @Column(nullable = false)
+    @Lob
     private String contentTry;
-    private Integer likeCount;
+    private Integer answerCount;
     private Long viewCount;
+    private int voteCount;
     @Column(nullable = false)
     private Timestamp createdAt = new Timestamp(new Date().getTime());
     @Column(name = "LAST_MODIFIED_AT")
@@ -41,8 +45,11 @@ public class Board {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<BoardVote> boardVoteList = new ArrayList<>();
 
     public enum BoardStatus {
         BOARD_REGISTRATION("게시글 등록 상태"),

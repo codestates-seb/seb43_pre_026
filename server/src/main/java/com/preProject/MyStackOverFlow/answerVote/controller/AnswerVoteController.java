@@ -32,7 +32,7 @@ public class AnswerVoteController {
     }
 
 
-    @PatchMapping("")
+    @PatchMapping
     public int patchAnswerlike(@Valid @RequestBody AnswerVoteDto.Post answerVotePostDto) {
 
         AnswerVote answerVote = answerVoteMapper.answerVotetoToAnswerVote(answerVotePostDto);
