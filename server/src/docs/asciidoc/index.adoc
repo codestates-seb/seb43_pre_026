@@ -1,0 +1,61 @@
+= StackOverFlow Application Clone Project
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+Kim Jae Yun <wkddkgodsla@gmail.com>
+
+v1.0.0, 2023.04.24
+
+***
+== MemberController
+=== 회원 등록
+.curl-request
+include::{snippets}/post-member/curl-request.adoc[]
+.http-request
+include::{snippets}/post-member/http-request.adoc[]
+.request-fields
+include::{snippets}/post-member/request-fields.adoc[]
+.http-response
+include::{snippets}/post-member/http-response.adoc[]
+.response-headers
+include::{snippets}/post-member/response-headers.adoc[]
+
+=== 회원 정보 수정
+.curl-request
+include::{snippets}/put-member/curl-request.adoc[]
+.http-request
+include::{snippets}/put-member/http-request.adoc[]
+.path-parameters
+include::{snippets}/put-member/path-parameters.adoc[]
+.request-fields
+include::{snippets}/put-member/request-fields.adoc[]
+.http-response
+include::{snippets}/put-member/http-response.adoc[]
+.response-fields
+include::{snippets}/put-member/response-fields.adoc[]
+
+=== 회원 정보 조회
+.curl-request
+include::{snippets}/get-member/curl-request.adoc[]
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+.path-parameters
+include::{snippets}/get-member/path-parameters.adoc[]
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+
+=== 회원 정보 삭제
+.curl-request
+include::{snippets}/delete-member/curl-request.adoc[]
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+.path-parameters
+include::{snippets}/delete-member/path-parameters.adoc[]
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
