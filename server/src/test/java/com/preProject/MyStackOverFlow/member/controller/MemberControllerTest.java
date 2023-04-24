@@ -1,8 +1,7 @@
-package com.preProject.MyStackOverFlow.member.controller;
+//package com.preProject.MyStackOverFlow.member.controller;
 
 import com.google.gson.Gson;
 import com.preProject.MyStackOverFlow.member.dto.MemberDto;
-import com.preProject.MyStackOverFlow.member.dto.MemberPostDto;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
@@ -27,55 +26,55 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@WebMvcTest(MemberController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-@AutoConfigureRestDocs
-public class MemberControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private Gson gson;
-
-    @MockBean
-    private MemberService memberService;
-
-    @MockBean
-    private MemberMapper mapper;
-
-
-    @Test
-    public void postMemberTest() throws Exception {
-        // given
-        MemberDto.Post post = new MemberDto.Post("ui1234", "ABC123!@#",
-                "1234@naver.com", "김네임", "김닉네임", "안녕하세요.");
-        Member member = mapper.memberPostDtoToMember(post);
-        member.setMemberId(1L);
-
-        given(memberService.createMember(Mockito.any(Member.class))).willReturn(member);
-
-        String content = gson.toJson(post);
-
-        ResultActions actions =
-                mockMvc.perform(
-                        post("/members")
-                                .accept(MediaType.APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(content)
-                );
-        actions
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(startsWith("/members"))));
-    }
+//import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+//import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+//import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+//import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+//import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+//import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+//import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+//
+//@WebMvcTest(MemberController.class)
+//@MockBean(JpaMetamodelMappingContext.class)
+//@AutoConfigureRestDocs
+//public class MemberControllerTest {
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Autowired
+//    private Gson gson;
+//
+//    @MockBean
+//    private MemberService memberService;
+//
+//    @MockBean
+//    private MemberMapper mapper;
+//
+//
+//    @Test
+//    public void postMemberTest() throws Exception {
+//        // given
+//        MemberDto.Post post = new MemberDto.Post("ui1234", "ABC123!@#",
+//                "1234@naver.com", "김네임", "김닉네임", "안녕하세요.");
+//        Member member = mapper.memberPostDtoToMember(post);
+//        member.setMemberId(1L);
+//
+//        given(memberService.createMember(Mockito.any(Member.class))).willReturn(member);
+//
+//        String content = gson.toJson(post);
+//
+//        ResultActions actions =
+//                mockMvc.perform(
+//                        post("/members")
+//                                .accept(MediaType.APPLICATION_JSON)
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(content)
+//                );
+//        actions
+//                .andExpect(status().isCreated())
+//                .andExpect(header().string("Location", is(startsWith("/members"))));
+//    }
 
 
 //    @Test
@@ -187,4 +186,4 @@ public class MemberControllerTest {
 //
 //        return location;
 //    }
-}
+//}

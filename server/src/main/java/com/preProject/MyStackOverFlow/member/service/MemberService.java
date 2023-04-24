@@ -67,6 +67,10 @@ public class MemberService {
         return findMember;
     }
 
+    public Member findByMemberId(Long memberId) {
+        return memberRepository.findByMemberId(memberId);
+    }
+
     public void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByMemberEmail(email);
         if(member.isPresent())

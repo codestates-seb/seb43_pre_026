@@ -1,13 +1,21 @@
 package com.preProject.MyStackOverFlow.member.dto;
 
+import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
+import com.preProject.MyStackOverFlow.answer.entity.Answer;
+import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MemberDto {
     @Getter
@@ -45,9 +53,6 @@ public class MemberDto {
         @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
         private String memberPassword;
 
-        @Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$", message = "이메일 형식이 올바르지 않습니다.")
-        private String memberEmail;
-
         private String memberName;
 
         @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
@@ -75,7 +80,16 @@ public class MemberDto {
         public String getMemberStatus() {
             return memberStatus.getStatus();
         }
+
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @Builder
+    public static class MemberResponse {
+        private String memberName;
+        private List<MemberAnswerDto.Response> memberAnswers;
+        private List<MemberBoardDto.Response> memberBoards;
     }
 }
-
-
