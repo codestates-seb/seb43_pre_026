@@ -80,6 +80,7 @@ public class BoardController {
 
         Page<Board> boards = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
 
+
         List<BoardDto.Response> response = boards.getContent().stream()
                 .map(mapper::boardToBoardResponse)
                 .collect(Collectors.toList());
