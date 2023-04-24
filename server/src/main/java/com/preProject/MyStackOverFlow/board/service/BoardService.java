@@ -1,6 +1,5 @@
 package com.preProject.MyStackOverFlow.board.service;
 
-import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.entity.BoardTag;
 import com.preProject.MyStackOverFlow.board.repository.BoardRepository;
@@ -8,7 +7,6 @@ import com.preProject.MyStackOverFlow.board.repository.BoardTagRepository;
 import com.preProject.MyStackOverFlow.exception.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exception.ExceptionCode;
 import com.preProject.MyStackOverFlow.member.entity.Member;
-import com.preProject.MyStackOverFlow.member.repository.MemberRepository;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
 import com.preProject.MyStackOverFlow.tag.entitiy.Tag;
 import com.preProject.MyStackOverFlow.tag.repository.TagRepository;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 

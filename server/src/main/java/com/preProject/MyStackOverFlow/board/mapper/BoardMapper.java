@@ -1,6 +1,7 @@
 package com.preProject.MyStackOverFlow.board.mapper;
 
 import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
+import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.board.dto.BoardTagDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
@@ -53,6 +54,7 @@ public interface BoardMapper {
                 .viewCount(board.getViewCount())
                 .createdAt(board.getCreatedAt())
                 .modifiedAt(board.getModifiedAt())
+                .voteCount(board.getVoteCount())
                 .memberNickname(board.getMember().getMemberNickname())
                 .boardStatus(board.getBoardStatus())
                 .tagNames(board.getBoardTags().stream()
@@ -61,18 +63,23 @@ public interface BoardMapper {
                                 .tagName(boardTag.getTag().getTagName())
                                 .build())
                         .collect(Collectors.toList()))
-                .answers(board.getAnswers().stream()
-//                        .filter(answer -> answer.check() == true)
-                        .map(answer -> AnswerDto.Response.builder()
-                                .content(answer.getContent())
-                                .memberNickname(answer.getMember().getMemberNickname())
-                                .build())
-                        .collect(Collectors.toList()))
                 .comments(board.getAnswers().stream()
-//                        .filter()
+                        .filter(answer -> !answer.isAnswerCheck())
                         .map(comment -> AnswerDto.Response.builder()
+                                .answerId(comment.getAnswerId())
+                                .parentId(0)
                                 .content(comment.getContent())
                                 .memberNickname(comment.getMember().getMemberNickname())
+                                .build())
+                        .collect(Collectors.toList()))
+                .answers(board.getAnswers().stream()
+                        .filter(Answer::isAnswerCheck)
+                        .map(answer -> AnswerDto.Response.builder()
+                                .answerId(answer.getAnswerId())
+                                .parentId((answer.getParent() == null) ? 0 : answer.getParent().getAnswerId())
+                                .likeCount(answer.getLikeCount())
+                                .content(answer.getContent())
+                                .memberNickname(answer.getMember().getMemberNickname())
                                 .build())
                         .collect(Collectors.toList()))
                 .build();

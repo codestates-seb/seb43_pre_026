@@ -30,7 +30,9 @@ public class Response {
             parentId = answer.getParent().getAnswerId();
         }
 
-        AnswerDto.Response response = new AnswerDto.Response( answerCheck ,answerId,content, memberNickname, parentId);
+        int likeCount = answer.getLikeCount();
+
+        AnswerDto.Response response = new AnswerDto.Response(answerId, parentId, likeCount, content, memberNickname);
 
         return response;
     }

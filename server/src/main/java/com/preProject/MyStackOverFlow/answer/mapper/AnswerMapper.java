@@ -6,8 +6,6 @@ import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
     default Answer answertoToAnswer(AnswerDto.Post answerDto) {
@@ -30,6 +28,5 @@ public interface AnswerMapper {
 
         return answer;
     }
-
     Answer answerPutToAnswer(AnswerDto.Put answerDto);
 }

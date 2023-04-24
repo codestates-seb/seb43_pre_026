@@ -38,12 +38,10 @@ public class AnswerDto {
     @Builder
     public static class Response {
 
-        private boolean answerCheck;
-
         private long answerId;
-
+        private long parentId;
+        private int likeCount;
         private String content;
         private String memberNickname;
-        private long parentId;
     }
 }
