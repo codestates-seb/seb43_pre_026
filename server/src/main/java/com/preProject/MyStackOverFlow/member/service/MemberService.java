@@ -1,9 +1,11 @@
 package com.preProject.MyStackOverFlow.member.service;
 
+import com.preProject.MyStackOverFlow.config.SecurityConfiguration;
 import com.preProject.MyStackOverFlow.exception.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exception.ExceptionCode;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.member.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -15,17 +17,25 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public MemberService(MemberRepository memberRepository) {
+    private final SecurityConfiguration securityConfiguration;
+
+
+    public MemberService(MemberRepository memberRepository,SecurityConfiguration securityConfiguration) {
         this.memberRepository = memberRepository;
+        this.securityConfiguration = securityConfiguration;
+
     }
 
-    public Member createMember(Member member) {
-        // 이미 등록된 이메일인지 확인
-        verifyExistsEmail(member.getMemberEmail());
-        Member savedMember = memberRepository.save(member);
-
-        return savedMember;
-    }
+//    public Member createMember(Member member, PasswordEncoder passwordEncoder) {
+//        // 이미 등록된 이메일인지 확인
+//        verifyExistsEmail(member.getMemberEmail());
+//        securityConfiguration.userDetailsService(member);
+//        String encryptedPassword = passwordEncoder.encode(member.getMemberPassword());
+//        member.setMemberPassword(encryptedPassword);
+//        Member savedMember = memberRepository.save(member);
+//
+//        return savedMember;
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Member updateMember(Member member) {
