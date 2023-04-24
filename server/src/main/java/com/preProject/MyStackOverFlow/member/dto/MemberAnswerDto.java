@@ -7,7 +7,7 @@ public class MemberAnswerDto {
     @Data
     @Builder
     public static class Response {
-        private long answerId;
+        private long boardId;
         private String  title;
     }
 }

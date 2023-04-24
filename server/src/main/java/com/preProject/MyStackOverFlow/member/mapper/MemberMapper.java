@@ -15,13 +15,14 @@ public interface MemberMapper {
 
     MemberDto.Response memberToMemberResponse(Member member);
 
-    default MemberDto.MemberResponse memberTomemberResponse2(Member member) {
+    default MemberDto.MemberResponse memberToMemberResponse2(Member member) {
 
         return MemberDto.MemberResponse.builder()
                 .memberName(member.getMemberName())
                 .memberAnswers(member.getAnswers().stream()
+                        .filter(answer -> answer.isAnswerCheck() && answer.getParent() == null)
                         .map(memberAnswer -> MemberAnswerDto.Response.builder()
-                                .answerId(memberAnswer.getAnswerId())
+                                .boardId(memberAnswer.getBoard().getBoardId())
                                 .title(memberAnswer.getBoard().getTitle())
                                 .build())
                         .collect(Collectors.toList()))
