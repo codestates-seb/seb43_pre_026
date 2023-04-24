@@ -10,6 +10,14 @@ Kim Jae Yun <wkddkgodsla@gmail.com>
 v1.0.0, 2023.04.24
 
 ***
+API 문서 개요
+
+ 이 문서는 Backend(서현준, 천찬웅, 김재윤)분들과 Frontend(곽미소, 정은옥, 임태영)분들이 함께 진행하는 StackOverFlow Clone 프로젝트입니다.
+이 애플리케이션을 사용해보고자 하는 분들은 이 문서를 통해 API의 구체적인 사용법을 알 수 있습니다.
+
+CAUTION: 이 문서에는 모든 기능이 포함되어 있지 않습니다. 기능 제한 사항에 대해 알고 싶다면 백엔드 분들에게 문의해 주세요.
+
+***
 == MemberController
 === 회원 등록
 .curl-request
