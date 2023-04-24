@@ -36,6 +36,9 @@ public class Member {
     @Column(length = 20, nullable = false)
     private String memberName;
 
+    @Column(length = 20, nullable = false)
+    private String memberRole;
+
     @Column(length = 20, nullable = false, unique = true)
     private String memberNickname;
 

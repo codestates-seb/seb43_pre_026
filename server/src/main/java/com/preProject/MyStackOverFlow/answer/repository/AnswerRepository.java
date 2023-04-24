@@ -12,4 +12,5 @@ import java.util.Optional;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     List<Answer> findByBoard(Board board);
+    List<Answer> findByMember(Member member);
 }

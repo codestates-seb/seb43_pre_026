@@ -17,6 +17,7 @@ public class AnswerDto {
         @Positive
         private long boardId;
         private String content;
+        private boolean answerCheck;
         private Answer parent;
         public Post(String content){
             this.content = content;
@@ -34,6 +35,8 @@ public class AnswerDto {
     @AllArgsConstructor
     @Getter
     public static class Response {
+
+        private boolean answerCheck;
 
         private long answerId;
 
