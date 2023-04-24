@@ -6,6 +6,7 @@ import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
 import com.preProject.MyStackOverFlow.board.service.BoardService;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
+import com.preProject.MyStackOverFlow.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Validated
@@ -32,10 +38,10 @@ public class BoardController {
     @PostMapping
     public ResponseEntity postBoard(@RequestBody @Valid BoardDto.Post requestBody) {
 
-        Board board = mapper.boardPostToBoard(requestBody);
-        Board response = boardService.createBoard(board);
+        Board board = boardService.createBoard(mapper.boardPostToBoard(requestBody));
+        URI location = UriCreator.createUri("/boards", board.getBoardId());
 
-        return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{board-id}")
@@ -83,6 +89,7 @@ public class BoardController {
 
         List<BoardDto.Response> response = boards.getContent().stream()
                 .map(mapper::boardToBoardResponse)
+                .filter(distinctByKey(BoardDto.Response::getBoardId)) // 중복된 boardId의 값을 가진 response 필터링
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -94,5 +101,16 @@ public class BoardController {
         boardService.deleteBoard(boardId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/{board-id}")
+    public int patchBoardVote(@PathVariable("board-id") long boardId) {
+
+        return boardService.voteCount(boardId);
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 }

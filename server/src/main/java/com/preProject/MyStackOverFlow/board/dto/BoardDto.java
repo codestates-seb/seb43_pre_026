@@ -1,5 +1,6 @@
 package com.preProject.MyStackOverFlow.board.dto;
 
+import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.entity.BoardTag;
 import lombok.*;
@@ -7,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class BoardDto {
@@ -58,10 +60,16 @@ public class BoardDto {
         private String title;
         private String content;
         private String contentTry;
-        private int likeCount;
+        private int answerCount;
         private long viewCount;
+        private int voteCount;
+        private Timestamp createdAt;
+        private Timestamp modifiedAt;
+        private String memberNickname;
         private Board.BoardStatus boardStatus;
         private List<BoardTagDto.Response> tagNames;
+        private List<AnswerDto.Response> answers;
+        private List<AnswerDto.Response> comments;
 
     }
 }

@@ -20,6 +20,8 @@ public class Response {
         String content = null;
         content = answer.getContent();
 
+        String memberNickname = answer.getMember().getMemberNickname();
+
         boolean answerCheck = Boolean.parseBoolean(null);
         answerCheck = answer.isAnswerCheck();
 
@@ -28,7 +30,9 @@ public class Response {
             parentId = answer.getParent().getAnswerId();
         }
 
-        AnswerDto.Response response = new AnswerDto.Response( answerCheck ,answerId,content, parentId);
+        int likeCount = answer.getLikeCount();
+
+        AnswerDto.Response response = new AnswerDto.Response(answerId, parentId, likeCount, content, memberNickname);
 
         return response;
     }

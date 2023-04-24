@@ -1,6 +1,5 @@
 package com.preProject.MyStackOverFlow.board.service;
 
-import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.entity.BoardTag;
 import com.preProject.MyStackOverFlow.board.repository.BoardRepository;
@@ -8,7 +7,6 @@ import com.preProject.MyStackOverFlow.board.repository.BoardTagRepository;
 import com.preProject.MyStackOverFlow.exception.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exception.ExceptionCode;
 import com.preProject.MyStackOverFlow.member.entity.Member;
-import com.preProject.MyStackOverFlow.member.repository.MemberRepository;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
 import com.preProject.MyStackOverFlow.tag.entitiy.Tag;
 import com.preProject.MyStackOverFlow.tag.repository.TagRepository;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,14 +29,13 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardTagRepository boardTagRepository;
     private final TagRepository tagRepository;
-    private final MemberRepository memberRepository;
 
     public Board createBoard(Board board) {
 
         Member findMember = memberService.verifyExistsMemberId(board.getMember().getMemberId());
         board.setMember(findMember);
-        board.setLikeCount(0);
         board.setViewCount(0L);
+        board.setAnswerCount(0);
 
         for (BoardTag boardTag : board.getBoardTags()) {
             boardTag.setBoard(board);
@@ -52,6 +48,15 @@ public class BoardService {
         return boardRepository.save(savedBoard);
     }
 
+    public int voteCount(long boardId) {
+        Board board = findVerifiedBoard(boardId);
+        int voteCount = board.getVoteCount() + 1;
+        board.setVoteCount(voteCount);
+        boardRepository.save(board);
+
+        return voteCount;
+    }
+
     public Board updateBoard(Board board) {
         Board findBoard = findVerifiedBoard(board.getBoardId());
 
@@ -61,6 +66,8 @@ public class BoardService {
                 .ifPresent(findBoard::setContent);
         Optional.ofNullable(board.getContentTry())
                 .ifPresent(findBoard::setContentTry);
+        Optional.ofNullable(board.getVoteCount())
+                .ifPresent(findBoard::setVoteCount);
 
         findBoard.setModifiedAt(new Timestamp(new Date().getTime()));
 
@@ -72,12 +79,24 @@ public class BoardService {
 
         findBoard.setViewCount(findBoard.getViewCount() + 1);
 
+        verifyAnswerCount(findBoard);
+
         return boardRepository.save(findBoard);
     }
 
     @Transactional(readOnly = true)
     public List<Board> getAllBoards() {
-        return boardRepository.findAll();
+        List<Board> boardList = boardRepository.findAll();
+
+        if (boardList.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+        }
+
+        for (Board board : boardList) {
+            verifyAnswerCount(board);
+        }
+
+        return boardList;
     }
 
     @Transactional(readOnly = true)
@@ -93,6 +112,15 @@ public class BoardService {
             response = boardRepository.findByMemberMemberNicknameContaining(memberNickname, pageable);
         } else if (tagName != null && !tagName.isEmpty()) {
             response = boardRepository.findByTagNameContaining(tagName, pageable);
+        }
+
+        if (response.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+        }
+
+        List<Board> boardList = response.getContent();
+        for (Board board : boardList) {
+            verifyAnswerCount(board);
         }
 
         return response;
@@ -117,16 +145,6 @@ public class BoardService {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
 
         return optionalBoard.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
-    }
-
-    private void addLike(Board board) {
-        memberService.verifyExistsEmail(board.getMember().getMemberEmail());
-
-        Board findBoard = findVerifiedBoard(board.getBoardId());
-        // TODO if (멤버가 해당 게시글에 좋아요를 눌렀는가?) {눌렀으면 throw exception}
-
-        findBoard.setLikeCount(findBoard.getLikeCount() + 1);
-
     }
 
     private void putInformationForTag(Board board) {
@@ -155,7 +173,12 @@ public class BoardService {
         board.setBoardTags(boardTagList);
     }
 
-    public List<Board> getBoardsByMember (Member member, Pageable pageable) {
-        return boardRepository.findByMember(member);
+    private void verifyAnswerCount(Board findBoard) {
+        int findAnswerCount = findBoard.getAnswers().stream()
+                .filter(answer -> answer.getParent() == null)
+                .collect(Collectors.toList())
+                .size();
+
+        findBoard.setAnswerCount(findAnswerCount);
     }
 }
