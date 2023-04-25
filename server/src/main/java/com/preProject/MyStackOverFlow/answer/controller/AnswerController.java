@@ -121,7 +121,8 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(summary = "답변/댓글 수정", description = "답변/댓글 식별자(answerId)에 해당하는 답변/댓글을 수정합니다.")
+    @Operation(summary = "답변/댓글 수정", description = "답변/댓글 식별자(answerId)에 해당하는 답변/댓글을 수정합니다. \n" +
+            "수정이 필요한 정보만 입력하시면 됩니다.")
     @Parameter(name = "answer-id", description = "답변/댓글 식별자", example = "1")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "정상 처리되었습니다."),

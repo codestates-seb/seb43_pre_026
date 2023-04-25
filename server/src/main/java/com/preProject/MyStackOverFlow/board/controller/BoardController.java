@@ -57,10 +57,11 @@ public class BoardController {
         return ResponseEntity.created(location).build();
     }
 
-    @Operation(summary = "게시글 정보 수정", description = "게시글 식별자(boardId)에 해당하는 게시글을 수정합니다.")
+    @Operation(summary = "게시글 정보 수정", description = "게시글 식별자(boardId)에 해당하는 게시글을 수정합니다. \n" +
+            "수정이 필요한 정보만 입력하시면 됩니다.")
     @Parameter(name = "board-id", description = "게시글 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "게시글이 수정되었습니다."),
+            @ApiResponse(code = 200, message = "게시글이 수정되었습니다.", response = BoardDto.Response.class),
             @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
             @ApiResponse(code = 400, message = "잘못된 요청입니다."),
             @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
