@@ -24,25 +24,28 @@ public class Member {
         this.memberId = memberId;
     }
 
-    @Column(length = 50, nullable = false, unique = true)
-    private String memberUserid;
-
-    @Column(length = 200, nullable = false)
-    private String memberPassword;
-
     @Column(length = 50, nullable = false, unique = true, updatable = false)
     private String memberEmail;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 30, nullable = false)
     private String memberName;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
-
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(length = 30, nullable = false, unique = true)
     private String memberNickname;
 
-    @Column(length = 50)
+    @Column(length = 200, nullable = false)
+    private String memberPassword;
+
+
+    @Column(length = 30)
+    private String memberTitle;
+
+    @Column(length = 100)
+    private String memberLink;
+
+    @Column(length = 100)
     private String memberDescription;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
@@ -58,12 +61,14 @@ public class Member {
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public Member(String memberUserid, String memberPassword, String memberEmail, String memberName, String memberNickname, String memberDescription) {
-        this.memberUserid = memberUserid;
+    public Member(String memberPassword, String memberEmail, String memberName, String memberNickname,
+                  String memberTitle, String memberLink, String memberDescription) {
         this.memberPassword = memberPassword;
         this.memberEmail = memberEmail;
         this.memberName = memberName;
         this.memberNickname = memberNickname;
+        this.memberTitle = memberTitle;
+        this.memberLink = memberLink;
         this.memberDescription = memberDescription;
     }
 

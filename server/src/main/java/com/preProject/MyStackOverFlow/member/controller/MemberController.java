@@ -1,11 +1,6 @@
 package com.preProject.MyStackOverFlow.member.controller;
 
 import com.preProject.MyStackOverFlow.member.dto.MemberDto;
-import com.preProject.MyStackOverFlow.answer.mapper.Response;
-import com.preProject.MyStackOverFlow.answer.service.AnswerService;
-import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
-import com.preProject.MyStackOverFlow.board.service.BoardService;
-import com.preProject.MyStackOverFlow.member.dto.MemberDto;
 import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.response.SingleResponseDto;
@@ -67,9 +62,8 @@ public class MemberController {
             @Valid @RequestBody MemberDto.Put requestBody) {
         requestBody.setMemberId(memberId);
 
-        Member member =
-                memberService.updateMember(memberMapper.memberPutDtoToMember(requestBody));
-        return new ResponseEntity<>(new SingleResponseDto<>(memberMapper.memberToMemberResponse(member)), HttpStatus.OK);
+        Member member = memberService.updateMember(memberMapper.memberPutDtoToMember(requestBody));
+        return new ResponseEntity<>(new SingleResponseDto<>(memberMapper.memberPutDtoToMember2(member)), HttpStatus.OK);
     }
 
     // 회원 정보 삭제
