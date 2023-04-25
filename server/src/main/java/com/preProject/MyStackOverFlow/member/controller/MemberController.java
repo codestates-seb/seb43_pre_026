@@ -26,6 +26,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/members")
 @Validated
+@CrossOrigin
 @Slf4j
 public class MemberController {
 

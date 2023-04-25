@@ -46,10 +46,10 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())   // (1)
                 .and()
                 .authorizeHttpRequests(authorize -> authorize                  // (2)
-                        .antMatchers("/h2/**").permitAll()     // 인증만 되면 모두가
-                        .antMatchers("/v11/auth/**").permitAll()
-                        .antMatchers("/orders/**").hasRole("USER")        // (2-1)
-                        .antMatchers("/members/**").permitAll() // (2-2)
+//                        .antMatchers("/h2/**").permitAll()     // 인증만 되면 모두가
+//                        .antMatchers("/v11/auth/**").permitAll()
+//                        .antMatchers("/orders/**").hasRole("USER")        // (2-1)
+//                        .antMatchers("/members/**").permitAll() // (2-2)
                         .anyRequest().permitAll()
 
 
