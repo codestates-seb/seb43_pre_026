@@ -3,6 +3,8 @@ package com.preProject.MyStackOverFlow.board.dto;
 import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.entity.BoardTag;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -13,6 +15,7 @@ import java.util.List;
 
 public class BoardDto {
 
+    @ApiModel("Board Post")
     @Getter
     public static class Post {
 
