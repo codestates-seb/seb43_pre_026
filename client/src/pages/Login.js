@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignupOauth from '../components/Logins/LoginOauth';
 import logoImg from '../assets/logo.png';
+// import axios from 'axios'
 
 const Container = styled.div`
   /* position: relative; */
@@ -86,6 +87,26 @@ const FormButton = styled.button`
 `;
 
 const Login = () => {
+  const [loginFormData, setLoginFormData] = useState({
+    userId: '',
+    password: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    const newFormdata = {
+      ...loginFormData,
+      [id]: value,
+    };
+    setLoginFormData(newFormdata);
+  };
+  console.log(loginFormData);
+
+  const handleSubmit = () => {
+    // e.preventDefault();
+    // axios.
+  };
+
   return (
     <Container>
       <Logo src={logoImg} alt="stackoverflowlogo" />
@@ -93,14 +114,24 @@ const Login = () => {
         <LoginOauthWrapper>
           <SignupOauth />
         </LoginOauthWrapper>
-        <LoginForm>
+        <LoginForm onSubmit={handleSubmit}>
           <EmailFormInputWrapper>
-            <FormLabel>Email</FormLabel>
-            <FormInput />
+            <FormLabel>UserId</FormLabel>
+            <FormInput
+              type="text"
+              id="userId"
+              onChange={handleInputChange}
+              value={loginFormData.userId}
+            />
           </EmailFormInputWrapper>
           <PasswordFormInputWrapper>
             <FormLabel>Password</FormLabel>
-            <FormInput />
+            <FormInput
+              type="password"
+              id="password"
+              onChange={handleInputChange}
+              value={loginFormData.password}
+            />
           </PasswordFormInputWrapper>
           <FormButton>Log In</FormButton>
         </LoginForm>

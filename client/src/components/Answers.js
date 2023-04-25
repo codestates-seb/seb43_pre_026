@@ -32,6 +32,8 @@ const AnswerContent = styled.div`
   margin-top: 30px;
   margin-left: 20px;
   white-space: pre-wrap;
+  display: flex;
+  align-items: center;
 `;
 
 const AnswerId = styled.div`
