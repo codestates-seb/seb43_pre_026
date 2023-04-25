@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import QuestionForm from '../components/QuestionForm';
-
+import QuestionForm from './QuestionSubmit';
 const Global = styled.div`
   background-color: #f1f2f3;
 `;
