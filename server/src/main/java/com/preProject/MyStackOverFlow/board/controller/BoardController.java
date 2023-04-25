@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Validated
 @RequestMapping("/boards")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class BoardController {
 

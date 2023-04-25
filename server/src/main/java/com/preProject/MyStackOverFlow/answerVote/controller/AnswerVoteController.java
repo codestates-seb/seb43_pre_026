@@ -21,6 +21,7 @@ import java.net.URI;
 
 @Validated
 @RequestMapping("/answer/vote")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class AnswerVoteController {
     private AnswerVoteMapper answerVoteMapper;

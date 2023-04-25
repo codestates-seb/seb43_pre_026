@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/answer")
 @Validated
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 public class AnswerController {
     private final static String ANSWER_DEFAULT_URL = "/answer";
