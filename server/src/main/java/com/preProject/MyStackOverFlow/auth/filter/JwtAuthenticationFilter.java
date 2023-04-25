@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,13 +24,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
 
+
     // (2)
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,  JwtTokenizer jwtTokenizer) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
+
     }
 
-    // (3)
+    // 1. 회원 정보가 맞는지 확인하는 작업 (인증시도)
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
@@ -41,10 +44,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
+
+        // 로그인 인증 정보를 받아서 매니저에게 전달 그러면 return 값으로 인증정보가 전달됨
         return authenticationManager.authenticate(authenticationToken);  // (3-4)
     }
 
-    // (4)
+    //2.위의 메서드가 성공하면 밑의 메서드가 실행이 된다.
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
@@ -59,11 +64,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Refresh", refreshToken);                   // (4-5)
     }
 
-    // (5)
+    // Access 토큰 생성
     private String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", member.getMemberEmail());
-        claims.put("roles", member.getMemberRole());
+        claims.put("roles", member.getRoles());
 
         String subject = member.getMemberEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
@@ -75,7 +80,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return accessToken;
     }
 
-    // (6)
+    // Refresh 토큰 생성
     private String delegateRefreshToken(Member member) {
         String subject = member.getMemberEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());

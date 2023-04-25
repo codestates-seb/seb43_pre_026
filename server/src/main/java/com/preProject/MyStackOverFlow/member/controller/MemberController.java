@@ -3,7 +3,6 @@ package com.preProject.MyStackOverFlow.member.controller;
 import com.preProject.MyStackOverFlow.member.dto.MemberDto;
 import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
 import com.preProject.MyStackOverFlow.member.entity.Member;
-import com.preProject.MyStackOverFlow.member.service.MemberService1;
 import com.preProject.MyStackOverFlow.response.SingleResponseDto;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
 import com.preProject.MyStackOverFlow.utils.UriCreator;
@@ -24,19 +23,14 @@ import java.net.URI;
 @Slf4j
 public class MemberController {
 
-    private final MemberService1 memberService1;
     private final MemberService memberService;
     private final static String MEMBER_DEFAULT_URL = "/members";
     private final MemberMapper memberMapper;
-    private final PasswordEncoder passwordEncoder;
 
 
-    public MemberController(MemberService1 memberService1, MemberMapper memberMapper,
-                            PasswordEncoder passwordEncoder,MemberService memberService) {
 
-
-        this.passwordEncoder = passwordEncoder;
-        this.memberService1 = memberService1;
+    public MemberController(MemberMapper memberMapper,
+                           MemberService memberService) {
         this.memberMapper = memberMapper;
         this.memberService = memberService;
 
@@ -47,9 +41,8 @@ public class MemberController {
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
 
         Member member = memberMapper.memberPostDtoToMember(requestBody);
-        member.setMemberRole("ROLE_USER");
 
-        Member createdMember = memberService1.createMember(member);
+        Member createdMember = memberService.createMember(member);
         URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, createdMember.getMemberId());
 
         return ResponseEntity.created(location).build();

@@ -30,14 +30,14 @@ public class Member {
     @Column(length = 30, nullable = false)
     private String memberName;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
     @Column(length = 30, nullable = false, unique = true)
     private String memberNickname;
 
     @Column(length = 200, nullable = false)
     private String memberPassword;
 
-    @Column(length = 20, nullable = false)
-    private String memberRole;
 
     @Column(length = 30)
     private String memberTitle;

@@ -86,6 +86,7 @@ public class BoardController {
 
         Page<Board> boards = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
 
+
         List<BoardDto.Response> response = boards.getContent().stream()
                 .map(mapper::boardToBoardResponse)
                 .filter(distinctByKey(BoardDto.Response::getBoardId)) // 중복된 boardId의 값을 가진 response 필터링

@@ -1,77 +1,95 @@
-//package com.preProject.MyStackOverFlow.controller;
-//
-//import com.google.gson.Gson;
-//import com.preProject.MyStackOverFlow.member.controller.MemberController;
-//import com.preProject.MyStackOverFlow.member.dto.MemberDto;
-//import com.preProject.MyStackOverFlow.member.entity.Member;
-//import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
-//import com.preProject.MyStackOverFlow.member.service.MemberService;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mockito;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.MediaType;
-//import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-//import org.springframework.restdocs.payload.JsonFieldType;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.ResultActions;
-//
-//import java.util.List;
-//
-//import static com.preProject.util.ApiDocumentUtils.getRequestPreProcessor;
-//import static com.preProject.util.ApiDocumentUtils.getResponsePreProcessor;
-//import static org.mockito.BDDMockito.given;
-//import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-//import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
-//import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-//import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-//import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-//import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//
-//@WebMvcTest(MemberController.class)
-//@MockBean(JpaMetamodelMappingContext.class)
-//@AutoConfigureRestDocs
-//public class MemberControllerTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @MockBean
-//    private MemberService memberService;
-//
-//    @MockBean
-//    private MemberMapper mapper;
-//
-//    @Autowired
-//    private Gson gson;
-//
-//    @Test
-//    public void postMemberTest() throws Exception {
-//
-//        // 검색해보니 생성자를 바로 초기화 하는 거랑 set으로 초기화 하는 거랑 성능 차이가 별로 없다해서 개인적으로 선호하는 set으로 초기화 했습니다!
+package com.preProject.MyStackOverFlow.controller;
+
+import com.google.gson.Gson;
+import com.preProject.MyStackOverFlow.member.controller.MemberController;
+import com.preProject.MyStackOverFlow.member.dto.MemberDto;
+import com.preProject.MyStackOverFlow.member.entity.Member;
+import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
+import com.preProject.MyStackOverFlow.member.service.MemberService;
+import com.preProject.MyStackOverFlow.member.service.MemberService1;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.List;
+
+import static com.preProject.util.ApiDocumentUtils.getRequestPreProcessor;
+import static com.preProject.util.ApiDocumentUtils.getResponsePreProcessor;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(MemberController.class)
+@MockBean(JpaMetamodelMappingContext.class)
+@AutoConfigureRestDocs
+public class MemberControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private MemberService memberService;
+
+    @MockBean
+    private MemberService1 memberService1;
+
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private MemberMapper mapper;
+
+    @Autowired
+    private Gson gson;
+
+    @Test
+    public void postMemberTest() throws Exception {
+
+////         검색해보니 생성자를 바로 초기화 하는 거랑 set으로 초기화 하는 거랑 성능 차이가 별로 없다해서 개인적으로 선호하는 set으로 초기화 했습니다!
 //        Member testMember = new Member();
 //        testMember.setMemberId(1L);
-//        MemberDto.Post post = new MemberDto.Post();
-//        post.setMemberUserid("testId");
-//        post.setMemberPassword("Password12*!");
-//        post.setMemberEmail("test@gmail.com");
-//        post.setMemberName("김테스트");
-//        post.setMemberNickname("테스트닉네임");
-//        post.setMemberDescription("테스트용 계정입니다.");
 //
-//        given(mapper.memberPostDtoToMember(Mockito.any(MemberDto.Post.class)))
-//                .willReturn(testMember);
+////        MemberDto.Post post = new MemberDto.Post();
+////        post.setMemberUserid("testId");
+////        post.setMemberPassword("Password12*!");
+////        post.setMemberEmail("test@gmail.com");
+////        post.setMemberName("김테스트");
+////        post.setMemberNickname("테스트닉네임");
+////        post.setMemberDescription("테스트용 계정입니다.");
+////
+////        given(mapper.memberPostDtoToMember(Mockito.any(MemberDto.Post.class)))
+////                .willReturn(testMember);
 //
-//        String content = gson.toJson(post);
+//        testMember.setMemberUserid("testId");
+//        testMember.setMemberPassword("Password12*!");
+//        testMember.setMemberEmail("test@gmail.com");
+//        testMember.setMemberName("김테스트");
+//        testMember.setMemberNickname("테스트닉네임");
+//        testMember.setMemberDescription("테스트용 계정입니다.");
+//        testMember.setMemberRole("ROLE_USER");
 //
-//        given(memberService.createMember(Mockito.any(Member.class)))
-//                .willReturn(testMember);
+//
+//        String content = gson.toJson(testMember);
+////
+////        given(memberService1.createMember(Mockito.any(Member.class)))
+////                .willReturn(testMember);
 //
 //        ResultActions actions =
 //                mockMvc.perform(
@@ -108,11 +126,11 @@
 //                        )
 //
 //                ));
-//    }
-//
-//    @Test
-//    public void putMemberTest() throws Exception {
-//
+    }
+
+    @Test
+    public void putMemberTest() throws Exception {
+
 //        long memberId = 1L;
 //        MemberDto.Put putMember = new MemberDto.Put();
 //        putMember.setMemberId(memberId);
@@ -191,8 +209,8 @@
 //                                )
 //                        ))
 //                );
-//    }
-//
+    }
+
 //    @Test
 //    public void getMemberTest() throws Exception {
 //
@@ -272,4 +290,4 @@
 //                        )
 //                ));
 //    }
-//}
+}
