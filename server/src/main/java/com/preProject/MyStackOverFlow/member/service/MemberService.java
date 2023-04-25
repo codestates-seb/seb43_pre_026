@@ -1,42 +1,69 @@
 package com.preProject.MyStackOverFlow.member.service;
 
+import com.preProject.MyStackOverFlow.auth.utils.CustomAuthorityUtils;
 import com.preProject.MyStackOverFlow.config.SecurityConfiguration;
 import com.preProject.MyStackOverFlow.exception.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exception.ExceptionCode;
+import com.preProject.MyStackOverFlow.helper.event.MemberRegistrationApplicationEvent;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.member.repository.MemberRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final ApplicationEventPublisher publisher;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
 
 
-
-
-    public MemberService(MemberRepository memberRepository,SecurityConfiguration securityConfiguration) {
+    public MemberService(MemberRepository memberRepository,
+                         ApplicationEventPublisher publisher,
+                         PasswordEncoder passwordEncoder,
+                         CustomAuthorityUtils authorityUtils) {
         this.memberRepository = memberRepository;
+        this.publisher = publisher;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
     }
 
+    public Member createMember(Member member) {
+        verifyExistsEmail(member.getMemberEmail());
 
+        // 추가: Password 암호화
+        String encryptedPassword = passwordEncoder.encode(member.getMemberPassword());
+        member.setMemberPassword(encryptedPassword);
+
+        // 추가: DB에 User Role 저장
+        List<String> roles = authorityUtils.createRoles(member.getMemberEmail());
+        member.setRoles(roles);
+
+        Member savedMember = memberRepository.save(member);
+        publisher.publishEvent(new MemberRegistrationApplicationEvent(savedMember));
+        return savedMember;
+    }
     @Transactional(propagation = Propagation.REQUIRED)
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
 
-        Optional.ofNullable(member.getMemberUserid())
-                .ifPresent(memberUserid -> findMember.setMemberUserid(memberUserid));
         Optional.ofNullable(member.getMemberPassword())
                 .ifPresent(memberPassword -> findMember.setMemberPassword(memberPassword));
         Optional.ofNullable(member.getMemberEmail())
                 .ifPresent(memberEmail -> findMember.setMemberEmail(memberEmail));
         Optional.ofNullable(member.getMemberName())
                 .ifPresent(memberName -> findMember.setMemberName(memberName));
+        Optional.ofNullable(member.getMemberTitle())
+                        .ifPresent(memberTitle -> findMember.setMemberTitle(memberTitle));
+        Optional.ofNullable(member.getMemberLink())
+                        .ifPresent(memberLink -> findMember.setMemberLink(memberLink));
         Optional.ofNullable(member.getMemberNickname())
                 .ifPresent(memberNickname-> findMember.setMemberNickname(memberNickname));
         Optional.ofNullable(member.getMemberDescription())
