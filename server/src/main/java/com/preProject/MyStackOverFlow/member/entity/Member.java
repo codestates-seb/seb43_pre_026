@@ -36,8 +36,8 @@ public class Member {
     @Column(length = 20, nullable = false)
     private String memberName;
 
-    @Column(length = 20, nullable = false)
-    private String memberRole;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
     @Column(length = 20, nullable = false, unique = true)
     private String memberNickname;
