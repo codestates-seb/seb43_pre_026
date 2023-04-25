@@ -5,7 +5,6 @@ import com.preProject.MyStackOverFlow.exception.BusinessLogicException;
 import com.preProject.MyStackOverFlow.exception.ExceptionCode;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.member.repository.MemberRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -29,14 +28,16 @@ public class MemberService {
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
 
-        Optional.ofNullable(member.getMemberUserid())
-                .ifPresent(memberUserid -> findMember.setMemberUserid(memberUserid));
         Optional.ofNullable(member.getMemberPassword())
                 .ifPresent(memberPassword -> findMember.setMemberPassword(memberPassword));
         Optional.ofNullable(member.getMemberEmail())
                 .ifPresent(memberEmail -> findMember.setMemberEmail(memberEmail));
         Optional.ofNullable(member.getMemberName())
                 .ifPresent(memberName -> findMember.setMemberName(memberName));
+        Optional.ofNullable(member.getMemberTitle())
+                        .ifPresent(memberTitle -> findMember.setMemberTitle(memberTitle));
+        Optional.ofNullable(member.getMemberLink())
+                        .ifPresent(memberLink -> findMember.setMemberLink(memberLink));
         Optional.ofNullable(member.getMemberNickname())
                 .ifPresent(memberNickname-> findMember.setMemberNickname(memberNickname));
         Optional.ofNullable(member.getMemberDescription())
