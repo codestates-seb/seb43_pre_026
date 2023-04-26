@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import SignupOauth from '../components/Logins/LoginOauth';
 import logoImg from '../assets/logo.png';
-// import axios from 'axios'
+import LoginForm from '../components/Logins/LoginForm';
 
 const Container = styled.div`
   /* position: relative; */
@@ -32,81 +32,12 @@ const LoginOauthWrapper = styled.div`
   align-items: center;
 `;
 
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  width: 280px;
-`;
-
-const EmailFormInputWrapper = styled.div`
-  width: 100%;
-  margin-bottom: 16px;
-  text-align: left;
-`;
-
-const PasswordFormInputWrapper = styled.div`
-  width: 100%;
-  margin-bottom: 16px;
-  text-align: left;
-`;
-
-const FormLabel = styled.label`
-  display: block;
-  margin-bottom: 4px;
-  text-align: left;
-  font-weight: 600;
-`;
-
-const FormInput = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-bottom: 16px;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const FormButton = styled.button`
-  background-color: #2f80ed;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 3px;
-  border: none;
-  width: 280px;
-  cursor: pointer;
-  &:hover {
-    background-color: #2c70b8;
-  }
+const Endtext = styled.div`
+  position: relative;
+  top: 40px;
 `;
 
 const Login = () => {
-  const [loginFormData, setLoginFormData] = useState({
-    userId: '',
-    password: '',
-  });
-
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    const newFormdata = {
-      ...loginFormData,
-      [id]: value,
-    };
-    setLoginFormData(newFormdata);
-  };
-  console.log(loginFormData);
-
-  const handleSubmit = () => {
-    // e.preventDefault();
-    // axios.
-  };
-
   return (
     <Container>
       <Logo src={logoImg} alt="stackoverflowlogo" />
@@ -114,28 +45,10 @@ const Login = () => {
         <LoginOauthWrapper>
           <SignupOauth />
         </LoginOauthWrapper>
-        <LoginForm onSubmit={handleSubmit}>
-          <EmailFormInputWrapper>
-            <FormLabel>UserId</FormLabel>
-            <FormInput
-              type="text"
-              id="userId"
-              onChange={handleInputChange}
-              value={loginFormData.userId}
-            />
-          </EmailFormInputWrapper>
-          <PasswordFormInputWrapper>
-            <FormLabel>Password</FormLabel>
-            <FormInput
-              type="password"
-              id="password"
-              onChange={handleInputChange}
-              value={loginFormData.password}
-            />
-          </PasswordFormInputWrapper>
-          <FormButton>Log In</FormButton>
-        </LoginForm>
-        <p>Dont have an account? Sign up</p>
+        <LoginForm />
+        <Endtext>
+          Dont have an account? <a href="/Signup">Sign up</a>
+        </Endtext>
       </LoginWrapper>
     </Container>
   );
