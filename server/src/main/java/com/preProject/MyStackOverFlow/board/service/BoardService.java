@@ -85,7 +85,7 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<Board> getAllBoards() {
+    public List<Board> getAllBoardList() {
         List<Board> boardList = boardRepository.findAll();
 
         if (boardList.isEmpty()) {
@@ -97,6 +97,21 @@ public class BoardService {
         }
 
         return boardList;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Board> getAllBoardList(Pageable pageable) {
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+
+        if (!boardPage.hasContent()) {
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+        }
+
+        for (Board board : boardPage.getContent()) {
+            verifyAnswerCount(board);
+        }
+
+        return boardPage;
     }
 
     @Transactional(readOnly = true)

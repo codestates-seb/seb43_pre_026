@@ -13,9 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -109,14 +107,18 @@ public class BoardController {
             @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @GetMapping
-    public ResponseEntity getAllBoards(@PageableDefault(sort = "board-id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<Board> boards = boardService.getAllBoards();
+    public ResponseEntity getAllBoards(@PageableDefault(sort = "boardId", direction = Sort.Direction.DESC) Pageable pageable,
+                                       @RequestParam(required = false) String tab) {
 
-        if (boards.isEmpty()) {
+        List<Board> boardList;
+
+        boardList = verifyTab(pageable, tab);
+
+        if (boardList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        List<BoardDto.Response> response = boards.stream()
+        List<BoardDto.Response> response = boardList.stream()
                 .map(mapper::boardToBoardResponse)
                 .collect(Collectors.toList());
 
@@ -139,15 +141,23 @@ public class BoardController {
                                                    @RequestParam(required = false) String content,
                                                    @RequestParam(required = false) String memberNickname,
                                                    @RequestParam(required = false) String tagName,
+                                                   @RequestParam(required = false) String tab,
                                                    @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<Board> boards = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+        List<Board> boardList;
 
+        boardList = verityTabForSearchType(title, content, memberNickname, tagName, tab, pageable);
 
-        List<BoardDto.Response> response = boards.getContent().stream()
+        if (boardList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        List<BoardDto.Response> response = boardList.stream()
                 .map(mapper::boardToBoardResponse)
                 .filter(distinctByKey(BoardDto.Response::getBoardId)) // 중복된 boardId의 값을 가진 response 필터링
                 .collect(Collectors.toList());
+
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -186,5 +196,55 @@ public class BoardController {
     private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         Map<Object, Boolean> seen = new ConcurrentHashMap<>();
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
+    private List<Board> verifyTab(Pageable pageable, String tab) {
+        List<Board> boardList;
+        if ("newest".equals(tab)) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+            Page<Board> boardPage = boardService.getAllBoardList(pageable);
+            boardList = boardPage.getContent();
+        } else if ("hot".equals(tab)) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("viewCount").descending());
+            Page<Board> boardPage = boardService.getAllBoardList(pageable);
+            boardList = boardPage.getContent();
+        } else if ("unanswered".equals(tab)) {
+            boardList = boardService.getAllBoardList();
+            boardList = boardList.stream()
+                    .filter(board -> board.getAnswers().isEmpty())
+                    .collect(Collectors.toList());
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("boardId").descending());
+            Page<Board> boardPage = new PageImpl<>(boardList, pageable, boardList.size());
+            boardList = boardPage.getContent();
+        } else {
+            Page<Board> boardPage = boardService.getAllBoardList(pageable);
+            boardList = boardPage.getContent();
+        }
+        return boardList;
+    }
+
+    private List<Board> verityTabForSearchType(String title, String content, String memberNickname, String tagName, String tab, Pageable pageable) {
+        List<Board> boardList;
+        if ("newest".equals(tab)) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+            boardList = boardPage.getContent();
+        } else if ("hot".equals(tab)) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("viewCount").descending());
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+            boardList = boardPage.getContent();
+        } else if ("unanswered".equals(tab)) {
+            boardList = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable).getContent();
+            boardList = boardList.stream()
+                    .filter(board -> board.getAnswers().isEmpty())
+                    .collect(Collectors.toList());
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("boardId").descending());
+            Page<Board> boardPage = new PageImpl<>(boardList, pageable, boardList.size());
+            boardList = boardPage.getContent();
+        } else {
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+            boardList = boardPage.getContent();
+        }
+        return boardList;
     }
 }
