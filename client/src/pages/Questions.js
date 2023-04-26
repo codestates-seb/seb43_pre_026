@@ -34,6 +34,8 @@ const Questions = () => {
 
           const filteredAnswer = AnswerFilter(res.data.answers);
           setFilteredAnswer(filteredAnswer);
+          console.log(res.data);
+          console.log('보내주기전 엔서 아이디', filteredAnswer.answer.answerId);
         }
         console.log(board);
       } catch (error) {
@@ -66,8 +68,8 @@ const Questions = () => {
         <>
           <QuestionHeader
             title={board.title}
-            createAt={board.viewCount}
-            modifiedAt={board.viewCount}
+            createAt={board.createdAt}
+            modifiedAt={board.modifiedAt}
             viewCount={board.viewCount}
           />
           <Question
@@ -82,8 +84,11 @@ const Questions = () => {
             boardId={board.boardId}
             comments={board.comments}
           />
-          <Answers filteredAnswer={filteredAnswer} answerId={board.answerId} />
-          <AnswerForm boardId={boardId} />
+          <Answers
+            filteredAnswer={filteredAnswer}
+            answerId={filteredAnswer.answer.answerId}
+          />
+          <AnswerForm boardId={board.boardId} />
         </>
       ) : (
         <p>Loading...</p>

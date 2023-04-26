@@ -1,5 +1,4 @@
 import React from 'react';
-// import { dummy } from './Question';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -68,7 +67,38 @@ const QuestionHeader = ({ title, createAt, modifiedAt, viewCount }) => {
     navigate('/questionsubmit');
   };
 
-  console.log('퀘스천 헤더!', title);
+  const currentDate = new Date();
+  const dateToCompare = new Date(createAt);
+
+  const timeDifferent = Math.abs(
+    currentDate.getTime() - dateToCompare.getTime()
+  );
+  const differentDays = Math.ceil(timeDifferent / (1000 * 3600 * 24));
+
+  let days;
+  if (differentDays === 0) {
+    days = 'today';
+  } else {
+    days = `${differentDays} days ago`;
+  }
+
+  const modiCurrentDate = new Date();
+  const modiDateToCompare = new Date(modifiedAt);
+
+  const modeTimeDifferent = Math.abs(
+    modiCurrentDate.getTime() - modiDateToCompare.getTime()
+  );
+  const modiDifferentDays = Math.ceil(modeTimeDifferent / (1000 * 3600 * 24));
+
+  let modiDays;
+  if (modiDifferentDays === 0) {
+    modiDays = 'today';
+  }
+  if (modiDifferentDays > 100) {
+    modiDays = '';
+  } else {
+    modiDays = `${modiDifferentDays} days ago`;
+  }
 
   return (
     <>
@@ -77,8 +107,8 @@ const QuestionHeader = ({ title, createAt, modifiedAt, viewCount }) => {
         <AskButton onClick={handleAsk}>Ask Question</AskButton>
       </TitleContainer>
       <DateContainer>
-        <CreatedAt>Asked: {createAt}</CreatedAt>
-        <ModifiedAt>Modified: {modifiedAt}</ModifiedAt>
+        <CreatedAt>Asked: {days}</CreatedAt>
+        <ModifiedAt>Modified: {modiDays}</ModifiedAt>
         <ViewCount>Views:{viewCount}</ViewCount>
       </DateContainer>
       <Line />
@@ -88,8 +118,12 @@ const QuestionHeader = ({ title, createAt, modifiedAt, viewCount }) => {
 QuestionHeader.propTypes = {
   title: PropTypes.string.isRequired,
   createAt: PropTypes.string.isRequired,
-  modifiedAt: PropTypes.string.isRequired,
+  modifiedAt: PropTypes.string,
   viewCount: PropTypes.number.isRequired,
+};
+
+QuestionHeader.defaultProps = {
+  modifiedAt: '',
 };
 
 export default QuestionHeader;

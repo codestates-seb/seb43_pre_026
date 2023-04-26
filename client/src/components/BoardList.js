@@ -101,7 +101,7 @@ function BoardList() {
   }, []);
 
   useEffect(() => {
-    const getMemberData = async () => {
+    const getData = async () => {
       try {
         const response = await axios.get('/members/1', {
           headers: {
@@ -116,7 +116,7 @@ function BoardList() {
         console.log(error);
       }
     };
-    getMemberData();
+    getData();
   }, []);
 
   const navigate = useNavigate();

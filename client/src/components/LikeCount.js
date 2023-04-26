@@ -22,11 +22,13 @@ const Like = styled(TbTriangleInverted)`
   font-size: 30px;
   color: #babfc4;
   transform: rotate(180deg);
+  cursor: pointer;
 `;
 
 const DisLike = styled(TbTriangleInverted)`
   font-size: 30px;
   color: #babfc4;
+  cursor: pointer;
 `;
 
 const LikeCount = ({ likeCount, boardId }) => {

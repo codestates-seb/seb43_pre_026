@@ -86,18 +86,18 @@ const CommentId = styled.div`
   padding-left: 3px;
 `;
 
-const Answers = ({ filteredAnswer, answerId }) => {
+const Answers = ({ filteredAnswer }) => {
   console.log(filteredAnswer.answer);
   return (
     <Container>
       <AnswerCount>{filteredAnswer.answer.length} Answers</AnswerCount>
       {filteredAnswer.answer.map((answer) => (
-        <AnswerContainer key={filteredAnswer.answer.answerId}>
+        <AnswerContainer key={answer.answerId}>
           <LineContainer>
             <InnerAnswer>
               <AnswerLikeCount
                 likeCount={answer.likeCount}
-                answerId={answerId}
+                answerId={answer.answerId}
               />
               <AnswerContent>{answer.content}</AnswerContent>
               <AnswerId>{answer.memberNickname}</AnswerId>
@@ -108,7 +108,7 @@ const Answers = ({ filteredAnswer, answerId }) => {
                   (answerComment) => answerComment.parentId === answer.answerId
                 )
                 .map((answerComment) => (
-                  <CommentContainer key={filteredAnswer.answerComment.answerId}>
+                  <CommentContainer key={answerComment.answerId}>
                     <LineContent>
                       <CommentLine />
                       <CommentAround>
@@ -133,7 +133,7 @@ const Answers = ({ filteredAnswer, answerId }) => {
 
 Answers.propTypes = {
   filteredAnswer: PropTypes.object.isRequired,
-  answerId: PropTypes.number.isRequired,
+  // answerId: PropTypes.number.isRequired,
 };
 
 export default Answers;
