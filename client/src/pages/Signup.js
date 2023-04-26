@@ -20,7 +20,6 @@ const Signup = () => {
     align-items: center;
     justify-content: space-between;
   `;
-
   const FormOauth = styled.div`
     display: flex;
     flex-direction: column;

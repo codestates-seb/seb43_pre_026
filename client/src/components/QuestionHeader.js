@@ -1,7 +1,7 @@
 import React from 'react';
-import { dummy } from './Question';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const TitleContainer = styled.div`
   display: flex;
@@ -13,10 +13,11 @@ const Title = styled.div`
   font-size: 35px;
 `;
 const DateContainer = styled.div`
-  width: 100%;
+  width: 60%;
+  margin-right: auto;
   margin-top: 20px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: leㅈft;
 `;
 
 const CreatedAt = styled.div`
@@ -25,11 +26,14 @@ const CreatedAt = styled.div`
 
 const ModifiedAt = styled.div`
   flex: 1;
-  margin-right: 350px;
+`;
+
+const ViewCount = styled.div`
+  flex: 1;
 `;
 
 const Line = styled.div`
-  border: 1px solid black;
+  border: 1px solid #888889;
   width: 100%;
   margin-top: 20px;
 `;
@@ -56,26 +60,70 @@ const AskButton = styled.div`
   }
 `;
 
-const QuestionHeader = () => {
+const QuestionHeader = ({ title, createAt, modifiedAt, viewCount }) => {
   const navigate = useNavigate();
 
   const handleAsk = () => {
     navigate('/questionsubmit');
   };
 
+  const currentDate = new Date();
+  const dateToCompare = new Date(createAt);
+
+  const timeDifferent = Math.abs(
+    currentDate.getTime() - dateToCompare.getTime()
+  );
+  const differentDays = Math.ceil(timeDifferent / (1000 * 3600 * 24));
+
+  let days;
+  if (differentDays === 0) {
+    days = 'today';
+  } else {
+    days = `${differentDays} days ago`;
+  }
+
+  const modiCurrentDate = new Date();
+  const modiDateToCompare = new Date(modifiedAt);
+
+  const modeTimeDifferent = Math.abs(
+    modiCurrentDate.getTime() - modiDateToCompare.getTime()
+  );
+  const modiDifferentDays = Math.ceil(modeTimeDifferent / (1000 * 3600 * 24));
+
+  let modiDays;
+  if (modiDifferentDays === 0) {
+    modiDays = 'today';
+  }
+  if (modiDifferentDays > 100) {
+    modiDays = '';
+  } else {
+    modiDays = `${modiDifferentDays} days ago`;
+  }
+
   return (
     <>
       <TitleContainer>
-        <Title>{dummy.title}</Title>
+        <Title>{title}</Title>
         <AskButton onClick={handleAsk}>Ask Question</AskButton>
       </TitleContainer>
       <DateContainer>
-        <CreatedAt>Asked: {dummy.createAt}</CreatedAt>
-        <ModifiedAt>Modified: {dummy.modifiedAt}</ModifiedAt>
+        <CreatedAt>Asked: {days}</CreatedAt>
+        <ModifiedAt>Modified: {modiDays}</ModifiedAt>
+        <ViewCount>Views:{viewCount}</ViewCount>
       </DateContainer>
       <Line />
     </>
   );
+};
+QuestionHeader.propTypes = {
+  title: PropTypes.string.isRequired,
+  createAt: PropTypes.string.isRequired,
+  modifiedAt: PropTypes.string,
+  viewCount: PropTypes.number.isRequired,
+};
+
+QuestionHeader.defaultProps = {
+  modifiedAt: '',
 };
 
 export default QuestionHeader;

@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import QuestionSubmit from './pages/QuestionSubmit';
 import UserEdit from './pages/UserEdit';
 import Users from './pages/Users';
+import Search from './pages/Search';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Route path="/useredit" element={<UserEdit />} />
         <Route path="/users" element={<Users />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/questions" element={<Questions />} />
+        <Route path="/boards/:boardId" element={<Questions />} />
+        <Route path="/search/:searchValue" element={<Search />} />
       </Routes>
     </>
   );

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { TbTriangleInverted } from 'react-icons/tb';
+import LikeCount from './LikeCount';
+import Comment from './Comment';
+import PropTypes from 'prop-types';
 
 export const dummy = {
   title: 'How do I get the current date in typst?',
@@ -16,43 +18,29 @@ export const dummy = {
   tag: ['java', 'react', 'cors'],
 };
 
-const dummyComment = [
+// const dummyComment = [
+//   {
+//     number: '1',
+//     id: 'taeyoung',
+//     content:
+//       'Comment test test test~Comment test test test~Comment test test test~Comment test test test~',
+//   },
+//   {
+//     number: '2',
+//     id: 'miso',
+//     content: 'Comment test test test~',
+//   },
+// ];
+
+export const answer = [
   {
-    number: '1',
-    id: 'taeyoung',
+    number: '5',
+    id: 'taeyoung1',
     content:
       'Comment test test test~Comment test test test~Comment test test test~Comment test test test~',
-  },
-  {
-    number: '2',
-    id: 'miso',
-    content: 'Comment test test test~',
+    likeCount: 5,
   },
 ];
-
-const LikeCountContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 30px;
-  height: 120px;
-  color: gray;
-  font-weight: 600;
-  margin-left: 5px;
-  margin-top: 30px;
-`;
-
-const LikeCount = styled(TbTriangleInverted)`
-  font-size: 30px;
-  color: #babfc4;
-  transform: rotate(180deg);
-`;
-
-const DisLikeCount = styled(TbTriangleInverted)`
-  font-size: 30px;
-  color: #babfc4;
-`;
 
 const ContentContainer = styled.div`
   margin-left: 20px;
@@ -80,179 +68,135 @@ const TagContainer = styled.div`
   margin-top: 10px;
 `;
 
-const AddComment = styled.div`
-  margin-top: 30px;
-  font-size: 16px;
-  color: #888889;
-  cursor: pointer;
-`;
-
-const CommentForm = styled.form`
+const CommentList = styled.div`
   margin-top: 20px;
-  display: ${(props) => (props.show ? 'block' : 'none')};
+  width: 92%;
 `;
-
-const CommentTextArea = styled.textarea`
-  width: 100%;
-  height: 100px;
-`;
-
-const CommentButton = styled.button`
-  height: 30px;
-  width: 60px;
-  font-size: 15px;
-  color: white;
-  border-radius: 3px;
-  border: 1.2px solid #0a95ff;
-  background-color: #0a95ff;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: #006bb3;
-    border: 1.2px solid #006bb3;
-  }
-`;
-
-const CancleButton = styled.button`
-  height: 30px;
-  width: 60px;
-  font-size: 15px;
-  color: #0a95ff;
-  border-radius: 3px;
-  margin-left: 3px;
-  border: 1.2px solid #0a95ff;
-  background-color: white;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: #d0e3f1;
-    border: 1.2px solid #0a95ff;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-`;
-
-const CommentListContainer = styled.div``;
 
 const CommentLine = styled.div`
-  border: 1px solid gray;
+  border: 1px solid #e3e6e8;
   width: 100%;
-  margin-top: 20px;
 `;
-
 const CommentContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const CommentLineContent = styled.div`
+const LineContent = styled.div`
   width: 100%;
 `;
 
 const CommentAround = styled.div`
-  margin-top: 10px;
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
 `;
 
 const CommentContent = styled.div`
   font-size: 15px;
+  margin-top: 7px;
+  margin-left: 15px;
+  margin-bottom: 7px;
+  color: #0d0d0d;
 `;
 
 const CommentId = styled.div`
   font-size: 17px;
   font-weight: 500;
+  color: #0a95ff;
+  padding-left: 3px;
+`;
+// const CommentNumber = styled.div`
+//   color: gray;
+//   width: 25px;
+//   font-size: 17px;
+// `;
+
+const UserProfile = styled.div`
+  width: 200px;
+  height: 70px;
+  background-color: #d9eaf7;
+  border-radius: 3px;
   margin-left: auto;
 `;
 
-const CommentNumber = styled.div`
-  color: gray;
-  width: 25px;
-  font-size: 17px;
+const AskTime = styled.div`
+  font-size: 15px;
+  padding-top: 5px;
+  padding-left: 5px;
 `;
+const UserImg = styled.div``;
+const UserName = styled.div``;
 
-const Question = () => {
-  const [showCommentForm, setShowCommentForm] = useState(false);
-  const [comment, setComment] = useState('');
-
-  const handleAddCommentClick = () => {
-    setShowCommentForm(true);
-  };
-
-  const handleCancelClick = () => {
-    setShowCommentForm(false);
-    setComment('');
-  };
-
-  const handleCommentSubmit = (e) => {
-    e.preventDefault();
-    console.log(comment);
-    setShowCommentForm(false);
-    setComment('');
-    alert('등록되었습니다!');
-  };
-
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
+const Question = ({
+  content,
+  contentTry,
+  likeCount,
+  tagNames,
+  memberNickname,
+  createdAt,
+  userImg,
+  memberId,
+  boardId,
+  comments,
+}) => {
+  const date = new Date(createdAt);
+  const formattedDate = date.toLocaleString('en-KR', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: false,
+  });
 
   return (
     <>
       <Body>
-        <LikeCountContainer>
-          <LikeCount />
-          {dummy.likeCount}
-          <DisLikeCount />
-        </LikeCountContainer>
+        <LikeCount likeCount={likeCount} boardId={boardId} />
         <ContentContainer>
-          {dummy.content}
+          <div>{content}</div>
+          <div>{contentTry}</div>
           <TagContainer>
-            {dummy.tag.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
+            {tagNames.map(({ tagId, tagName }) => (
+              <Tag key={tagId}>{tagName}</Tag>
             ))}
           </TagContainer>
+          <UserProfile>
+            <AskTime>asked: {formattedDate}</AskTime>
+            <UserImg>{userImg}</UserImg>
+            <UserName>{memberNickname}</UserName>
+          </UserProfile>
           {/*              코멘트              */}
-          <CommentListContainer>
-            {dummyComment.map((i) => (
-              <CommentContainer key={i.id}>
-                <CommentLineContent>
+          <CommentList>
+            {comments.map((comment) => (
+              <CommentContainer key={comment.answerId}>
+                <LineContent>
                   <CommentLine />
                   <CommentAround>
-                    <CommentNumber>{i.number}</CommentNumber>
-                    <CommentContent>{i.content}</CommentContent>
-                    <CommentId>{i.id}</CommentId>
+                    <CommentContent>{comment.content} -</CommentContent>
+                    <CommentId>{comment.memberNickname}</CommentId>
                   </CommentAround>
-                </CommentLineContent>
+                </LineContent>
               </CommentContainer>
             ))}
-          </CommentListContainer>
-          {/*              코멘트 추가            */}
-          <AddComment onClick={handleAddCommentClick}>Add a comment</AddComment>
-          <CommentForm show={showCommentForm} onSubmit={handleCommentSubmit}>
-            <CommentTextArea
-              value={comment}
-              onChange={handleCommentChange}
-              placeholder="댓글을 입력해주세요!"
-              required
-            />
-            <ButtonContainer>
-              <CommentButton type="submit">Submit</CommentButton>
-              <CancleButton type="button" onClick={handleCancelClick}>
-                Cancle
-              </CancleButton>
-            </ButtonContainer>
-          </CommentForm>
+          </CommentList>
+          <Comment memberId={memberId} boardId={boardId} />
         </ContentContainer>
       </Body>
     </>
   );
 };
+
+Question.propTypes = {
+  content: PropTypes.string.isRequired,
+  contentTry: PropTypes.string.isRequired,
+  likeCount: PropTypes.number.isRequired,
+  tagNames: PropTypes.array.isRequired,
+  memberNickname: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  userImg: PropTypes.string.isRequired,
+  memberId: PropTypes.number.isRequired,
+  boardId: PropTypes.number.isRequired,
+  comments: PropTypes.array.isRequired,
+};
+
 export default Question;
