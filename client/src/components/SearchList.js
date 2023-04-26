@@ -82,8 +82,6 @@ function SearchList({ searchDataDivide }) {
   const [boards, setBoards] = useState([]);
   const selectedOption = searchDataDivide[0];
   const inputValue = searchDataDivide[1];
-  console.log(selectedOption);
-  console.log(inputValue);
 
   useEffect(() => {
     const getData = async () => {
@@ -97,7 +95,6 @@ function SearchList({ searchDataDivide }) {
           }
         );
         setBoards(response.data);
-        console.log(1, response.data);
       } catch (error) {
         console.log(error);
       }

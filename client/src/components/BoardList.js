@@ -92,7 +92,6 @@ function BoardList() {
           },
         });
         setBoards(response.data);
-        // console.log(1, response.data);
       } catch (error) {
         console.log(error);
       }

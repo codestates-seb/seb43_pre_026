@@ -34,10 +34,7 @@ const Questions = () => {
 
           const filteredAnswer = AnswerFilter(res.data.answers);
           setFilteredAnswer(filteredAnswer);
-          console.log(res.data);
-          console.log('보내주기전 엔서 아이디', filteredAnswer.answer.answerId);
         }
-        console.log(board);
       } catch (error) {
         console.error(error);
       }

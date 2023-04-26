@@ -104,7 +104,6 @@ const SignupForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     axios
       .post(
         '/members',
@@ -122,8 +121,7 @@ const SignupForm = () => {
           },
         }
       )
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         alert('회원가입에 성공하였습니다!');
         setFormData({
           nickname: '',
