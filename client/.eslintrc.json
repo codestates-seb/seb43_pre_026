@@ -26,6 +26,7 @@
         "endOfLine": "auto",
         "useTabs": false
       }
-    ]
+    ],
+    "react/prop-types": "off"
   }
 }
