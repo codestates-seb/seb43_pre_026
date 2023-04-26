@@ -16,7 +16,7 @@ public interface MemberMapper {
     Member memberPutDtoToMember(MemberDto.Put requestBody);
     MemberDto.Response memberToMemberResponse(Member member);
 
-    default MemberDto.MemberResponse memberToMemberResponse2(Member member) {
+    default MemberDto.MemberResponse memberToMemberResponse2(Member member, String url) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         return MemberDto.MemberResponse.builder()
                 .memberName(member.getMemberName())
@@ -34,6 +34,7 @@ public interface MemberMapper {
                             .build())
                         .collect(Collectors.toList()))
                 .memberDay(ChronoUnit.DAYS.between(member.getCreatedAt() , currentDateTime)+ 1)
+                .pngUrl(url)
                 .build();
     }
 
