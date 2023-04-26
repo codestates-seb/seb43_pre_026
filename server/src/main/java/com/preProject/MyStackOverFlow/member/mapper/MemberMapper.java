@@ -34,6 +34,7 @@ public interface MemberMapper {
                             .build())
                         .collect(Collectors.toList()))
                 .memberDay(ChronoUnit.DAYS.between(member.getCreatedAt() , currentDateTime)+ 1)
+                .pngUrl(url)
                 .build();
     }
 
