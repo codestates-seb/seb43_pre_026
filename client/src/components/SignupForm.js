@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Label = styled.label`
   width: 300px;
@@ -39,7 +40,7 @@ const Button = styled.button`
   border: 1.2px solid #0a95ff;
   cursor: pointer;
   border-radius: 4px;
-  margin-top: 55px;
+  margin-top: 20px;
   margin-bottom: 15px;
   box-shadow: inset 0 1.2px 0 0 hsla(0, 0%, 100%, 0.4);
 
@@ -74,19 +75,72 @@ const Endtext = styled.div`
   top: 40px;
 `;
 
-const SignupForm = () => {
+const SignupForm = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    memberUserid: '',
+    memberPassword: '',
+    memberEmail: '',
+    memberName: '',
+    memberNickname: '',
+    memberDescription: '',
+  });
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
   return (
     <>
-      <Form>
+      <Form onSubmit={(event) => onSubmit(formData, event)}>
         <Container>
-          <Label htmlFor="nicname">Display name</Label>
-          <Input type="text" id="nicname" />
-          <Label htmlFor="username">Username</Label>
-          <Input type="text" id="username" />
-          <Label htmlFor="password">Email</Label>
-          <Input type="text" id="password" />
-          <Label htmlFor="email">Password</Label>
-          <Input type="text" id="email" />
+          <Label htmlFor="memberUserid">Userid</Label>
+          <Input
+            type="text"
+            id="memberUserid"
+            name="memberUserid"
+            value={formData.memberUserid}
+            onChange={handleChange}
+          />
+          <Label htmlFor="memberPassword">Password</Label>
+          <Input
+            type="text"
+            id="memberPassword"
+            name="memberPassword"
+            value={formData.memberPassword}
+            onChange={handleChange}
+          />
+          <Label htmlFor="memberEmail">Email</Label>
+          <Input
+            type="text"
+            id="memberEmail"
+            name="memberEmail"
+            value={formData.memberEmail}
+            onChange={handleChange}
+          />
+          <Label htmlFor="memberName">Name</Label>
+          <Input
+            type="text"
+            id="memberName"
+            name="memberName"
+            value={formData.memberName}
+            onChange={handleChange}
+          />
+          <Label htmlFor="memberNickname">Nickname</Label>
+          <Input
+            type="text"
+            id="memberNickname"
+            name="memberNickname"
+            value={formData.memberNickname}
+            onChange={handleChange}
+          />
+          <Label htmlFor="memberDescription">Description</Label>
+          <Input
+            type="text"
+            id="memberDescription"
+            name="memberDescription"
+            value={formData.memberDescription}
+            onChange={handleChange}
+          />
           <Passtext>
             Passwords must contain at least eight characters, including at least
             1 letter and 1 number.
@@ -103,6 +157,10 @@ const SignupForm = () => {
       </Endtext>
     </>
   );
+};
+
+SignupForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default SignupForm;

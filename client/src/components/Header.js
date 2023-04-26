@@ -133,7 +133,7 @@ const Logout = styled.button`
 `;
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [selectedOption, setSelectedOption] = useState('All');
 
   const navigate = useNavigate();
@@ -158,6 +158,10 @@ const Header = () => {
     setIsLoggedIn(false);
   };
 
+  const handleUserInfo = () => {
+    navigate('/users');
+  };
+
   return (
     <Fixed>
       <Line />
@@ -175,7 +179,7 @@ const Header = () => {
         </Search>
         {isLoggedIn ? (
           <>
-            <UserInfo />
+            <UserInfo onClick={handleUserInfo} />
             <Logout handleLogout={handleLogout}>Log out</Logout>
           </>
         ) : (

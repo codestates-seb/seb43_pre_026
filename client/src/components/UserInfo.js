@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import profile from '../assets/profile.png';
+import axios from 'axios';
 //import { MdCake, MdSchedule } from 'react-icons/md';
 
 const Container = styled.div`
@@ -58,15 +59,43 @@ const DayInfo = styled.div`
 `;
 
 const UserInfo = () => {
+  const [userData, setUserData] = useState({
+    memberNickname: '',
+    profileImage: profile,
+    joined: '',
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/members/1', {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
+        const { memberNickname, profileImage, joined } = response.data.data;
+
+        setUserData({
+          memberNickname: memberNickname,
+          profileImage: profileImage || profile,
+          joined: new Date(joined).toLocaleDateString(),
+        });
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
   return (
     <Container>
       <ProfileContainer>
-        <Image src={profile} alt="profile" />
+        <Image src={userData.profileImage} alt="profile" />
         <ProfileInfoWrapper>
           <Profile>
-            <Name>user name</Name>
+            <Name>{userData.memberNickname || 'user name'}</Name>
             <DayInfo>
-              <div>Member since today</div>
+              <div>Member since {userData.joined || 'today'}</div>
             </DayInfo>
           </Profile>
         </ProfileInfoWrapper>

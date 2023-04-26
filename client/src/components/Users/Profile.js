@@ -25,7 +25,6 @@ const Image = styled.img`
   width: 115px;
   height: 115px;
   border: 1px solid gray;
-
   margin-right: 30px;
   margin-top: 48px;
   margin-left: 20px;
