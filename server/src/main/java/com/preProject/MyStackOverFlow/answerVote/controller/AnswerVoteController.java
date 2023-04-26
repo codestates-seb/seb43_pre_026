@@ -4,9 +4,9 @@ import com.preProject.MyStackOverFlow.answerVote.dto.AnswerVoteDto;
 import com.preProject.MyStackOverFlow.answerVote.entity.AnswerVote;
 import com.preProject.MyStackOverFlow.answerVote.mapper.AnswerVoteMapper;
 import com.preProject.MyStackOverFlow.answerVote.service.AnswerVoteService;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +16,7 @@ import javax.validation.Valid;
 @Validated
 @RequestMapping("/answer/vote")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Tag(name = "AnswerVoteController", description = "답변 투표 API")
 @RestController
 public class AnswerVoteController {
     private AnswerVoteMapper answerVoteMapper;
@@ -30,11 +31,11 @@ public class AnswerVoteController {
             "1. answerVote가 1이면 추천입니다. \n" +
             "2. answerVote가 0이면 비추천입니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "정상 처리되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다."),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @PatchMapping
     public int patchAnswerlike(@Valid @RequestBody AnswerVoteDto.Post answerVotePostDto) {

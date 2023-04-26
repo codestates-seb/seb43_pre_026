@@ -3,8 +3,7 @@ package com.preProject.MyStackOverFlow.board.dto;
 import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.entity.BoardTag;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -15,15 +14,16 @@ import java.util.List;
 
 public class BoardDto {
 
-    @ApiModel("Board Post")
     @Getter
     public static class Post {
-
+        @Parameter(required = true)
         @Positive
         private long memberId;
+        @Parameter(required = true)
         @NotEmpty(message = "제목을 작성해 주세요.")
         @Length(max = 100, message = "제목은 100자 이상 작성할 수 없습니다.")
         private String title;
+        @Parameter(required = true)
         @NotEmpty(message = "발생한 문제를 작성해 주세요.")
         private String content;
         @NotEmpty(message = "문제를 해결하기 위해 시도한 내용을 작성해 주세요.")
@@ -41,6 +41,7 @@ public class BoardDto {
     @Data
     public static class Put {
 
+        @Parameter(required = true)
         @Positive
         private long boardId;
         @Length(max = 100, message = "제목은 100자 이상 작성할 수 없습니다.")

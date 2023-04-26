@@ -3,7 +3,6 @@ package com.preProject.MyStackOverFlow.board.entity;
 import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.boardVote.entity.BoardVote;
 import com.preProject.MyStackOverFlow.member.entity.Member;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

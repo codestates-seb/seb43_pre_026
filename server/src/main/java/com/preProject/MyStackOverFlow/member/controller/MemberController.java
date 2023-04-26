@@ -1,16 +1,19 @@
 package com.preProject.MyStackOverFlow.member.controller;
 
+import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
 import com.preProject.MyStackOverFlow.member.dto.MemberDto;
 import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
 import com.preProject.MyStackOverFlow.member.entity.Member;
 import com.preProject.MyStackOverFlow.response.SingleResponseDto;
 import com.preProject.MyStackOverFlow.member.service.MemberService;
 import com.preProject.MyStackOverFlow.utils.UriCreator;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ import java.net.URI;
 @RequestMapping("/members")
 @Validated
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Tag(name = "MemberController", description = "회원 정보 API")
 @Slf4j
 public class MemberController {
 
@@ -45,11 +49,11 @@ public class MemberController {
     // 회원 정보 등록
     @Operation(summary = "회원 정보 등록", description = "회원 정보를 등록합니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "회원이 등록되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "201", description = "회원이 등록되었습니다."),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @PostMapping("")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
@@ -66,11 +70,12 @@ public class MemberController {
     @Operation(summary = "회원 정보 조회", description = "회원 식별자(memberId)에 해당하는 회원 정보를 조회합니다.")
     @Parameter(name = "member-id", description = "회원 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "정상 처리되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
+                    content = @Content(schema = @Schema(implementation = MemberDto.MemberResponse.class))),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") long memberId) {
@@ -83,11 +88,12 @@ public class MemberController {
                 "수정이 필요한 정보만 입력하시면 됩니다.")
     @Parameter(name = "member-id", description = "회원 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "정상 처리되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
+                    content = @Content(schema = @Schema(implementation = MemberDto.Response.class))),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @PutMapping("/{member-id}")
     public ResponseEntity putMember(
@@ -103,11 +109,11 @@ public class MemberController {
     @Operation(summary = "회원 정보 삭제", description = "회원 식별자(memberId)에 해당하는 회원 정보를 삭제합니다.")
     @Parameter(name = "member-id", description = "회원 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "회원 정보가 삭제되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "204", description = "회원 정보가 삭제되었습니다."),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(

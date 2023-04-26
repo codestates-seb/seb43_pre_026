@@ -5,11 +5,14 @@ import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.answer.mapper.AnswerMapper;
 import com.preProject.MyStackOverFlow.answer.mapper.Response;
 import com.preProject.MyStackOverFlow.answer.service.AnswerService;
+import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.utils.UriCreator;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,7 @@ import java.util.List;
 @RequestMapping("/answer")
 @Validated
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Tag(name = "AnswerController", description = "답변/댓글 API")
 @Slf4j
 public class AnswerController {
     private final static String ANSWER_DEFAULT_URL = "/answer";
@@ -45,11 +49,11 @@ public class AnswerController {
                     "2. answerCheck가 true이고 parent에 answerId를 작성하시면 answerId의 답변에 대한 댓글입니다. \n" +
                     "3. answerCheck가 false이면 게시글(질문)에 달린 댓글입니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "답변/댓글이 등록되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "201", description = "답변/댓글이 등록되었습니다."),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @PostMapping()
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post answerPostDto) {
@@ -62,11 +66,11 @@ public class AnswerController {
     @Operation(summary = "답변 투표 수 수정", description = "답변 식별자(answerId)에 해당하는 투표 수를 수정합니다.")
     @Parameter(name = "answer-id", description = "답변 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "투표 수가 수정되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "200", description = "투표 수가 수정되었습니다."),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @PatchMapping("/{answerId}")
     public int patchAnswerlike(@PathVariable("answerId") @Positive long answerId) {
@@ -91,11 +95,12 @@ public class AnswerController {
 
     @Operation(summary = "답변 조회", description = "답변을 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "정상 처리되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
+                    content = @Content(schema = @Schema(implementation = AnswerDto.Response.class))),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAnswers() {
@@ -107,11 +112,11 @@ public class AnswerController {
     @Operation(summary = "답변/댓글 정보 삭제", description = "답변 식별자(answerId)에 해당하는 답변/댓글을 삭제합니다.")
     @Parameter(name = "board-id", description = "게시글 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "게시글이 삭제되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "204", description = "게시글이 삭제되었습니다."),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @DeleteMapping("/{answerId}")
     public ResponseEntity deleteMember(
@@ -125,11 +130,12 @@ public class AnswerController {
             "수정이 필요한 정보만 입력하시면 됩니다.")
     @Parameter(name = "answer-id", description = "답변/댓글 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "정상 처리되었습니다."),
-            @ApiResponse(code = 404, message = "정보를 찾을 수 없습니다."),
-            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
-            @ApiResponse(code = 401, message = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
-            @ApiResponse(code = 403, message = "요청에 대한 권한이 없습니다.")
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
+                    content = @Content(schema = @Schema(implementation = AnswerDto.Response.class))),
+            @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
+            @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @PutMapping("/{answerId}")
     public ResponseEntity patchMember(
