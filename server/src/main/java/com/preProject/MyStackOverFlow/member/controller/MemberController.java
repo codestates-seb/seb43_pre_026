@@ -1,6 +1,7 @@
 package com.preProject.MyStackOverFlow.member.controller;
 
-import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
+import com.amazonaws.services.s3.AmazonS3;
+import com.preProject.MyStackOverFlow.awsS32.StorageService;
 import com.preProject.MyStackOverFlow.helper.swagger.ResponseContent;
 import com.preProject.MyStackOverFlow.member.dto.MemberDto;
 import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
@@ -21,10 +22,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.net.URL;
 
 @RestController
 @RequestMapping("/members")
@@ -34,16 +37,22 @@ import java.net.URI;
 @Slf4j
 public class MemberController {
 
+    private final AmazonS3 s3Client;
     private final MemberService memberService;
     private final static String MEMBER_DEFAULT_URL = "/members";
     private final MemberMapper memberMapper;
+    private final StorageService service;
 
 
 
     public MemberController(MemberMapper memberMapper,
-                           MemberService memberService) {
+                           MemberService memberService,
+                            StorageService service,
+                            AmazonS3 s3Client) {
         this.memberMapper = memberMapper;
         this.memberService = memberService;
+        this.service = service;
+        this.s3Client = s3Client;
 
     }
 
@@ -82,7 +91,11 @@ public class MemberController {
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") long memberId) {
         Member member = memberService.findMember(memberId);
-        return new ResponseEntity<>(new SingleResponseDto<>(memberMapper.memberToMemberResponse2(member)), HttpStatus.OK);
+
+        URL url = s3Client.getUrl("mystackoverflows", Long.toString(memberId));
+        String urltext = ""+url;
+
+        return new ResponseEntity<>(new SingleResponseDto<>(memberMapper.memberToMemberResponse2(member, urltext)), HttpStatus.OK);
     }
 
     // 회원 정보 수정
@@ -99,8 +112,14 @@ public class MemberController {
     @PutMapping("/{member-id}")
     public ResponseEntity putMember(
             @PathVariable("member-id") @Positive long memberId,
-            @Valid @RequestBody MemberDto.Put requestBody) {
+            @RequestParam(value = "file") MultipartFile file,
+            @RequestParam(value = "memberLink") String memberLink) {
+
+        service.deleteFile(Long.toString(memberId));
+        MemberDto.Put requestBody = new MemberDto.Put();
+        requestBody.setMemberLink(memberLink);
         requestBody.setMemberId(memberId);
+        service.uploadFile(file, memberId);
 
         Member member = memberService.updateMember(memberMapper.memberPutDtoToMember(requestBody));
         return new ResponseEntity<>(new SingleResponseDto<>(memberMapper.memberPutDtoToMember2(member)), HttpStatus.OK);
