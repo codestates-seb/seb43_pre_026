@@ -1,6 +1,7 @@
 package com.preProject.MyStackOverFlow.answer.dto;
 
 import com.preProject.MyStackOverFlow.answer.entity.Answer;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,11 +14,15 @@ public class AnswerDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
+        @Parameter(required = true)
         @Positive
         private long memberId;
+        @Parameter(required = true)
         @Positive
         private long boardId;
+        @Parameter(required = true)
         private String content;
+        @Parameter(required = true)
         private boolean answerCheck;
         private Answer parent;
         public Post(String content){
@@ -29,6 +34,7 @@ public class AnswerDto {
     @Setter
     @AllArgsConstructor
     public static class Put {
+        @Parameter(required = true)
         private long answerId;
         private String content;
     }

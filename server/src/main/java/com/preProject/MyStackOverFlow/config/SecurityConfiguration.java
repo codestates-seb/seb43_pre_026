@@ -106,6 +106,7 @@ public class SecurityConfiguration {
 
             jwtAuthenticationFilter.setFilterProcessesUrl("/process_login");          // (2-5)
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
 
 

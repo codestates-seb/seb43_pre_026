@@ -20,25 +20,14 @@ repositories {
 	mavenCentral()
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
-
-configurations {
-	asciidoctorExtensions
-}
-
-
 dependencies {
-
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 //  Temporary explicit version to fix Thymeleaf bug
 //	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 	implementation 'org.springframework.security:spring-security-test'
-
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	implementation 'com.google.code.gson:gson:2.8.5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -57,34 +46,11 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'    // (1)
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  // (3)
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 
 
 }
 
 tasks.named('test') {
-	outputs.dir snippetsDir
 	useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-	configurations "asciidoctorExtensions"
-	inputs.dir snippetsDir
-	dependsOn test
-}
-
-task copyDocument(type: Copy) {
-	dependsOn asciidoctor
-	from file("${asciidoctor.outputDir}")
-	into file("src/main/resources/static/docs")
-}
-
-build {
-	dependsOn copyDocument
-}
-
-bootJar {
-	dependsOn copyDocument
-	from ("${asciidoctor.outputDir}") {
-		into 'statics/docs'
-	}
 }
