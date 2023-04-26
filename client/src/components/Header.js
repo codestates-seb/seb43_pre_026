@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import stackoverflow from '../assets/stackoverflow.svg';
 import { TbZoomQuestion } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
 
 const Line = styled.div`
   border: 2px solid #f48225;
@@ -78,7 +77,7 @@ const SearchIcon = styled(TbZoomQuestion)`
   color: #838c95;
   font-size: 22px;
   padding: 0 0 0 6px;
-  left: 68px;
+  left: 58px;
 `;
 
 const SearchInput = styled.input`
@@ -134,12 +133,8 @@ const Logout = styled.button`
 `;
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [selectedOption, setSelectedOption] = useState('All');
-  const [inputValue, setInputValue] = useState('');
-
-  const taeyoung = '태영태영';
-  console.log('헤더헤더:', taeyoung);
 
   const navigate = useNavigate();
 
@@ -163,33 +158,8 @@ const Header = () => {
     setIsLoggedIn(false);
   };
 
-  const handleInputValue = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleEnterPress = (e) => {
-    if (e.keyCode === 13) {
-      console.log(1);
-      search();
-    }
-  };
-
-  const search = () => {
-    // axios
-    //   .get(`/boards/list?${selectedOption}=${inputValue}`, {
-    //     headers: {
-    //       'ngrok-skip-browser-warning': '69420',
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-
-    //     navigate(`/search/list?${selectedOption}=${inputValue}`);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-    navigate(`/search/list?${selectedOption}=${inputValue}`);
+  const handleUserInfo = () => {
+    navigate('/users');
   };
 
   return (
@@ -200,23 +170,16 @@ const Header = () => {
         <Search>
           <SelectBox value={selectedOption} onChange={handleOptionChange}>
             <option value="All">All</option>
-            <option value="title">Title</option>
-            <option value="content">content</option>
-            <option value="memberNickname">Writer</option>
-            <option value="tagName">Tag</option>
+            <option value="Title">Title</option>
+            <option value="Writer">Writer</option>
+            <option value="Tag">Tag</option>
           </SelectBox>
           <SearchIcon />
-          <SearchInput
-            type="text"
-            placeholder="Search..."
-            value={inputValue}
-            onChange={handleInputValue}
-            onKeyDown={handleEnterPress}
-          />
+          <SearchInput type="text" placeholder="Search..." />
         </Search>
         {isLoggedIn ? (
           <>
-            <UserInfo />
+            <UserInfo onClick={handleUserInfo} />
             <Logout handleLogout={handleLogout}>Log out</Logout>
           </>
         ) : (
