@@ -14,7 +14,8 @@ const Container = styled.div`
   color: gray;
   font-weight: 600;
   margin-left: 5px;
-  margin-top: 30px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 `;
 
 const Like = styled(TbTriangleInverted)`
@@ -28,14 +29,22 @@ const DisLike = styled(TbTriangleInverted)`
   color: #babfc4;
 `;
 
-const LikeCount = ({ likeCount }) => {
+const LikeCount = ({ likeCount, boardId }) => {
   const handleLike = () => {
     axios
-      .patch('/test', {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
+      .patch(
+        `/answers/vote/${boardId}`,
+        {
+          memberId: 1,
+          boardId,
+          answerVote: 1,
         },
-      })
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      )
       .catch((error) => {
         console.error(error);
       });
@@ -43,11 +52,19 @@ const LikeCount = ({ likeCount }) => {
 
   const handleDisLike = () => {
     axios
-      .patch('/test', {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
+      .patch(
+        `/answers/vote/${boardId}`,
+        {
+          memberId: 1,
+          boardId,
+          answerVote: 0,
         },
-      })
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      )
       .catch((error) => {
         console.error(error);
       });
@@ -64,5 +81,6 @@ const LikeCount = ({ likeCount }) => {
 
 LikeCount.propTypes = {
   likeCount: PropTypes.number.isRequired,
+  boardId: PropTypes.number.isRequired,
 };
 export default LikeCount;

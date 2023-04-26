@@ -89,7 +89,7 @@ function SearchList({ searchDataDivide }) {
     const getData = async () => {
       try {
         const response = await axios.get(
-          `https://52e4-122-47-253-8.ngrok-free.app/boards/list?${selectedOption}=${inputValue}`,
+          `boards/list?${selectedOption}=${inputValue}`,
           {
             headers: {
               'ngrok-skip-browser-warning': '69420',

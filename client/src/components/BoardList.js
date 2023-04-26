@@ -81,13 +81,16 @@ const Content = styled.div`
 function BoardList() {
   const [boards, setBoards] = useState([]);
   // const { searchData } = useParams
+  const [members, setmembers] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(
-          'https://72fd-122-47-253-8.ngrok-free.app/boards'
-        );
+        const response = await axios.get('/boards', {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
         setBoards(response.data);
         // console.log(1, response.data);
       } catch (error) {
@@ -95,6 +98,25 @@ function BoardList() {
       }
     };
     getData();
+  }, []);
+
+  useEffect(() => {
+    const getMemberData = async () => {
+      try {
+        const response = await axios.get('/members/1', {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
+        setmembers(response.data);
+        console.log('멤버정보', members);
+
+        // console.log(1, response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMemberData();
   }, []);
 
   const navigate = useNavigate();

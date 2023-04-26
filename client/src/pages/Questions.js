@@ -19,6 +19,7 @@ const Container = styled.div`
 const Questions = () => {
   const [board, setBoard] = useState({});
   const { boardId } = useParams();
+  const [filteredAnswer, setFilteredAnswer] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,8 +31,9 @@ const Questions = () => {
         });
         if (res.data) {
           setBoard(res.data);
-          console.log('보드아이디', boardId);
-          console.log('태그 데이터', res.data.tagNames);
+
+          const filteredAnswer = AnswerFilter(res.data.answers);
+          setFilteredAnswer(filteredAnswer);
         }
         console.log(board);
       } catch (error) {
@@ -41,14 +43,23 @@ const Questions = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(board);
-  // }, [board, setBoard]);
+  const AnswerFilter = (answersData) => {
+    const answer = [];
+    const answerComment = [];
+
+    answersData.forEach((answersData) => {
+      if (answersData.parentId === 0) {
+        answer.push(answersData);
+      } else {
+        answerComment.push(answersData);
+      }
+    });
+    return { answer, answerComment };
+  };
 
   if (!board) {
     return <div>로딩 중...</div>;
   }
-
   return (
     <Container>
       {board.title ? (
@@ -64,8 +75,14 @@ const Questions = () => {
             contentTry={board.contentTry}
             likeCount={board.likeCount}
             tagNames={board.tagNames}
+            memberNickname={board.memberNickname}
+            createdAt={board.createdAt}
+            userImg={board.memberNickname}
+            memberId={board.memberId}
+            boardId={board.boardId}
+            comments={board.comments}
           />
-          <Answers />
+          <Answers filteredAnswer={filteredAnswer} answerId={board.answerId} />
           <AnswerForm boardId={boardId} />
         </>
       ) : (

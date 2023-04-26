@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const AddComment = styled.div`
   margin-top: 10px;
@@ -63,7 +62,7 @@ const ButtonContainer = styled.div`
   display: flex;
 `;
 
-const Comment = ({ memberId, boardId }) => {
+const AnswerComment = () => {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comment, setComment] = useState('');
 
@@ -82,20 +81,11 @@ const Comment = ({ memberId, boardId }) => {
     setShowCommentForm(false);
     setComment('');
 
-    axios
-      .post('/answer', {
-        comment,
-        memberId,
-        boardId,
-        answerCheck: false,
-      })
-      .then(() => {
-        alert('댓글이 등록 되었습니다!');
-      })
-      .catch((error) => {
-        console.log(error);
-        alert('오류 발생!');
-      });
+    axios.post('/answer', {
+      comment,
+    });
+
+    alert('등록되었습니다!');
   };
 
   const handleCommentChange = (e) => {
@@ -123,9 +113,4 @@ const Comment = ({ memberId, boardId }) => {
   );
 };
 
-Comment.propTypes = {
-  memberId: PropTypes.number.isRequired,
-  boardId: PropTypes.number.isRequired,
-};
-
-export default Comment;
+export default AnswerComment;

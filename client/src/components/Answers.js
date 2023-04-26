@@ -1,66 +1,139 @@
 import React from 'react';
 import styled from 'styled-components';
-import Comment from './Comment';
-import AnswerLikeCount from './LikeCount';
-const dummyComment = [
-  {
-    number: '1',
-    id: 'taeyoung',
-    content:
-      'Comment test test test~Comment test test test~Comment test test test~Comment test test test~',
-    likeCount: 5,
-  },
-  {
-    number: '2',
-    id: 'miso',
-    content: 'Comment test test test~',
-  },
-];
+import AnswerLikeCount from './AnswerLikeCount';
+import AnswerComment from './AnswerComment';
+import PropTypes from 'prop-types';
+
+const Container = styled.div`
+  width: 100%;
+`;
 
 const AnswerCount = styled.div`
   font-size: 25px;
-  margin-top: 12px;
-  margin-right: auto;
+  margin-top: 20px;
 `;
 
 const AnswerContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
 `;
-const AnswerContent = styled.div`
-  font-size: 20px;
-  margin-top: 30px;
-  margin-left: 20px;
-  white-space: pre-wrap;
+
+const InnerAnswer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
+`;
+
+const AnswerContent = styled.div`
+  font-size: 15px;
+  margin-left: 20px;
+
+  /* white-space: pre-wrap;
+  justify-content:left */
 `;
 
 const AnswerId = styled.div`
   font-size: 17px;
   font-weight: 500;
+  margin-left: auto;
+  padding-right: 10px;
+  margin-top: auto;
 `;
 
 const Line = styled.div`
-  border: 1px solid #888889;
+  margin-top: 5px;
+  border: 1px solid #e3e6e8;
   width: 100%;
-  margin-top: 20px;
 `;
 
-const Answers = () => {
-  return (
-    <div>
-      <AnswerCount>1 Answers</AnswerCount>
-      <AnswerContainer>
-        <AnswerLikeCount likeCount={dummyComment[0].likeCount} />
-        <AnswerContent>{dummyComment[0].content}</AnswerContent>
+const AnswerComments = styled.div`
+  width: 92%;
+  margin-left: 60px;
+  margin-top: 20px;
+`;
+const CommentContainer = styled.div``;
 
-        <AnswerId>{dummyComment[0].id}</AnswerId>
-      </AnswerContainer>
-      <Line />
-      <Comment />
-    </div>
+const LineContainer = styled.div`
+  width: 100%;
+`;
+
+const LineContent = styled.div`
+  width: 100%;
+`;
+const CommentLine = styled.div`
+  border: 1px solid #e3e6e8;
+  width: 100%;
+`;
+
+const CommentAround = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const CommentContent = styled.div`
+  font-size: 15px;
+  margin-top: 7px;
+  margin-left: 15px;
+  margin-bottom: 7px;
+  color: #0d0d0d;
+`;
+
+const CommentId = styled.div`
+  font-size: 17px;
+  font-weight: 500;
+  color: #0a95ff;
+  padding-left: 3px;
+`;
+
+const Answers = ({ filteredAnswer, answerId }) => {
+  console.log(filteredAnswer.answer);
+  return (
+    <Container>
+      <AnswerCount>{filteredAnswer.answer.length} Answers</AnswerCount>
+      {filteredAnswer.answer.map((answer) => (
+        <AnswerContainer key={filteredAnswer.answer.answerId}>
+          <LineContainer>
+            <InnerAnswer>
+              <AnswerLikeCount
+                likeCount={answer.likeCount}
+                answerId={answerId}
+              />
+              <AnswerContent>{answer.content}</AnswerContent>
+              <AnswerId>{answer.memberNickname}</AnswerId>
+            </InnerAnswer>
+            <AnswerComments>
+              {filteredAnswer.answerComment
+                .filter(
+                  (answerComment) => answerComment.parentId === answer.answerId
+                )
+                .map((answerComment) => (
+                  <CommentContainer key={filteredAnswer.answerComment.answerId}>
+                    <LineContent>
+                      <CommentLine />
+                      <CommentAround>
+                        <CommentContent>
+                          {answerComment.content} -
+                        </CommentContent>
+                        <CommentId>{answerComment.memberNickname}</CommentId>
+                      </CommentAround>
+                    </LineContent>
+                  </CommentContainer>
+                ))}
+              <AnswerComment answerComment={filteredAnswer.answerComment} />
+            </AnswerComments>
+
+            <Line />
+          </LineContainer>
+        </AnswerContainer>
+      ))}
+    </Container>
   );
+};
+
+Answers.propTypes = {
+  filteredAnswer: PropTypes.object.isRequired,
+  answerId: PropTypes.number.isRequired,
 };
 
 export default Answers;

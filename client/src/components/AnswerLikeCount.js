@@ -28,14 +28,22 @@ const DisLike = styled(TbTriangleInverted)`
   color: #babfc4;
 `;
 
-const AnswerLikeCount = ({ likeCount }) => {
+const AnswerLikeCount = ({ likeCount, answerId }) => {
   const handleLike = () => {
     axios
-      .patch('/test', {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
+      .patch(
+        `/answers/vote/${answerId}`,
+        {
+          memberId: 1,
+          answerId,
+          answerVote: 1,
         },
-      })
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      )
       .catch((error) => {
         console.error(error);
       });
@@ -43,11 +51,19 @@ const AnswerLikeCount = ({ likeCount }) => {
 
   const handleDisLike = () => {
     axios
-      .patch('/test', {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
+      .patch(
+        `/answers/vote/${answerId}`,
+        {
+          memberId: 1,
+          answerId,
+          answerVote: 0,
         },
-      })
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      )
       .catch((error) => {
         console.error(error);
       });
@@ -64,5 +80,6 @@ const AnswerLikeCount = ({ likeCount }) => {
 
 AnswerLikeCount.propTypes = {
   likeCount: PropTypes.number.isRequired,
+  answerId: PropTypes.number.isRequired,
 };
 export default AnswerLikeCount;
