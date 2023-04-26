@@ -41,7 +41,7 @@ public class MemberDto {
     @Data
     @NoArgsConstructor
     public static class Put {
-        @Parameter(required = true)
+
         private long memberId;
 
         private String memberName;

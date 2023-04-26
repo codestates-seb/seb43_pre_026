@@ -96,7 +96,7 @@ public class AnswerController {
     @Operation(summary = "답변 조회", description = "답변을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
-                    content = @Content(schema = @Schema(implementation = AnswerDto.Response.class))),
+                    content = @Content(schema = @Schema(implementation = AnswerDto.class))),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
@@ -130,8 +130,7 @@ public class AnswerController {
             "수정이 필요한 정보만 입력하시면 됩니다.")
     @Parameter(name = "answer-id", description = "답변/댓글 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
-                    content = @Content(schema = @Schema(implementation = AnswerDto.Response.class))),
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다."),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),

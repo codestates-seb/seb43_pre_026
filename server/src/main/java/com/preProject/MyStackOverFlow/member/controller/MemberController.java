@@ -71,7 +71,7 @@ public class MemberController {
     @Parameter(name = "member-id", description = "회원 식별자", example = "1")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
-                    content = @Content(schema = @Schema(implementation = MemberDto.MemberResponse.class))),
+            content = @Content(schema = @Schema(implementation = MemberDto.Response.class))),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
