@@ -60,6 +60,9 @@ public class Member {
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+    public Member(String email) {
+        this.memberEmail = email;
+    }
 
     public Member(String memberPassword, String memberEmail, String memberName, String memberNickname,
                   String memberTitle, String memberLink, String memberDescription) {

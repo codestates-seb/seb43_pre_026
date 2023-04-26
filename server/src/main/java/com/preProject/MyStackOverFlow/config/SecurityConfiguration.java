@@ -3,8 +3,11 @@ package com.preProject.MyStackOverFlow.config;
 import com.preProject.MyStackOverFlow.auth.filter.JwtAuthenticationFilter;
 import com.preProject.MyStackOverFlow.auth.filter.JwtVerificationFilter;
 import com.preProject.MyStackOverFlow.auth.handler.MemberAuthenticationSuccessHandler;
+import com.preProject.MyStackOverFlow.auth.handler.OAuth2MemberSuccessHandler;
 import com.preProject.MyStackOverFlow.auth.jwt.JwtTokenizer;
 import com.preProject.MyStackOverFlow.auth.utils.CustomAuthorityUtils;
+import com.preProject.MyStackOverFlow.member.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +17,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,7 +36,8 @@ public class SecurityConfiguration {
     private final CustomAuthorityUtils authorityUtils;
 
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer,
+                                 CustomAuthorityUtils authorityUtils) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
     }
@@ -44,31 +51,31 @@ public class SecurityConfiguration {
                 .cors(withDefaults())    // (3)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin().disable()   // (4)
+                .formLogin()
+                .loginPage("/login")
+                .and()
                 .httpBasic().disable()   // (5)
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/members").permitAll()         // 회원가입-아무나
-                        .antMatchers(HttpMethod.PUT, "/members/").permitAll()    // 회원수정-회원만
-                        .antMatchers(HttpMethod.GET, "/members/").permitAll()    // 마이페이지-회원만
-                        .antMatchers(HttpMethod.DELETE, "/members/").hasRole("USER")  // 회원삭제-회원만
+                        .antMatchers(HttpMethod.PUT, "/members/**").permitAll() // 회원수정-회원만
+                        .antMatchers(HttpMethod.GET, "/members/**").permitAll() // 마이페이지-회원만
+                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")  // 회원삭제-회원만
 
                         .antMatchers(HttpMethod.POST, "/boards").hasRole("USER")         // 게시글등록-회원만
-                        .antMatchers(HttpMethod.PUT, "/boards/").hasRole("USER")  // 게시글수정-회원만
+                        .antMatchers(HttpMethod.PUT, "/boards/**").hasRole("USER")  // 게시글수정-회원만
                         .antMatchers(HttpMethod.GET, "/boards").permitAll()    // 게시글조회-아무나
-                        .antMatchers(HttpMethod.GET, "/boards/").permitAll() // 게시글상세보기-아무나
-                        .antMatchers(HttpMethod.DELETE, "/boards/").hasRole("USER")  //게시글 삭제-회원만
+                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll() // 게시글상세보기-아무나
+                        .antMatchers(HttpMethod.DELETE, "/boards/**").hasRole("USER")  //게시글 삭제-회원만
                         .antMatchers(HttpMethod.PATCH, "/boards/vote").hasRole("USER")  //게시글 투표-회원만
 
                         .antMatchers(HttpMethod.POST, "/answer").hasRole("USER")       //댓글작성-회원만
-                        .antMatchers(HttpMethod.PUT, "/answer/").hasRole("USER")  //댓글수정-회원만
-                        .antMatchers(HttpMethod.DELETE, "/answer/").hasRole("USER")  //댓글삭제-회원만
+                        .antMatchers(HttpMethod.PUT, "/answer/**").hasRole("USER")  //댓글수정-회원만
+                        .antMatchers(HttpMethod.DELETE, "/answer/**").hasRole("USER")  //댓글삭제-회원만
                         .antMatchers(HttpMethod.PATCH, "/answer/vote").hasRole("USER")  //답변 투표-회원만
                         .anyRequest().permitAll()
                 );
-//                .oauth2Login()
-//                .loginPage("/login");
         return http.build();
     }
 
@@ -96,14 +103,24 @@ public class SecurityConfiguration {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);  // (2-3)
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);  // (2-4)
+
             jwtAuthenticationFilter.setFilterProcessesUrl("/process_login");          // (2-5)
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
 
 
             builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
+//            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+
+//            builder.addFilter(jwtAuthenticationFilter) // (2-6)
+//                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+//            builder.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
+
+
 
 }

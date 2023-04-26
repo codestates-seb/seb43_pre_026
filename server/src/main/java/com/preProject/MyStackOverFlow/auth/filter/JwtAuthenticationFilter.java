@@ -36,6 +36,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("Member check");
 
         ObjectMapper objectMapper = new ObjectMapper();    // (3-1)
         LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class); // (3-2)
@@ -56,10 +57,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) {
         Member member = (Member) authResult.getPrincipal();  // (4-1)
+        System.out.println("Before Token @@@@@@@@@@@@@@@@@@@@@@@@@@");
 
         String accessToken = delegateAccessToken(member);   // (4-2)
         String refreshToken = delegateRefreshToken(member); // (4-3)
+        System.out.println("Token SanSung@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
+        response.setHeader("memberId", Long.toString(member.getMemberId()));
         response.setHeader("Authorization", "Bearer " + accessToken);  // (4-4)
         response.setHeader("Refresh", refreshToken);                   // (4-5)
     }
