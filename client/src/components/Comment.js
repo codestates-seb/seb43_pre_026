@@ -78,7 +78,6 @@ const Comment = ({ memberId, boardId }) => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    console.log(comment);
     setShowCommentForm(false);
     setComment('');
 

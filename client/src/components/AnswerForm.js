@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const Answer = ({ boardId }) => {
   const [answer, setAnswer] = useState('');
 
-  console.log('보드아이디', boardId);
+  console.log(boardId);
 
   const handleAnswerSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +23,6 @@ const Answer = ({ boardId }) => {
     //   }
     // );
 
-    console.log(answer);
     setAnswer('');
     alert('등록되었습니다!');
   };

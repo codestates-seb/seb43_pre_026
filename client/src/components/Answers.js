@@ -87,7 +87,6 @@ const CommentId = styled.div`
 `;
 
 const Answers = ({ filteredAnswer }) => {
-  console.log(filteredAnswer.answer);
   return (
     <Container>
       <AnswerCount>{filteredAnswer.answer.length} Answers</AnswerCount>

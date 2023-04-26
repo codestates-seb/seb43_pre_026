@@ -77,7 +77,6 @@ const AnswerComment = () => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    console.log(comment);
     setShowCommentForm(false);
     setComment('');
 
