@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const QuestionsContainer = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const QuestionsTitle = styled.h3`
   width: 100%;
 `;
 
-const QuestionsInput = styled.textarea`
+const QuestionsInput = styled.div`
   width: 100%;
   height: 100px;
   padding: 0 10px;
@@ -24,19 +25,48 @@ const QuestionsInput = styled.textarea`
   margin-bottom: 10px;
   text-align: center;
 
-  ::placeholder {
-    font-size: 15px;
-    text-align: center;
-    margin: auto;
-    padding: 40px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: gray;
+  margin: auto;
+  padding: 20px;
 `;
 
 const Questions = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getQuestionData = async () => {
+      try {
+        const response = await axios.get('/members/1', {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
+
+        setData(response.data.memberBoards);
+        //console.log(response.data.memberBoards);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getQuestionData();
+  }, []);
+
   return (
     <QuestionsContainer>
       <QuestionsTitle>Questions</QuestionsTitle>
-      <QuestionsInput placeholder="You have not answered any questions" />
+      {data.length > 0 ? (
+        data.map((question) => (
+          <QuestionsInput key={question.boardId}>
+            {question.title}
+          </QuestionsInput>
+        ))
+      ) : (
+        <QuestionsInput>You have not asked any questions</QuestionsInput>
+      )}
     </QuestionsContainer>
   );
 };

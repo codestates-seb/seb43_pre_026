@@ -72,10 +72,10 @@ const QuestionForm = () => {
             'ngrok-skip-browser-warning': '69420',
           },
         });
-        setTitle(response.data);
-        setProblem(response.data);
-        setTried(response.data);
-        setTags(response.data);
+        setTitle(response.data.title);
+        setProblem(response.data.content);
+        setTried(response.data.contentTry);
+        setTags(response.data.tagNames);
 
         //console.log(response.data);
       } catch (error) {
@@ -83,6 +83,7 @@ const QuestionForm = () => {
       }
     };
     postData();
+    alert('질문이 등록되었습니다.');
     navigate('/');
   };
 
