@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -37,6 +39,9 @@ public class MemberDto {
     @NoArgsConstructor
     public static class Put {
         private long memberId;
+
+
+        private MultipartFile file;
 
         private String memberName;
 
@@ -82,6 +87,7 @@ public class MemberDto {
         private List<MemberAnswerDto.Response> memberAnswers;
         private List<MemberBoardDto.Response> memberBoards;
         private long memberDay;
+        private String pngUrl;
     }
 
     @Getter

@@ -50,8 +50,8 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/members").permitAll()         // 회원가입-아무나
-                        .antMatchers(HttpMethod.PUT, "/members/").hasRole("USER")  // 회원수정-회원만
-                        .antMatchers(HttpMethod.GET, "/members/").hasRole("USER")  // 마이페이지-회원만
+                        .antMatchers(HttpMethod.PUT, "/members/").permitAll()    // 회원수정-회원만
+                        .antMatchers(HttpMethod.GET, "/members/").permitAll()    // 마이페이지-회원만
                         .antMatchers(HttpMethod.DELETE, "/members/").hasRole("USER")  // 회원삭제-회원만
 
                         .antMatchers(HttpMethod.POST, "/boards").hasRole("USER")         // 게시글등록-회원만

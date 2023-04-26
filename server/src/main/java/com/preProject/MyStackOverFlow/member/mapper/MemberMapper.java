@@ -16,7 +16,7 @@ public interface MemberMapper {
     Member memberPutDtoToMember(MemberDto.Put requestBody);
     MemberDto.Response memberToMemberResponse(Member member);
 
-    default MemberDto.MemberResponse memberToMemberResponse2(Member member) {
+    default MemberDto.MemberResponse memberToMemberResponse2(Member member, String url) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         return MemberDto.MemberResponse.builder()
                 .memberName(member.getMemberName())
