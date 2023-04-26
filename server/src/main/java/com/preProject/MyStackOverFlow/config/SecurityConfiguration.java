@@ -49,27 +49,29 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers(HttpMethod.POST, "/members").permitAll()         // 회원가입-아무나
-//                        .antMatchers(HttpMethod.PUT, "/members/**").hasRole("USER")  // 회원수정-회원만
-//                        .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")  // 마이페이지-회원만
-//                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")  // 회원삭제-회원만
-//
-//                        .antMatchers(HttpMethod.POST, "/boards").hasRole("USER")         // 게시글등록-회원만
-//                        .antMatchers(HttpMethod.PUT, "/boards/**").hasRole("USER")  // 게시글수정-회원만
-//                        .antMatchers(HttpMethod.GET, "/boards").permitAll()    // 게시글조회-아무나
-//                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll() // 게시글상세보기-아무나
-//                        .antMatchers(HttpMethod.DELETE, "/boards/**").hasRole("USER")  //게시글 삭제-회원만
-//                        .antMatchers(HttpMethod.PATCH, "/boards/vote").hasRole("USER")  //게시글 투표-회원만
-//
-//                        .antMatchers(HttpMethod.POST, "/answer").hasRole("USER")       //댓글작성-회원만
-//                        .antMatchers(HttpMethod.PUT, "/answer/**").hasRole("USER")  //댓글수정-회원만
-//                        .antMatchers(HttpMethod.DELETE, "/answer/**").hasRole("USER")  //댓글삭제-회원만
-//                        .antMatchers(HttpMethod.PATCH, "/answer/vote").hasRole("USER")  //답변 투표-회원만
-//                        .anyRequest().permitAll()
-                                .anyRequest().authenticated()
+                        .antMatchers(HttpMethod.GET, "/login").permitAll()
 
+                        .antMatchers(HttpMethod.POST, "/members").permitAll()         // 회원가입-아무나
+                        .antMatchers(HttpMethod.PUT, "/members/**").hasRole("USER")  // 회원수정-회원만
+                        .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")  // 마이페이지-회원만
+                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")  // 회원삭제-회원만
+
+                        .antMatchers(HttpMethod.POST, "/boards").hasRole("USER")         // 게시글등록-회원만
+                        .antMatchers(HttpMethod.PUT, "/boards/**").hasRole("USER")  // 게시글수정-회원만
+                        .antMatchers(HttpMethod.GET, "/boards").permitAll()    // 게시글조회-아무나
+                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll() // 게시글상세보기-아무나
+                        .antMatchers(HttpMethod.DELETE, "/boards/**").hasRole("USER")  //게시글 삭제-회원만
+                        .antMatchers(HttpMethod.PATCH, "/boards/vote").hasRole("USER")  //게시글 투표-회원만
+
+                        .antMatchers(HttpMethod.POST, "/answer").hasRole("USER")       //댓글작성-회원만
+                        .antMatchers(HttpMethod.PUT, "/answer/**").hasRole("USER")  //댓글수정-회원만
+                        .antMatchers(HttpMethod.DELETE, "/answer/**").hasRole("USER")  //댓글삭제-회원만
+                        .antMatchers(HttpMethod.PATCH, "/answer/vote").hasRole("USER")  //답변 투표-회원만
+
+                        .anyRequest().authenticated()
                 )
-                .oauth2Login(withDefaults());
+                .oauth2Login()
+                .loginPage("/login");
         return http.build();
     }
 
