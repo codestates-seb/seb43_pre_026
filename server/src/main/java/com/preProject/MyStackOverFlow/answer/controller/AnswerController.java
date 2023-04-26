@@ -5,12 +5,10 @@ import com.preProject.MyStackOverFlow.answer.entity.Answer;
 import com.preProject.MyStackOverFlow.answer.mapper.AnswerMapper;
 import com.preProject.MyStackOverFlow.answer.mapper.Response;
 import com.preProject.MyStackOverFlow.answer.service.AnswerService;
-import com.preProject.MyStackOverFlow.board.dto.BoardDto;
+import com.preProject.MyStackOverFlow.helper.swagger.ResponseContent;
 import com.preProject.MyStackOverFlow.utils.UriCreator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -93,10 +91,10 @@ public class AnswerController {
 //    }
 
 
-    @Operation(summary = "답변 조회", description = "답변을 조회합니다.")
+    @Operation(summary = "답변 조회", description = "답변을 조회합니다. \n" +
+              ResponseContent.ANSWER_RESPONSE)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
-                    content = @Content(schema = @Schema(implementation = AnswerDto.class))),
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다."),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
@@ -127,7 +125,7 @@ public class AnswerController {
     }
 
     @Operation(summary = "답변/댓글 수정", description = "답변/댓글 식별자(answerId)에 해당하는 답변/댓글을 수정합니다. \n" +
-            "수정이 필요한 정보만 입력하시면 됩니다.")
+            "수정이 필요한 정보만 입력하시면 됩니다. \n" + ResponseContent.ANSWER_RESPONSE)
     @Parameter(name = "answer-id", description = "답변/댓글 식별자", example = "1")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "정상 처리되었습니다."),

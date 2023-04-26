@@ -4,6 +4,7 @@ import com.preProject.MyStackOverFlow.board.dto.BoardDto;
 import com.preProject.MyStackOverFlow.board.entity.Board;
 import com.preProject.MyStackOverFlow.board.mapper.BoardMapper;
 import com.preProject.MyStackOverFlow.board.service.BoardService;
+import com.preProject.MyStackOverFlow.helper.swagger.ResponseContent;
 import com.preProject.MyStackOverFlow.utils.UriCreator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -60,11 +61,10 @@ public class BoardController {
     }
 
     @Operation(summary = "게시글 정보 수정", description = "게시글 식별자(boardId)에 해당하는 게시글을 수정합니다. \n" +
-            "수정이 필요한 정보만 입력하시면 됩니다.")
+            "수정이 필요한 정보만 입력하시면 됩니다. \n" + ResponseContent.BOARD_RESPONSE)
     @Parameter(name = "board-id", description = "게시글 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "게시글이 수정되었습니다.",
-                    content = @Content(schema = @Schema(implementation = BoardDto.Response.class))),
+            @ApiResponse(responseCode = "200", description = "게시글이 수정되었습니다."),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
@@ -79,11 +79,11 @@ public class BoardController {
         return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.OK);
     }
 
-    @Operation(summary = "게시글 정보 조회", description = "게시글 식별자(boardId)에 해당하는 게시글을 조회합니다.")
+    @Operation(summary = "게시글 정보 조회", description = "게시글 식별자(boardId)에 해당하는 게시글을 조회합니다. \n" +
+                ResponseContent.BOARD_RESPONSE)
     @Parameter(name = "board-id", description = "게시글 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "게시글이 조회되었습니다.",
-                    content = @Content(schema = @Schema(implementation = BoardDto.Response.class))),
+            @ApiResponse(responseCode = "200", description = "게시글이 조회되었습니다."),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
@@ -97,10 +97,10 @@ public class BoardController {
         return new ResponseEntity<>(mapper.boardToBoardResponse(response), HttpStatus.OK);
     }
 
-    @Operation(summary = "게시글 전체 조회", description = "전체 게시글을 조회합니다.")
+    @Operation(summary = "게시글 전체 조회", description = "전체 게시글을 조회합니다. \n" +
+                ResponseContent.BOARD_RESPONSE)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "전체 게시글이 조회되었습니다.",
-                    content = @Content(schema = @Schema(implementation = BoardDto.Response.class))),
+            @ApiResponse(responseCode = "200", description = "전체 게시글이 조회되었습니다."),
             @ApiResponse(responseCode = "404", description = "게시글을 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
@@ -125,7 +125,8 @@ public class BoardController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "게시글 분류별 조회", description = "분류에 해당하는 게시글을 조회합니다.")
+    @Operation(summary = "게시글 분류별 조회", description = "분류에 해당하는 게시글을 조회합니다. \n" +
+                ResponseContent.BOARD_RESPONSE)
     @Parameter(name = "title / content / memberNickname / tagName", description = "제목 / 내용 / 회원 닉네임 / 태그"
             , example = "유어클래스 / 프로젝트가 잘 안돼요 / 미숫가루설탕많이 / javascript")
     @ApiResponses(value = {

@@ -1,6 +1,7 @@
 package com.preProject.MyStackOverFlow.member.controller;
 
 import com.preProject.MyStackOverFlow.answer.dto.AnswerDto;
+import com.preProject.MyStackOverFlow.helper.swagger.ResponseContent;
 import com.preProject.MyStackOverFlow.member.dto.MemberDto;
 import com.preProject.MyStackOverFlow.member.mapper.MemberMapper;
 import com.preProject.MyStackOverFlow.member.entity.Member;
@@ -67,7 +68,8 @@ public class MemberController {
     }
 
     // 한명의 회원 정보 조회
-    @Operation(summary = "회원 정보 조회", description = "회원 식별자(memberId)에 해당하는 회원 정보를 조회합니다.")
+    @Operation(summary = "회원 정보 조회", description = "회원 식별자(memberId)에 해당하는 회원 정보를 조회합니다. \n" +
+                ResponseContent.MEMBER_RESPONSE)
     @Parameter(name = "member-id", description = "회원 식별자", example = "1")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
@@ -85,11 +87,10 @@ public class MemberController {
 
     // 회원 정보 수정
     @Operation(summary = "회원 정보 수정", description = "회원 식별자(memberId)에 해당하는 회원 정보를 수정합니다. \n" +
-                "수정이 필요한 정보만 입력하시면 됩니다.")
+                "수정이 필요한 정보만 입력하시면 됩니다. \n" + ResponseContent.MEMBER_RESPONSE)
     @Parameter(name = "member-id", description = "회원 식별자", example = "1")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다.",
-                    content = @Content(schema = @Schema(implementation = MemberDto.Response.class))),
+            @ApiResponse(responseCode = "200", description = "정상 처리되었습니다."),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
