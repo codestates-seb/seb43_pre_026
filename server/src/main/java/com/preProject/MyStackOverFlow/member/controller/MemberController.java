@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
@@ -36,6 +39,17 @@ public class MemberController {
 
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            System.out.println("delete session");
+            session.invalidate();
+        }
+        System.out.println("@@@@@");
+        return ResponseEntity.ok().build();
+    }
+
     // 회원 정보 등록
     @PostMapping("")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
@@ -48,7 +62,7 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
 
-    // 한명의 회원 정보 조회
+     //한명의 회원 정보 조회
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") long memberId) {
         Member member = memberService.findMember(memberId);

@@ -62,20 +62,20 @@ public class BoardController {
     }
 
     // 게시글 조회(전체)
-    @GetMapping
-    public ResponseEntity getAllBoards(@PageableDefault(sort = "board-id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<Board> boards = boardService.getAllBoards();
-
-        if (boards.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        List<BoardDto.Response> response = boards.stream()
-                .map(mapper::boardToBoardResponse)
-                .collect(Collectors.toList());
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @GetMapping
+//    public ResponseEntity getAllBoards(@PageableDefault(sort = "board-id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        List<Board> boards = boardService.getAllBoards();
+//
+//        if (boards.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//
+//        List<BoardDto.Response> response = boards.stream()
+//                .map(mapper::boardToBoardResponse)
+//                .collect(Collectors.toList());
+//
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 
     @GetMapping("/list")
     public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String title,

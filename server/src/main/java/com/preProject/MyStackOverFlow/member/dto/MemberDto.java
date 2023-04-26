@@ -36,6 +36,7 @@ public class MemberDto {
     @Data
     @NoArgsConstructor
     public static class Put {
+
         private long memberId;
 
         private String memberName;
