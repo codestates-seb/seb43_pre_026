@@ -119,7 +119,6 @@ const Login = () => {
           },
         }
       );
-      console.log('로그인 전송 완료');
       // const memberId = response.memberId;
       const accessToken = response.headers.authorization.split(' ')[1];
       const refreshToken = response.headers.refresh;
@@ -136,7 +135,7 @@ const Login = () => {
       });
       navigate('/');
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

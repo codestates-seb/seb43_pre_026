@@ -92,7 +92,7 @@ const Comment = ({ memberId, boardId }) => {
         alert('댓글이 등록 되었습니다!');
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         alert('오류 발생!');
       });
   };

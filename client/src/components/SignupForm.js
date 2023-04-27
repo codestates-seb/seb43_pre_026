@@ -120,7 +120,6 @@ const SignupForm = () => {
         }
       )
       .then(() => {
-        console.log(formData);
         alert('회원가입에 성공하였습니다!');
         setFormData({
           nickname: '',

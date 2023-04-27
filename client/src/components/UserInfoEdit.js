@@ -191,7 +191,7 @@ const UserInfoEdit = () => {
           setProfileImage(profileImage || profile); //서버에서 받은 이미지가 없을 시 기본 이미지 적용
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     getData();
@@ -241,7 +241,6 @@ const UserInfoEdit = () => {
         setTimeout(() => {
           window.location.href = '/Users'; // Users 페이지로 이동
         }, 1000);
-        console.log(response.status);
       }
     } catch (error) {
       // 실패 시
@@ -256,7 +255,6 @@ const UserInfoEdit = () => {
     setTimeout(() => {
       window.location.href = '/Users'; // Users 페이지로 이동
     }, 1000);
-    console.log('cancel');
   };
 
   return (
