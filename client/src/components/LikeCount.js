@@ -57,14 +57,11 @@ const LikeCount = ({ likeCount, boardId }) => {
 
   const handleDisLike = () => {
     axios
-      .patch(
-        `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards/vote`,
-        {
-          memberId: memberId,
-          boardId,
-          boardVoteCount: 0,
-        }
-      )
+      .patch(`boards/vote`, {
+        memberId: memberId,
+        boardId,
+        boardVoteCount: 0,
+      })
       .catch((error) => {
         console.error(error);
       });

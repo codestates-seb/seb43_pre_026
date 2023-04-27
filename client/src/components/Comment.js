@@ -65,7 +65,7 @@ const ButtonContainer = styled.div`
 
 const Comment = ({ memberId, boardId }) => {
   const [showCommentForm, setShowCommentForm] = useState(false);
-  const [comment, setComment] = useState('');
+  const [content, setContent] = useState('');
 
   const handleAddCommentClick = () => {
     setShowCommentForm(!showCommentForm);
@@ -73,13 +73,13 @@ const Comment = ({ memberId, boardId }) => {
 
   const handleCancelClick = () => {
     setShowCommentForm(false);
-    setComment('');
+    setContent('');
   };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     setShowCommentForm(false);
-    setComment('');
+    setContent('');
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -89,7 +89,7 @@ const Comment = ({ memberId, boardId }) => {
       .post(
         'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/answer',
         {
-          comment,
+          content,
           memberId,
           boardId,
           answerCheck: false,
@@ -105,7 +105,7 @@ const Comment = ({ memberId, boardId }) => {
   };
 
   const handleCommentChange = (e) => {
-    setComment(e.target.value);
+    setContent(e.target.value);
   };
 
   return (
@@ -113,7 +113,7 @@ const Comment = ({ memberId, boardId }) => {
       <AddComment onClick={handleAddCommentClick}>Add a comment</AddComment>
       <CommentForm show={showCommentForm} onSubmit={handleCommentSubmit}>
         <CommentTextArea
-          value={comment}
+          value={content}
           onChange={handleCommentChange}
           placeholder="댓글을 입력해주세요!"
           required

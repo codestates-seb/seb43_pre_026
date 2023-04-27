@@ -29,7 +29,7 @@ const Answer = ({ boardId }) => {
       alert('등록되었습니다!');
     } catch (error) {
       console.error(error);
-      alert('질문 등록에 실패하였습니다.');
+      alert('답변 등록에 실패하였습니다.');
     }
   };
 
