@@ -1,0 +1,69 @@
+= StackOverFlow Application Clone Project
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+Kim Jae Yun <wkddkgodsla@gmail.com>
+
+v1.0.0, 2023.04.24
+
+***
+API 문서 개요
+
+ 이 문서는 Backend(서현준, 천찬웅, 김재윤)분들과 Frontend(곽미소, 정은옥, 임태영)분들이 함께 진행하는 StackOverFlow Clone 프로젝트입니다.
+이 애플리케이션을 사용해보고자 하는 분들은 이 문서를 통해 API의 구체적인 사용법을 알 수 있습니다.
+
+CAUTION: 이 문서에는 모든 기능이 포함되어 있지 않습니다. 기능 제한 사항에 대해 알고 싶다면 백엔드 분들에게 문의해 주세요.
+
+***
+== MemberController
+=== 회원 등록
+.curl-request
+include::{snippets}/post-member/curl-request.adoc[]
+.http-request
+include::{snippets}/post-member/http-request.adoc[]
+.request-fields
+include::{snippets}/post-member/request-fields.adoc[]
+.http-response
+include::{snippets}/post-member/http-response.adoc[]
+.response-headers
+include::{snippets}/post-member/response-headers.adoc[]
+
+=== 회원 정보 수정
+.curl-request
+include::{snippets}/put-member/curl-request.adoc[]
+.http-request
+include::{snippets}/put-member/http-request.adoc[]
+.path-parameters
+include::{snippets}/put-member/path-parameters.adoc[]
+.request-fields
+include::{snippets}/put-member/request-fields.adoc[]
+.http-response
+include::{snippets}/put-member/http-response.adoc[]
+.response-fields
+include::{snippets}/put-member/response-fields.adoc[]
+
+=== 회원 정보 조회
+.curl-request
+include::{snippets}/get-member/curl-request.adoc[]
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+.path-parameters
+include::{snippets}/get-member/path-parameters.adoc[]
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+
+=== 회원 정보 삭제
+.curl-request
+include::{snippets}/delete-member/curl-request.adoc[]
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+.path-parameters
+include::{snippets}/delete-member/path-parameters.adoc[]
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
