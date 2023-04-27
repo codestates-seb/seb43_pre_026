@@ -108,12 +108,10 @@ const SignupForm = () => {
       .post(
         '/members',
         {
-          memberUserid: formData.nickname,
           memberNickname: formData.nickname,
           memberName: formData.username,
           memberEmail: formData.email,
           memberPassword: formData.password,
-          memberDescription: formData.nickname,
         },
         {
           headers: {
@@ -122,6 +120,7 @@ const SignupForm = () => {
         }
       )
       .then(() => {
+        console.log(formData);
         alert('회원가입에 성공하였습니다!');
         setFormData({
           nickname: '',

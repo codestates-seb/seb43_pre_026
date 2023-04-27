@@ -54,7 +54,7 @@ const Buttons = styled.div`
   }
 `;
 
-const Homehead = () => {
+const Homehead = ({ boardsLength }) => {
   const navigate = useNavigate();
 
   const handleAsk = () => {
@@ -68,7 +68,7 @@ const Homehead = () => {
           <button onClick={handleAsk}>Ask Question</button>
         </div>
         <div className="bottom-head">
-          <QuestionNum>37questions</QuestionNum>
+          <QuestionNum>{boardsLength} questions</QuestionNum>
           <Buttons>
             <button>Newest</button>
             <button>Hot</button>

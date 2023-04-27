@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import stackoverflow from '../assets/stackoverflow.svg';
 import { TbZoomQuestion } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
+import profile from '../assets/profile.png';
+import axios from 'axios';
 
 const Line = styled.div`
   border: 2px solid #f48225;
@@ -77,7 +79,7 @@ const SearchIcon = styled(TbZoomQuestion)`
   color: #838c95;
   font-size: 22px;
   padding: 0 0 0 6px;
-  left: 58px;
+  left: 70px;
 `;
 
 const SearchInput = styled.input`
@@ -108,11 +110,11 @@ const SelectBox = styled.select`
   cursor: pointer;
 `;
 
-const UserInfo = styled.div`
-  width: 100px;
-  border: 1px solid black;
-  margin-left: 5px;
-`;
+// const UserInfo = styled.div`
+//   width: 100px;
+//   border: 1px solid black;
+//   margin-left: 5px;
+// `;
 const Logout = styled.button`
   height: 38px;
   width: 80px;
@@ -132,9 +134,57 @@ const Logout = styled.button`
   }
 `;
 
+const Profile = styled.img`
+  width: 35px;
+  border: 1px solid gray;
+  margin-left: 5px;
+`;
+
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [selectedOption, setSelectedOption] = useState('All');
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem('accessToken') ? true : false
+  );
+  const [selectedOption, setSelectedOption] = useState('keyword');
+  const [inputValue, SetInputValue] = useState('');
+  const [profileImage, setProfileImage] = useState(profile);
+
+  useEffect(() => {
+    // const accessToken = localStorage.getItem('accessToken');
+    // if (accessToken) {
+    //   setIsLoggedIn(true);
+    // }
+
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/members/1', {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
+        const { profileImage } = response.data.data;
+
+        setProfileImage(profileImage || profile);
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handInputValue = (e) => {
+    SetInputValue(e.target.value);
+  };
+
+  const handleEnterPress = (e) => {
+    if (e.keyCode === 13) {
+      search();
+    }
+  };
+
+  const search = () => {
+    navigate(`/search/list?${selectedOption}=${inputValue}`);
+  };
 
   const navigate = useNavigate();
 
@@ -156,6 +206,8 @@ const Header = () => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   };
 
   const handleUserInfo = () => {
@@ -169,18 +221,25 @@ const Header = () => {
         <Logo onClick={handleMain} src={stackoverflow} />
         <Search>
           <SelectBox value={selectedOption} onChange={handleOptionChange}>
-            <option value="All">All</option>
-            <option value="Title">Title</option>
-            <option value="Writer">Writer</option>
-            <option value="Tag">Tag</option>
+            <option value="keyword">All</option>
+            <option value="title">Title</option>
+            <option value="content">Content</option>
+            <option value="writer">Writer</option>
+            <option value="tag">Tag</option>
           </SelectBox>
           <SearchIcon />
-          <SearchInput type="text" placeholder="Search..." />
+          <SearchInput
+            type="text"
+            placeholder="Search..."
+            value={inputValue}
+            onChange={handInputValue}
+            onKeyDown={handleEnterPress}
+          />
         </Search>
         {isLoggedIn ? (
           <>
-            <UserInfo onClick={handleUserInfo} />
-            <Logout handleLogout={handleLogout}>Log out</Logout>
+            <Profile onClick={handleUserInfo} src={profileImage} />
+            <Logout onClick={handleLogout}>Log out</Logout>
           </>
         ) : (
           <>

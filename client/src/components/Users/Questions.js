@@ -36,18 +36,23 @@ const QuestionsInput = styled.div`
 
 const Questions = () => {
   const [data, setData] = useState([]);
-
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
   useEffect(() => {
     const getQuestionData = async () => {
       try {
-        const response = await axios.get('/members/1', {
+        const response = await axios.get(`/members/${memberId}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420',
           },
         });
 
-        setData(response.data.memberBoards);
-        //console.log(response.data.memberBoards);
+        setData(response.data.data.memberBoards);
+        console.log('콘솔 로그', data);
       } catch (error) {
         console.error(error);
       }
@@ -58,7 +63,7 @@ const Questions = () => {
   return (
     <QuestionsContainer>
       <QuestionsTitle>Questions</QuestionsTitle>
-      {data.length > 0 ? (
+      {data ? (
         data.map((question) => (
           <QuestionsInput key={question.boardId}>
             {question.title}

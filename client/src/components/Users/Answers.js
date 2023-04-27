@@ -36,18 +36,24 @@ const AnswersInput = styled.div`
 
 const Answers = () => {
   const [data, setData] = useState([]);
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
 
   useEffect(() => {
     const getAnswerData = async () => {
       try {
-        const response = await axios.get('/members/1', {
+        const response = await axios.get(`/members/${memberId}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420',
           },
         });
 
-        setData(response.data.memberAnswers);
-        //console.log(response.data.memberAnswers);
+        setData(response.data.data.memberAnswers);
+        console.log('답변 콘솔', response.data.memberAnswers);
       } catch (error) {
         console.error(error);
       }
@@ -55,26 +61,10 @@ const Answers = () => {
     getAnswerData();
   }, []);
 
-  //"memberAnswers":
-  // const dumyList = [
-  //   {
-  //     boardId: 1,
-  //     title: '6번 do I get the current date in typst?',
-  //   },
-  //   {
-  //     boardId: 2,
-  //     title: '대체 어떻게 하나요?',
-  //   },
-  //   {
-  //     boardId: 3,
-  //     title: '답이 안나와요.',
-  //   },
-  // ];
-
   return (
     <AnswersContainer>
       <AnswersTitle>Answers</AnswersTitle>
-      {data.length > 0 ? (
+      {data ? (
         data.map((answer) => (
           <AnswersInput key={answer.boardId}>{answer.title}</AnswersInput>
         ))

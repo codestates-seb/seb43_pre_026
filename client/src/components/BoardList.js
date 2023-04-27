@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -78,45 +77,25 @@ const Content = styled.div`
   word-break: break-all;
 `;
 
-function BoardList() {
-  const [boards, setBoards] = useState([]);
-  // const { searchData } = useParams
-  const [members, setmembers] = useState([]);
+function BoardList({ boards }) {
+  // const [boards, setBoards] = useState([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get('/boards', {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
-        setBoards(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getData();
-  }, []);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get('/members/1', {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
-        setmembers(response.data);
-        console.log('멤버정보', members);
-
-        // console.log(1, response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const response = await axios.get('/boards', {
+  //         headers: {
+  //           'ngrok-skip-browser-warning': '69420',
+  //         },
+  //       });
+  //       setBoards(response.data);
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
 
   const navigate = useNavigate();
 

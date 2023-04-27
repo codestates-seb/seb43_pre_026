@@ -16,10 +16,10 @@ const Page = styled.div`
   }
 `;
 
-const Template = () => {
+const Template = ({ boards }) => {
   return (
     <>
-      <BoardList />
+      <BoardList boards={boards} />
       <Page>
         <span>1</span>
         <span>next</span>

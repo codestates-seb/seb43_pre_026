@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignupOauth from '../components/Logins/LoginOauth';
 import logoImg from '../assets/logo.png';
-// import axios from 'axios'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 const Container = styled.div`
   /* position: relative; */
@@ -87,8 +89,9 @@ const FormButton = styled.button`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
   const [loginFormData, setLoginFormData] = useState({
-    userId: '',
+    username: '',
     password: '',
   });
 
@@ -101,42 +104,80 @@ const Login = () => {
     setLoginFormData(newFormdata);
   };
 
-  const handleSubmit = () => {
-    // e.preventDefault();
-    // axios.
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        '/process_login',
+        {
+          username: loginFormData.username,
+          password: loginFormData.password,
+        },
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      );
+      console.log('로그인 전송 완료');
+      // const memberId = response.memberId;
+      const accessToken = response.headers.authorization.split(' ')[1];
+      const refreshToken = response.headers.refresh;
+      const memberId = response.headers.memberid;
+
+      localStorage.setItem(
+        'accessToken',
+        JSON.stringify({ token: accessToken, memberId: memberId })
+      );
+      localStorage.setItem('refreshToken', refreshToken);
+      setLoginFormData({
+        username: '',
+        password: '',
+      });
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  // /v11/auth/login
+
+  // {nickname: '영태', username: '영태', email: 'taeyoung1012@naver.com', password: '!dudxo1012'}
+
   return (
-    <Container>
-      <Logo src={logoImg} alt="stackoverflowlogo" />
-      <LoginWrapper>
-        <LoginOauthWrapper>
-          <SignupOauth />
-        </LoginOauthWrapper>
-        <LoginForm onSubmit={handleSubmit}>
-          <EmailFormInputWrapper>
-            <FormLabel>UserId</FormLabel>
-            <FormInput
-              type="text"
-              id="userId"
-              onChange={handleInputChange}
-              value={loginFormData.userId}
-            />
-          </EmailFormInputWrapper>
-          <PasswordFormInputWrapper>
-            <FormLabel>Password</FormLabel>
-            <FormInput
-              type="password"
-              id="password"
-              onChange={handleInputChange}
-              value={loginFormData.password}
-            />
-          </PasswordFormInputWrapper>
-          <FormButton>Log In</FormButton>
-        </LoginForm>
-        <p>Dont have an account? Sign up</p>
-      </LoginWrapper>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <Logo src={logoImg} alt="stackoverflowlogo" />
+        <LoginWrapper>
+          <LoginOauthWrapper>
+            <SignupOauth />
+          </LoginOauthWrapper>
+          <LoginForm onSubmit={handleSubmit}>
+            <EmailFormInputWrapper>
+              <FormLabel>UserId</FormLabel>
+              <FormInput
+                type="text"
+                id="username"
+                onChange={handleInputChange}
+                value={loginFormData.userId}
+              />
+            </EmailFormInputWrapper>
+            <PasswordFormInputWrapper>
+              <FormLabel>Password</FormLabel>
+              <FormInput
+                type="password"
+                id="password"
+                onChange={handleInputChange}
+                value={loginFormData.password}
+              />
+            </PasswordFormInputWrapper>
+            <FormButton>Log In</FormButton>
+          </LoginForm>
+          <p>Dont have an account? Sign up</p>
+        </LoginWrapper>
+      </Container>
+    </>
   );
 };
 
