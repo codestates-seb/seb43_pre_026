@@ -25,12 +25,7 @@ const Search = () => {
     const getData = async () => {
       try {
         const response = await axios.get(
-          `boards/list?${selectedOption}=${inputValue}`,
-          {
-            headers: {
-              'ngrok-skip-browser-warning': '69420',
-            },
-          }
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards/list?${selectedOption}=${inputValue}`
         );
         setBoards(response.data);
       } catch (error) {

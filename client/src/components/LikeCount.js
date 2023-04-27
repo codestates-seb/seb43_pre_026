@@ -37,21 +37,17 @@ const LikeCount = ({ likeCount, boardId }) => {
   if (accessToken) {
     const tokenData = JSON.parse(accessToken);
     memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
   const handleLike = () => {
     axios
       .patch(
-        `/boards/vote`,
+        `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards/vote`,
         {
           memberId: memberId,
           boardId,
           boardVoteCount: 1,
-        },
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
         }
       )
       .catch((error) => {
@@ -62,16 +58,11 @@ const LikeCount = ({ likeCount, boardId }) => {
   const handleDisLike = () => {
     axios
       .patch(
-        `/boards/vote`,
+        `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards/vote`,
         {
           memberId: memberId,
           boardId,
           boardVoteCount: 0,
-        },
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
         }
       )
       .catch((error) => {

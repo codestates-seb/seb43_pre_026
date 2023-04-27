@@ -41,16 +41,13 @@ const Answers = () => {
   if (accessToken) {
     const tokenData = JSON.parse(accessToken);
     memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
   useEffect(() => {
     const getAnswerData = async () => {
       try {
-        const response = await axios.get(`/members/${memberId}`, {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = await axios.get(`/members/${memberId}`);
 
         setData(response.data.data.memberAnswers);
       } catch (error) {

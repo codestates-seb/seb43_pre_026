@@ -31,11 +31,9 @@ const Questions = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/boards/${boardId}`, {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const res = await axios.get(
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardId}`
+        );
         if (res.data) {
           setBoard(res.data);
 

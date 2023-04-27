@@ -152,6 +152,7 @@ const UserInfoEdit = () => {
   if (accessToken) {
     const tokenData = JSON.parse(accessToken);
     memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
   //패스워드 유효성 검사, 최소 8자 이상, 영문자와 숫자, 특수문자가 모두 포함
@@ -165,11 +166,9 @@ const UserInfoEdit = () => {
     //useEffect를 사용하여 컴포넌트가 마운트될 때 서버에서 사용자 정보를 가져오는 작업
     const getData = async () => {
       try {
-        const response = await axios.get(`/members/${memberId}`, {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = await axios.get(
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members/${memberId}`
+        );
         const responseData = response?.data?.data; //모두 nullish인 경우 undefined를 반환
         if (responseData) {
           const {
@@ -230,12 +229,10 @@ const UserInfoEdit = () => {
       formData.append('githubLink', githubLink);
       formData.append('memberName', memberName);
 
-      const response = await axios.put(`/members/${memberId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', //서버가 전송된 데이터를 올바르게 처리
-          'ngrok-skip-browser-warning': '69420',
-        },
-      });
+      const response = await axios.put(
+        `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members/${memberId}`,
+        formData
+      );
       if (response.status === 200) {
         alert('Success');
         setTimeout(() => {

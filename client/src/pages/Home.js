@@ -68,11 +68,9 @@ const Home = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get('/boards', {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = await axios.get(
+          'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards'
+        );
         setBoards(response.data);
       } catch (error) {
         console.error(error);
@@ -90,11 +88,9 @@ const Home = () => {
   const handleHot = () => {
     const getData = async () => {
       try {
-        const response = axios.post('/boards', {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = axios.get(
+          'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards?tab=hot'
+        );
         setBoards(response.data);
       } catch (error) {
         console.error(error);
@@ -105,11 +101,9 @@ const Home = () => {
   const handleUn = () => {
     const getData = async () => {
       try {
-        const response = axios.post('boards', {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = axios.get(
+          'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards?tab=unanswered'
+        );
         setBoards(response.data);
       } catch (error) {
         console.error(error);
