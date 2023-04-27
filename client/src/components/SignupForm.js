@@ -108,12 +108,10 @@ const SignupForm = () => {
       .post(
         '/members',
         {
-          memberUserid: formData.nickname,
           memberNickname: formData.nickname,
           memberName: formData.username,
           memberEmail: formData.email,
           memberPassword: formData.password,
-          memberDescription: formData.nickname,
         },
         {
           headers: {

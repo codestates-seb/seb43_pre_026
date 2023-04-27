@@ -6,6 +6,7 @@ import QuestionHeader from '../components/QuestionHeader';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Answers from '../components/Answers';
+import Header from '../components/Header';
 
 const Container = styled.div`
   padding-top: 100px;
@@ -20,6 +21,12 @@ const Questions = () => {
   const [board, setBoard] = useState({});
   const { boardId } = useParams();
   const [filteredAnswer, setFilteredAnswer] = useState({});
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,37 +67,40 @@ const Questions = () => {
     return <div>로딩 중...</div>;
   }
   return (
-    <Container>
-      {board.title ? (
-        <>
-          <QuestionHeader
-            title={board.title}
-            createAt={board.createdAt}
-            modifiedAt={board.modifiedAt}
-            viewCount={board.viewCount}
-          />
-          <Question
-            content={board.content}
-            contentTry={board.contentTry}
-            likeCount={board.voteCount}
-            tagNames={board.tagNames}
-            memberNickname={board.memberNickname}
-            createdAt={board.createdAt}
-            userImg={board.memberNickname}
-            memberId={board.memberId}
-            boardId={board.boardId}
-            comments={board.comments}
-          />
-          <Answers
-            filteredAnswer={filteredAnswer}
-            answerId={filteredAnswer.answer.answerId}
-          />
-          <AnswerForm boardId={board.boardId} />
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </Container>
+    <>
+      <Header />
+      <Container>
+        {board.title ? (
+          <>
+            <QuestionHeader
+              title={board.title}
+              createAt={board.createdAt}
+              modifiedAt={board.modifiedAt}
+              viewCount={board.viewCount}
+            />
+            <Question
+              content={board.content}
+              contentTry={board.contentTry}
+              likeCount={board.voteCount}
+              tagNames={board.tagNames}
+              memberNickname={board.memberNickname}
+              createdAt={board.createdAt}
+              userImg={board.memberNickname}
+              memberId={memberId}
+              boardId={board.boardId}
+              comments={board.comments}
+            />
+            <Answers
+              filteredAnswer={filteredAnswer}
+              answerId={filteredAnswer.answer.answerId}
+            />
+            <AnswerForm boardId={board.boardId} />
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </Container>
+    </>
   );
 };
 

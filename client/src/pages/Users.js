@@ -4,6 +4,7 @@ import UserInfo from '../components/UserInfo';
 import Answers from '../components/Users/Answers';
 import Questions from '../components/Users/Questions';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 //import axios from 'axios';
 
 const Container = styled.div`
@@ -36,16 +37,19 @@ const Users = () => {
   };
 
   return (
-    <Container>
-      <>
-        <UserInfo />
-        <EditProfileButton onClick={handleEditProfile}>
-          Edit profile
-        </EditProfileButton>
-      </>
-      <Answers />
-      <Questions />
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <>
+          <UserInfo />
+          <EditProfileButton onClick={handleEditProfile}>
+            Edit profile
+          </EditProfileButton>
+        </>
+        <Answers />
+        <Questions />
+      </Container>
+    </>
   );
 };
 

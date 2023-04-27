@@ -106,6 +106,7 @@ const Save = styled(Button)`
     border: 1.2px solid #006bb3;
   }
 `;
+
 const Cancel = styled(Button)`
   height: 38px;
   width: 100px;
@@ -137,16 +138,23 @@ const ImageUpload = styled.input`
 `;
 
 const UserInfoEdit = () => {
-  const [memberNickname, setmemberNickname] = useState('');
-  const [memberPassword, setmemberPassword] = useState('');
+  const [memberNickname, setMemberNickname] = useState('');
+  const [memberPassword, setMemberPassword] = useState('');
   const [title, setTitle] = useState('');
-  const [memberDescription, setmemberDescription] = useState('');
+  const [memberDescription, setMemberDescription] = useState('');
   const [githubLink, setGithubLink] = useState('');
-  const [memberName, setmemberName] = useState('');
+  const [memberName, setMemberName] = useState('');
   const [profileImage, setProfileImage] = useState(profile);
   const fileInputRef = useRef(null);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
 
+  //패스워드 유효성 검사, 최소 8자 이상, 영문자와 숫자, 특수문자가 모두 포함
   const isPasswordValid = (password) => {
     const regex =
       /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
@@ -154,9 +162,10 @@ const UserInfoEdit = () => {
   };
 
   useEffect(() => {
+    //useEffect를 사용하여 컴포넌트가 마운트될 때 서버에서 사용자 정보를 가져오는 작업
     const getData = async () => {
       try {
-        const response = await axios.get('/members/1', {
+        const response = await axios.get(`/members/${memberId}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420',
           },
@@ -173,13 +182,13 @@ const UserInfoEdit = () => {
             profileImage,
           } = response.data.data;
 
-          setmemberNickname(memberNickname || '');
-          setmemberPassword(memberPassword || '');
+          setMemberNickname(memberNickname || '');
+          setMemberPassword(memberPassword || '');
           setTitle(title || '');
-          setmemberDescription(memberDescription || '');
+          setMemberDescription(memberDescription || '');
           setGithubLink(githubLink || '');
-          setmemberName(memberName || '');
-          setProfileImage(profileImage || profile);
+          setMemberName(memberName || '');
+          setProfileImage(profileImage || profile); //서버에서 받은 이미지가 없을 시 기본 이미지 적용
         }
       } catch (error) {
         console.log(error);
@@ -189,19 +198,22 @@ const UserInfoEdit = () => {
   }, []);
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+    //사용자가 이미지를 업로드하면 이미지를 읽어 profileImage 상태 변수에 저장하는 역할
+    const file = e.target.files[0]; //이벤트 객체에서 업로드된 파일 목록 가져와서 file 변수에 저장
+    const reader = new FileReader(); //객체를 생성하고 파일 읽고, 파일을 비동기적으로 읽는데 사용
 
     reader.onloadend = () => {
-      setProfileImage(reader.result);
+      //성공적으로 읽힌 후 실행될 콜백 함수를 등록
+      setProfileImage(reader.result); //콜백함수에서 reader.result를 사용하여 읽는 데이터를 가져와 setProfileImage를 호출하여 상태 변수 profileImage에 저장, 이미지가 프로필 이미지가 표시되고 사용자 인터페이스가 업데이트
     };
-    //파일이 읽혀진 후 처리되는 콜백 함수 등록, 데이터 URL 형식으로 변경하여 변수에 저장
 
     if (file) {
-      reader.readAsDataURL(file);
-    } //
+      reader.readAsDataURL(file); //파일이 존재하는 경우에만 호출, URL 형식으로 읽음
+    }
   };
+
   const handleSave = async () => {
+    //수정된 사용자 정보를 서버에 저장, 유효성 검사 수행 -> 유효하지 않으면 에러메시지/ 수정된 사용자 정보를 서버에 PUT 요청
     if (!isPasswordValid(memberPassword)) {
       setPasswordErrorMessage(
         '패스워드는 최소 8자 이상, 영문자와 숫자, 특수문자가 모두 포함되어야 합니다.'
@@ -209,19 +221,18 @@ const UserInfoEdit = () => {
       return;
     }
     try {
-      const data = {
-        memberNickname,
-        memberPassword,
-        title,
-        memberDescription,
-        githubLink,
-        memberName,
-        profileImage,
-      };
-      console.log(data.memberNickname, data.profileImage);
+      const formData = new FormData(); //서버에 전송할 데이터 생성, append 메소드를 사용하여 formData에 전송할 데이터 추가, 각각의 필드에 대해 키와 값을 전달
+      formData.append('profileImage', profileImage);
+      formData.append('memberNickname', memberNickname);
+      formData.append('memberPassword', memberPassword);
+      formData.append('title', title);
+      formData.append('memberDescription', memberDescription);
+      formData.append('githubLink', githubLink);
+      formData.append('memberName', memberName);
 
-      const response = await axios.put('/members/1', data, {
+      const response = await axios.put(`/members/${memberId}`, formData, {
         headers: {
+          'Content-Type': 'multipart/form-data', //서버가 전송된 데이터를 올바르게 처리
           'ngrok-skip-browser-warning': '69420',
         },
       });
@@ -241,6 +252,7 @@ const UserInfoEdit = () => {
   };
 
   const handleCancel = () => {
+    //cancle 버튼 누를 시 정보 수정을 취소하고 이전 페이지로 이동
     setTimeout(() => {
       window.location.href = '/Users'; // Users 페이지로 이동
     }, 1000);
@@ -254,7 +266,7 @@ const UserInfoEdit = () => {
       <EditTitleInput>
         <div>profile image</div>
         <Image
-          src={profileImage}
+          src={profileImage} //서버 URL
           alt="profile"
           onClick={() => fileInputRef.current.click()}
         />
@@ -269,14 +281,14 @@ const UserInfoEdit = () => {
           <div>name</div>
           <input
             value={memberNickname}
-            onChange={(e) => setmemberNickname(e.target.value)}
+            onChange={(e) => setMemberNickname(e.target.value)}
           />
         </NameInput>
         <PasswordInput>
           <div>password</div>
           <input
             value={memberPassword}
-            onChange={(e) => setmemberPassword(e.target.value)}
+            onChange={(e) => setMemberPassword(e.target.value)}
           />
           {passwordErrorMessage && (
             <PasswordErrorMessage>{passwordErrorMessage}</PasswordErrorMessage>
@@ -290,7 +302,7 @@ const UserInfoEdit = () => {
           <div>about me</div>
           <textarea
             value={memberDescription}
-            onChange={(e) => setmemberDescription(e.target.value)}
+            onChange={(e) => setMemberDescription(e.target.value)}
           />
         </AboutMe>
       </EditTitleInput>
@@ -304,7 +316,7 @@ const UserInfoEdit = () => {
         <Subhead>Private information</Subhead>
         <Input
           value={memberName}
-          onChange={(e) => setmemberName(e.target.value)}
+          onChange={(e) => setMemberName(e.target.value)}
         />
       </OtherInfo>
       <Button>

@@ -44,6 +44,12 @@ const QuestionForm = () => {
   const titleFocus = useRef(null);
   const problemFocus = useRef(null);
   const triedFocus = useRef(null);
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
 
   const handleSubmit = () => {
     if (title.length < 1) {
@@ -62,8 +68,8 @@ const QuestionForm = () => {
 
     const postData = async () => {
       try {
-        const response = await axios.post('boards', {
-          //memberId: `${id}`,
+        const response = await axios.post('/boards', {
+          memberId: memberId,
           title: title,
           content: problem,
           contentTry: tried,

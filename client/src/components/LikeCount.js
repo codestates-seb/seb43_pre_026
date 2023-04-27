@@ -32,12 +32,19 @@ const DisLike = styled(TbTriangleInverted)`
 `;
 
 const LikeCount = ({ likeCount, boardId }) => {
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
+
   const handleLike = () => {
     axios
       .patch(
-        `/answers/vote/${boardId}`,
+        `/boards/vote`,
         {
-          memberId: 1,
+          memberId: memberId,
           boardId,
           boardVoteCount: 1,
         },
@@ -55,9 +62,9 @@ const LikeCount = ({ likeCount, boardId }) => {
   const handleDisLike = () => {
     axios
       .patch(
-        `/answers/vote/${boardId}`,
+        `/boards/vote`,
         {
-          memberId: 1,
+          memberId: memberId,
           boardId,
           boardVoteCount: 0,
         },

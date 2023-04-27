@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import QuestionForm from '../components/QuestionSubmit/QuestionForm';
-/* eslint-disable react/no-multi-comp */
+import Header from '../components/Header';
+
 const Global = styled.div`
   background-color: #f1f2f3;
 `;
@@ -21,12 +22,15 @@ const QuestionHead = styled.h1`
 
 const QuestionSubmit = () => {
   return (
-    <Global>
-      <Container>
-        <QuestionHead>Ask a public question</QuestionHead>
-        <QuestionForm />
-      </Container>
-    </Global>
+    <>
+      <Header />
+      <Global>
+        <Container>
+          <QuestionHead>Ask a public question</QuestionHead>
+          <QuestionForm />
+        </Container>
+      </Global>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import SignupForm from '../components/SignupForm';
 import SignupOauth from '../components/SignupOauth';
 import styled from 'styled-components';
 import SignupText from '../components/SignupText';
+import Header from '../components/Header';
 
 const Signup = () => {
   const Container = styled.div`
@@ -29,6 +30,7 @@ const Signup = () => {
 
   return (
     <>
+      <Header />
       <Container>
         <SignupContainer>
           <SignupText />

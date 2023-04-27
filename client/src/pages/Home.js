@@ -3,6 +3,7 @@ import Template from '../components/Template';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
 
 const Container = styled.div`
   width: 800px;
@@ -120,6 +121,7 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       <Container>
         <div>
           <Head>

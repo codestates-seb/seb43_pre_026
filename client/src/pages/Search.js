@@ -4,6 +4,7 @@ import SearchHeader from '../components/SearchHeader';
 import SearchList from '../components/SearchList';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
 
 const Container = styled.div`
   width: 800px;
@@ -41,6 +42,7 @@ const Search = () => {
 
   return (
     <div>
+      <Header />
       <Container>
         <SearchHeader boardsLength={boards.length} />
         <SearchList boards={boards} />

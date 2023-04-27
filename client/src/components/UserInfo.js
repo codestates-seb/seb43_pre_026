@@ -58,6 +58,13 @@ const DayInfo = styled.div`
 `;
 
 const UserInfo = () => {
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
+
   const [userData, setUserData] = useState({
     memberNickname: '',
     profileImage: profile,
@@ -67,7 +74,7 @@ const UserInfo = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/members/1', {
+        const response = await axios.get(`/members/${memberId}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420',
           },
