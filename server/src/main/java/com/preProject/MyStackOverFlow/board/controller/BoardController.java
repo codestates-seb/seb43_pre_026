@@ -97,7 +97,7 @@ public class BoardController {
     }
 
     @Operation(summary = "게시글 전체 조회", description = "전체 게시글을 조회합니다. \n" +
-                ResponseContent.BOARD_RESPONSE)
+            ResponseContent.BOARD_RESPONSE)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "전체 게시글이 조회되었습니다."),
             @ApiResponse(responseCode = "404", description = "게시글을 찾을 수 없습니다."),
@@ -127,7 +127,7 @@ public class BoardController {
     }
 
     @Operation(summary = "게시글 분류별 조회", description = "분류에 해당하는 게시글을 조회합니다. \n" +
-                ResponseContent.BOARD_RESPONSE)
+            ResponseContent.BOARD_RESPONSE)
     @Parameter(name = "title / content / memberNickname / tagName", description = "제목 / 내용 / 회원 닉네임 / 태그"
             , example = "유어클래스 / 프로젝트가 잘 안돼요 / 미숫가루설탕많이 / javascript")
     @ApiResponses(value = {

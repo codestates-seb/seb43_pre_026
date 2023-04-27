@@ -13,9 +13,11 @@ import com.preProject.MyStackOverFlow.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -210,5 +212,15 @@ public class BoardService {
                 .size();
 
         findBoard.setAnswerCount(findAnswerCount);
+    }
+
+    public Specification<Board> findByKeyword(String keyword) {
+        return (root, query, cb) -> {
+            Predicate titlePredicate = cb.like(root.get("title"), "%" + keyword + "%");
+            Predicate contentPredicate = cb.like(root.get("content"), "%" + keyword + "%");
+            Predicate memberNicknamePredicate = cb.like(root.get("member").get("memberNickname"), "%" + keyword + "%");
+            Predicate tagNamePredicate = cb.like(root.join("boardTags").get("tag").get("tagName"), "%" + keyword + "%");
+            return cb.or(titlePredicate, contentPredicate, memberNicknamePredicate, tagNamePredicate);
+        };
     }
 }
