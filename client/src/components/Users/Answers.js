@@ -53,7 +53,6 @@ const Answers = () => {
         });
 
         setData(response.data.data.memberAnswers);
-        console.log('답변 콘솔', response.data.memberAnswers);
       } catch (error) {
         console.error(error);
       }

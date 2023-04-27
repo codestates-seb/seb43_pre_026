@@ -52,7 +52,6 @@ const Questions = () => {
         });
 
         setData(response.data.data.memberBoards);
-        console.log('콘솔 로그', data);
       } catch (error) {
         console.error(error);
       }

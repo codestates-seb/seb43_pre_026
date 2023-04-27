@@ -64,7 +64,6 @@ const QuestionForm = () => {
       triedFocus.current.focus();
       return;
     }
-    //console.log({ title, problem, tried, tags });
 
     const postData = async () => {
       try {
@@ -82,10 +81,8 @@ const QuestionForm = () => {
         setProblem(response.data.content);
         setTried(response.data.contentTry);
         setTags(response.data.tagNames);
-
-        //console.log(response.data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     postData();

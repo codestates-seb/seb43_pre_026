@@ -5,6 +5,12 @@ import axios from 'axios';
 
 const Answer = ({ boardId }) => {
   const [answer, setAnswer] = useState('');
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+  }
 
   const handleAnswerSubmit = async (e) => {
     e.preventDefault();
@@ -12,7 +18,7 @@ const Answer = ({ boardId }) => {
       await axios.post(
         '/answer',
         {
-          memberId: 1,
+          memberId: memberId,
           boardId: boardId,
           content: answer,
           answerCheck: true,
@@ -26,7 +32,7 @@ const Answer = ({ boardId }) => {
       setAnswer('');
       alert('등록되었습니다!');
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert('질문 등록에 실패하였습니다.');
     }
   };

@@ -78,25 +78,6 @@ const Content = styled.div`
 `;
 
 function BoardList({ boards }) {
-  // const [boards, setBoards] = useState([]);
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const response = await axios.get('/boards', {
-  //         headers: {
-  //           'ngrok-skip-browser-warning': '69420',
-  //         },
-  //       });
-  //       setBoards(response.data);
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getData();
-  // }, []);
-
   const navigate = useNavigate();
 
   const handleToQuestion = (id) => {
