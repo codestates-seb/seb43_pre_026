@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignupOauth from '../components/Logins/LoginOauth';
 import logoImg from '../assets/logo.png';
-// import axios from 'axios'
+import axios from 'axios';
 
 const Container = styled.div`
   /* position: relative; */
@@ -88,7 +88,7 @@ const FormButton = styled.button`
 
 const Login = () => {
   const [loginFormData, setLoginFormData] = useState({
-    userId: '',
+    username: '',
     password: '',
   });
 
@@ -101,10 +101,41 @@ const Login = () => {
     setLoginFormData(newFormdata);
   };
 
-  const handleSubmit = () => {
-    // e.preventDefault();
-    // axios.
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        '/v11/auth/login',
+        {
+          username: loginFormData.username,
+          password: loginFormData.password,
+        },
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      );
+      console.log('로그인 전송 완료');
+      // const memberId = response.memberId;
+      const accessToken = response.headers.authorization.split(' ')[1];
+      const refreshToken = response.headers.refresh;
+
+      console.log('엑세스', accessToken);
+      console.log('리프레쉬', refreshToken);
+      localStorage.setItem(
+        'accessToken',
+        JSON.stringify({ token: accessToken, memberId: 123 })
+      );
+      localStorage.setItem('refreshToken', refreshToken);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  // /v11/auth/login
+
+  // {nickname: '영태', username: '영태', email: 'taeyoung1012@naver.com', password: '!dudxo1012'}
 
   return (
     <Container>
@@ -118,7 +149,7 @@ const Login = () => {
             <FormLabel>UserId</FormLabel>
             <FormInput
               type="text"
-              id="userId"
+              id="username"
               onChange={handleInputChange}
               value={loginFormData.userId}
             />

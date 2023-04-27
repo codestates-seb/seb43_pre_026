@@ -15,11 +15,11 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/questionsubmit" element={<QuestionSubmit />} />
         <Route path="/useredit" element={<UserEdit />} />
         <Route path="/users" element={<Users />} />
-        <Route path="/signup" element={<Signup />} />
         <Route path="/boards/:boardId" element={<Questions />} />
         <Route path="/search/:searchValue" element={<Search />} />
       </Routes>

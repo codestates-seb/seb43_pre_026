@@ -72,7 +72,7 @@ const Questions = () => {
           <Question
             content={board.content}
             contentTry={board.contentTry}
-            likeCount={board.likeCount}
+            likeCount={board.voteCount}
             tagNames={board.tagNames}
             memberNickname={board.memberNickname}
             createdAt={board.createdAt}

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+/* eslint-disable react/prop-types */
 
 const Container = styled.div`
   margin: 0 auto;

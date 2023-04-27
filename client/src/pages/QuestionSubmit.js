@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import QuestionForm from '../components/QuestionSubmit/QuestionForm';
-
+/* eslint-disable react/no-multi-comp */
 const Global = styled.div`
   background-color: #f1f2f3;
 `;

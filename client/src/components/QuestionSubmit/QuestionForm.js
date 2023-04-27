@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import TitleInput from './TitleInput';
-import ProblemInput from './ProblemInput';
-import TriedInput from './TriedInput';
-import TagInput from './TagInput';
+import TitleInput from '../QuestionSubmit/TitleInput';
+import ProblemInput from '../QuestionSubmit/ProblemInput';
+import TriedInput from '../QuestionSubmit/TriedInput';
+import TagInput from '../QuestionSubmit/TagInput';
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

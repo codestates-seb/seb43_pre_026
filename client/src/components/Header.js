@@ -133,8 +133,23 @@ const Logout = styled.button`
 `;
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedOption, setSelectedOption] = useState('All');
+  const [inputValue, SetInputValue] = useState('');
+
+  const handInputValue = (e) => {
+    SetInputValue(e.target.value);
+  };
+
+  const handleEnterPress = (e) => {
+    if (e.keyCode === 13) {
+      search();
+    }
+  };
+
+  const search = () => {
+    navigate(`/search/list?${selectedOption}=${inputValue}`);
+  };
 
   const navigate = useNavigate();
 
@@ -156,6 +171,8 @@ const Header = () => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   };
 
   const handleUserInfo = () => {
@@ -172,10 +189,16 @@ const Header = () => {
             <option value="All">All</option>
             <option value="Title">Title</option>
             <option value="Writer">Writer</option>
-            <option value="Tag">Tag</option>
+            <option value="Tag">Tag</option>
           </SelectBox>
           <SearchIcon />
-          <SearchInput type="text" placeholder="Search..." />
+          <SearchInput
+            type="text"
+            placeholder="Search..."
+            value={inputValue}
+            onChange={handInputValue}
+            onKeyDown={handleEnterPress}
+          />
         </Search>
         {isLoggedIn ? (
           <>

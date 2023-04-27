@@ -39,7 +39,7 @@ const LikeCount = ({ likeCount, boardId }) => {
         {
           memberId: 1,
           boardId,
-          answerVote: 1,
+          boardVoteCount: 1,
         },
         {
           headers: {
@@ -59,7 +59,7 @@ const LikeCount = ({ likeCount, boardId }) => {
         {
           memberId: 1,
           boardId,
-          answerVote: 0,
+          boardVoteCount: 0,
         },
         {
           headers: {

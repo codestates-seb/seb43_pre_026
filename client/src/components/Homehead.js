@@ -49,7 +49,7 @@ const Buttons = styled.div`
     background-color: white;
     border-radius: 2px;
     border: solid 1px #bdbdbd;
-
+    cursor: pointer;
     text-align: center;
   }
 `;
@@ -60,6 +60,9 @@ const Homehead = () => {
   const handleAsk = () => {
     navigate('/questionsubmit');
   };
+
+  const handleHot = () => {};
+  const handleUn = () => {};
 
   return (
     <div>
@@ -72,8 +75,8 @@ const Homehead = () => {
           <QuestionNum>37questions</QuestionNum>
           <Buttons>
             <button>Newest</button>
-            <button>Hot</button>
-            <button>Unanswerd</button>
+            <button onClick={handleHot}>Hot</button>
+            <button onClick={handleUn}>Unanswerd</button>
           </Buttons>
         </div>
       </Head>

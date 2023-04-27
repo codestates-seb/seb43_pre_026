@@ -1,30 +1,34 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 const Answer = ({ boardId }) => {
   const [answer, setAnswer] = useState('');
 
-  console.log(boardId);
-
-  const handleAnswerSubmit = (e) => {
+  const handleAnswerSubmit = async (e) => {
     e.preventDefault();
-    // axios.post(
-    //   '/answer',
-    //   {
-    //     memberId: 1,
-    //     boardId: 1,
-    //     content: answer,
-    //   },
-    //   {
-    //     headers: {
-    //       'ngrok-skip-browser-warning': '69420',
-    //     },
-    //   }
-    // );
-
-    setAnswer('');
-    alert('등록되었습니다!');
+    try {
+      await axios.post(
+        '/answer',
+        {
+          memberId: 1,
+          boardId: boardId,
+          content: answer,
+          answerCheck: true,
+        },
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      );
+      setAnswer('');
+      alert('등록되었습니다!');
+    } catch (error) {
+      console.log(error);
+      alert('질문 등록에 실패하였습니다.');
+    }
   };
 
   const handleAnswerChange = (e) => {

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -78,30 +77,7 @@ const Content = styled.div`
   word-break: break-all;
 `;
 
-function SearchList({ searchDataDivide }) {
-  const [boards, setBoards] = useState([]);
-  const selectedOption = searchDataDivide[0];
-  const inputValue = searchDataDivide[1];
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(
-          `boards/list?${selectedOption}=${inputValue}`,
-          {
-            headers: {
-              'ngrok-skip-browser-warning': '69420',
-            },
-          }
-        );
-        setBoards(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getData();
-  }, []);
-
+function SearchList({ boards }) {
   const navigate = useNavigate();
 
   const handleToQuestion = (id) => {
