@@ -18,6 +18,7 @@ import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -108,11 +109,12 @@ public class BoardController {
     })
     @GetMapping
     public ResponseEntity getAllBoards(@PageableDefault(sort = "boardId", direction = Sort.Direction.DESC) Pageable pageable,
+                                       @RequestParam(required = false) String keyword,
                                        @RequestParam(required = false) String tab) {
 
         List<Board> boardList;
 
-        boardList = verifyTab(pageable, tab);
+        boardList = verifyTab(pageable, tab, keyword);
 
         if (boardList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -120,6 +122,7 @@ public class BoardController {
 
         List<BoardDto.Response> response = boardList.stream()
                 .map(mapper::boardToBoardResponse)
+                .filter(distinctByKey(BoardDto.Response::getBoardId))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -138,8 +141,7 @@ public class BoardController {
             @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @GetMapping("/list")
-    public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String keyword,
-                                                   @RequestParam(required = false) String title,
+    public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String title,
                                                    @RequestParam(required = false) String content,
                                                    @RequestParam(required = false) String memberNickname,
                                                    @RequestParam(required = false) String tagName,
@@ -148,7 +150,7 @@ public class BoardController {
 
         List<Board> boardList;
 
-        boardList = verityTabForSearchType(keyword, title, content, memberNickname, tagName, tab, pageable);
+        boardList = verityTabForSearchType(title, content, memberNickname, tagName, tab, pageable);
 
         if (boardList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -200,9 +202,13 @@ public class BoardController {
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
-    private List<Board> verifyTab(Pageable pageable, String tab) {
+    private List<Board> verifyTab(Pageable pageable, String tab, String keyword) {
         List<Board> boardList;
-        if ("newest".equals(tab)) {
+        if (tab == null && keyword != null) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("board-id").descending());
+            Page<Board> boardPage = boardService.getAllBoardList(keyword, pageable);
+            boardList = boardPage.getContent();
+        } else if ("newest".equals(tab)) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
             Page<Board> boardPage = boardService.getAllBoardList(pageable);
             boardList = boardPage.getContent();
@@ -225,18 +231,18 @@ public class BoardController {
         return boardList;
     }
 
-    private List<Board> verityTabForSearchType(String keyword, String title, String content, String memberNickname, String tagName, String tab, Pageable pageable) {
+    private List<Board> verityTabForSearchType(String title, String content, String memberNickname, String tagName, String tab, Pageable pageable) {
         List<Board> boardList;
         if ("newest".equals(tab)) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
-            Page<Board> boardPage = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable);
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
             boardList = boardPage.getContent();
         } else if ("hot".equals(tab)) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("viewCount").descending());
-            Page<Board> boardPage = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable);
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
             boardList = boardPage.getContent();
         } else if ("unanswered".equals(tab)) {
-            boardList = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable).getContent();
+            boardList = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable).getContent();
             boardList = boardList.stream()
                     .filter(board -> board.getAnswers().isEmpty())
                     .collect(Collectors.toList());
@@ -244,7 +250,7 @@ public class BoardController {
             Page<Board> boardPage = new PageImpl<>(boardList, pageable, boardList.size());
             boardList = boardPage.getContent();
         } else {
-            Page<Board> boardPage = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable);
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
             boardList = boardPage.getContent();
         }
         return boardList;
