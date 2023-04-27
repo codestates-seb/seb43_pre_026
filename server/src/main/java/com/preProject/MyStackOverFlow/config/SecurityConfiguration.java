@@ -35,7 +35,6 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
 
-
     public SecurityConfiguration(JwtTokenizer jwtTokenizer,
                                  CustomAuthorityUtils authorityUtils) {
         this.jwtTokenizer = jwtTokenizer;
@@ -54,8 +53,10 @@ public class SecurityConfiguration {
                 .formLogin()
                 .loginPage("/login")
                 .and()
-                .httpBasic().disable()   // (5)
-                .apply(new CustomFilterConfigurer())
+                .httpBasic().disable()
+                .exceptionHandling()  // 추가
+                .and()
+                .apply(new CustomFilterConfigurer())  // 추가
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/members").permitAll()         // 회원가입-아무나
@@ -120,6 +121,7 @@ public class SecurityConfiguration {
 //            builder.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
+}
 
 
 

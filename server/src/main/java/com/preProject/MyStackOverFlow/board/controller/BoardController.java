@@ -107,11 +107,12 @@ public class BoardController {
     })
     @GetMapping
     public ResponseEntity getAllBoards(@PageableDefault(sort = "boardId", direction = Sort.Direction.DESC) Pageable pageable,
+                                       @RequestParam(required = false) String keyword,
                                        @RequestParam(required = false) String tab) {
 
         List<Board> boardList;
 
-        boardList = verifyTab(pageable, tab);
+        boardList = verifyTab(pageable, tab, keyword);
 
         if (boardList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -119,6 +120,7 @@ public class BoardController {
 
         List<BoardDto.Response> response = boardList.stream()
                 .map(mapper::boardToBoardResponse)
+                .filter(distinctByKey(BoardDto.Response::getBoardId))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -198,9 +200,13 @@ public class BoardController {
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
-    private List<Board> verifyTab(Pageable pageable, String tab) {
+    private List<Board> verifyTab(Pageable pageable, String tab, String keyword) {
         List<Board> boardList;
-        if ("newest".equals(tab)) {
+        if (tab == null && keyword != null) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("boardId").descending());
+            Page<Board> boardPage = boardService.getAllBoardList(keyword, pageable);
+            boardList = boardPage.getContent();
+        } else if ("newest".equals(tab)) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
             Page<Board> boardPage = boardService.getAllBoardList(pageable);
             boardList = boardPage.getContent();

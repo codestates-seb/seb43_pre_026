@@ -100,6 +100,21 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
+    public Page<Board> getAllBoardList(String keyword, Pageable pageable) {
+        Page<Board> boardPage = boardRepository.findAll(findByKeyword(keyword), pageable);
+
+        if (!boardPage.hasContent()) {
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+        }
+
+        for (Board board : boardPage.getContent()) {
+            verifyAnswerCount(board);
+        }
+
+        return boardPage;
+    }
+
+    @Transactional(readOnly = true)
     public Page<Board> getAllBoardList(Pageable pageable) {
         Page<Board> boardPage = boardRepository.findAll(pageable);
 
