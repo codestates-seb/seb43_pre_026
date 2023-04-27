@@ -115,7 +115,7 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Board> getAllBoardsBySearchType(String title, String content, String memberNickname, String tagName, Pageable pageable) {
+    public Page<Board> getAllBoardsBySearchType(String keyword, String title, String content, String memberNickname, String tagName, Pageable pageable) {
 
         Page<Board> response = null;
 
@@ -127,6 +127,8 @@ public class BoardService {
             response = boardRepository.findByMemberMemberNicknameContaining(memberNickname, pageable);
         } else if (tagName != null && !tagName.isEmpty()) {
             response = boardRepository.findByTagNameContaining(tagName, pageable);
+        } else if (keyword != null && !keyword.isEmpty()) {
+            response = boardRepository.findByTitleContainingOrContentContainingOrMemberMemberNicknameContainingOrBoardTagsTagTagNameContaining(title, content, memberNickname, tagName, pageable);
         }
 
         if (response.isEmpty()) {
@@ -145,15 +147,6 @@ public class BoardService {
         Board findBoard = findVerifiedBoard(boardId);
 
         boardRepository.delete(findBoard);
-
-// TODO   if (findBoard.getBoardStatus() == Board.BoardStatus.BOARD_DELETE) {
-//            throw new BusinessLogicException(ExceptionCode.BOARD_ALREADY_DELETED);
-//        }
-//        findBoard.setBoardStatus(Board.BoardStatus.BOARD_DELETE);
-//       게시글이 삭제되었다는 문구를 출력해주는 페이지?? 필요?
-//        findBoard.setTitle("삭제된 게시글입니다.");
-//        findBoard.setContent("삭제된 게시글입니다.");
-//        findBoard.setContentTry("삭제된 게시글입니다.");
     }
 
     public Board findVerifiedBoard(long boardId) {

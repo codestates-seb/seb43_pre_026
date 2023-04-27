@@ -138,7 +138,8 @@ public class BoardController {
             @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.")
     })
     @GetMapping("/list")
-    public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String title,
+    public ResponseEntity getAllBoardsBySearchType(@RequestParam(required = false) String keyword,
+                                                   @RequestParam(required = false) String title,
                                                    @RequestParam(required = false) String content,
                                                    @RequestParam(required = false) String memberNickname,
                                                    @RequestParam(required = false) String tagName,
@@ -147,7 +148,7 @@ public class BoardController {
 
         List<Board> boardList;
 
-        boardList = verityTabForSearchType(title, content, memberNickname, tagName, tab, pageable);
+        boardList = verityTabForSearchType(keyword, title, content, memberNickname, tagName, tab, pageable);
 
         if (boardList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -224,18 +225,18 @@ public class BoardController {
         return boardList;
     }
 
-    private List<Board> verityTabForSearchType(String title, String content, String memberNickname, String tagName, String tab, Pageable pageable) {
+    private List<Board> verityTabForSearchType(String keyword, String title, String content, String memberNickname, String tagName, String tab, Pageable pageable) {
         List<Board> boardList;
         if ("newest".equals(tab)) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
-            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable);
             boardList = boardPage.getContent();
         } else if ("hot".equals(tab)) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("viewCount").descending());
-            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable);
             boardList = boardPage.getContent();
         } else if ("unanswered".equals(tab)) {
-            boardList = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable).getContent();
+            boardList = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable).getContent();
             boardList = boardList.stream()
                     .filter(board -> board.getAnswers().isEmpty())
                     .collect(Collectors.toList());
@@ -243,7 +244,7 @@ public class BoardController {
             Page<Board> boardPage = new PageImpl<>(boardList, pageable, boardList.size());
             boardList = boardPage.getContent();
         } else {
-            Page<Board> boardPage = boardService.getAllBoardsBySearchType(title, content, memberNickname, tagName, pageable);
+            Page<Board> boardPage = boardService.getAllBoardsBySearchType(keyword, title, content, memberNickname, tagName, pageable);
             boardList = boardPage.getContent();
         }
         return boardList;

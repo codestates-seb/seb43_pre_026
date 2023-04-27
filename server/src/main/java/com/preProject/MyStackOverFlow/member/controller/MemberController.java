@@ -59,7 +59,7 @@ public class MemberController {
     // 회원 정보 등록
     @Operation(summary = "회원 정보 등록", description = "회원 정보를 등록합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "회원이 등록되었습니다."),
+            @ApiResponse(responseCode = "201", description = "회원 이 등록되었습니다."),
             @ApiResponse(responseCode = "404", description = "정보를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우"),
