@@ -34,6 +34,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
 
+
     }
 
     @Override
@@ -42,9 +43,11 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String email = String.valueOf(oAuth2User.getAttributes().get("email")); // (3)
         List<String> authorities = authorityUtils.createRoles(email);           // (4)
 
-//        saveMember(email);  // (5)
         redirect(request, response, email, authorities);  // (6)
     }
+
+
+
 
 
 

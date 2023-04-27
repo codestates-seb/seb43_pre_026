@@ -21,5 +21,10 @@ public class HelloHomeController {
         return "login";
     }
 
+    @GetMapping("/my-page")
+    public String home2() {
+        return "mypage";
+    }
+
 
 }
