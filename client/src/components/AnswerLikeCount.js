@@ -38,7 +38,7 @@ const AnswerLikeCount = ({ likeCount, answerId }) => {
     memberId = tokenData.memberId;
     axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
-
+  console.log('라이크 카운트', memberId);
   const handleLike = () => {
     axios
       .patch(
@@ -47,11 +47,6 @@ const AnswerLikeCount = ({ likeCount, answerId }) => {
           memberId: memberId,
           answerId,
           answerVote: 1,
-        },
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
         }
       )
       .catch((error) => {
@@ -67,11 +62,6 @@ const AnswerLikeCount = ({ likeCount, answerId }) => {
           memberId: memberId,
           answerId,
           answerVote: 0,
-        },
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
         }
       )
       .catch((error) => {

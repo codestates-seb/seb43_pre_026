@@ -32,7 +32,7 @@ const Questions = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardId}`
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/${boardId}`
         );
         if (res.data) {
           setBoard(res.data);

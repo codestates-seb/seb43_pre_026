@@ -80,9 +80,12 @@ const AnswerComment = () => {
     setShowCommentForm(false);
     setComment('');
 
-    axios.post('/answer', {
-      comment,
-    });
+    axios.post(
+      'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/answer',
+      {
+        comment,
+      }
+    );
 
     alert('등록되었습니다!');
   };

@@ -20,6 +20,7 @@ const Template = ({ boards }) => {
   return (
     <>
       <BoardList boards={boards} />
+
       <Page>
         <span>1</span>
         <span>next</span>

@@ -47,7 +47,9 @@ const Answers = () => {
   useEffect(() => {
     const getAnswerData = async () => {
       try {
-        const response = await axios.get(`/members/${memberId}`);
+        const response = await axios.get(
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members/${memberId}`
+        );
 
         setData(response.data.data.memberAnswers);
       } catch (error) {

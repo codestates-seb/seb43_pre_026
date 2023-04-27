@@ -188,7 +188,9 @@ const Header = () => {
   };
 
   const search = () => {
-    navigate(`/search/list?${selectedOption}=${inputValue}`);
+    navigate(
+      `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/search/list?${selectedOption}=${inputValue}`
+    );
   };
 
   const navigate = useNavigate();
