@@ -25,6 +25,7 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long answerId;
 
+
     @ManyToOne (fetch = FetchType.LAZY) // 게시글과 댓글 - N:1 관계 설정
     @JoinColumn(name = "BOARD_ID", nullable = false)
     private Board board;
@@ -39,6 +40,9 @@ public class Answer {
 
     @Column()
     private int likeCount;
+
+    @Column()
+    private String memberNickname;
 
     @Column(name="answer_check", columnDefinition="BOOLEAN")
     private boolean answerCheck;

@@ -54,8 +54,10 @@ public class SecurityConfiguration {
                 .formLogin()
                 .loginPage("/login")
                 .and()
-                .httpBasic().disable()   // (5)
-                .apply(new CustomFilterConfigurer())
+                .httpBasic().disable()
+                .exceptionHandling()  // 추가
+                .and()
+                .apply(new CustomFilterConfigurer())  // 추가
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/members").permitAll()         // 회원가입-아무나
@@ -75,6 +77,9 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, "/answer/**").hasRole("USER")  //댓글삭제-회원만
                         .antMatchers(HttpMethod.PATCH, "/answer/vote").hasRole("USER")  //답변 투표-회원만
                         .anyRequest().permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils))  // (1)
                 );
         return http.build();
     }
@@ -113,6 +118,15 @@ public class SecurityConfiguration {
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
                     .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
+
+//        @Override
+//        public void configure(HttpSecurity builder) throws Exception {
+//            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+//
+//            builder.addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class); // (2)
+//        }
+
+
 //            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
 
 //            builder.addFilter(jwtAuthenticationFilter) // (2-6)
@@ -120,7 +134,5 @@ public class SecurityConfiguration {
 //            builder.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
-
-
-
 }
+

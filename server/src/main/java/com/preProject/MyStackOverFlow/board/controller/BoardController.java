@@ -97,7 +97,7 @@ public class BoardController {
     }
 
     @Operation(summary = "게시글 전체 조회", description = "전체 게시글을 조회합니다. \n" +
-                ResponseContent.BOARD_RESPONSE)
+            ResponseContent.BOARD_RESPONSE)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "전체 게시글이 조회되었습니다."),
             @ApiResponse(responseCode = "404", description = "게시글을 찾을 수 없습니다."),
@@ -107,11 +107,12 @@ public class BoardController {
     })
     @GetMapping
     public ResponseEntity getAllBoards(@PageableDefault(sort = "boardId", direction = Sort.Direction.DESC) Pageable pageable,
+                                       @RequestParam(required = false) String keyword,
                                        @RequestParam(required = false) String tab) {
 
         List<Board> boardList;
 
-        boardList = verifyTab(pageable, tab);
+        boardList = verifyTab(pageable, tab, keyword);
 
         if (boardList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -119,13 +120,14 @@ public class BoardController {
 
         List<BoardDto.Response> response = boardList.stream()
                 .map(mapper::boardToBoardResponse)
+                .filter(distinctByKey(BoardDto.Response::getBoardId))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "게시글 분류별 조회", description = "분류에 해당하는 게시글을 조회합니다. \n" +
-                ResponseContent.BOARD_RESPONSE)
+            ResponseContent.BOARD_RESPONSE)
     @Parameter(name = "title / content / memberNickname / tagName", description = "제목 / 내용 / 회원 닉네임 / 태그"
             , example = "유어클래스 / 프로젝트가 잘 안돼요 / 미숫가루설탕많이 / javascript")
     @ApiResponses(value = {
@@ -198,9 +200,13 @@ public class BoardController {
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
-    private List<Board> verifyTab(Pageable pageable, String tab) {
+    private List<Board> verifyTab(Pageable pageable, String tab, String keyword) {
         List<Board> boardList;
-        if ("newest".equals(tab)) {
+        if (tab == null && keyword != null) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("boardId").descending());
+            Page<Board> boardPage = boardService.getAllBoardList(keyword, pageable);
+            boardList = boardPage.getContent();
+        } else if ("newest".equals(tab)) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
             Page<Board> boardPage = boardService.getAllBoardList(pageable);
             boardList = boardPage.getContent();

@@ -20,7 +20,8 @@ public class Response {
         String content = null;
         content = answer.getContent();
 
-        String memberNickname = answer.getMember().getMemberNickname();
+
+        String memberNickname = answer.getMemberNickname();
 
         boolean answerCheck = Boolean.parseBoolean(null);
         answerCheck = answer.isAnswerCheck();

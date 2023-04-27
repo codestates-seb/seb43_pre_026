@@ -56,9 +56,10 @@ public class AnswerController {
     @PostMapping()
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post answerPostDto) {
         Answer answer = answerService.createAnswer(answerMapper.answertoToAnswer(answerPostDto));
-        URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
 
-        return ResponseEntity.created(location).build();
+
+        return new ResponseEntity<>(response.answerToResponse(answer), HttpStatus.OK);
+
     }
 
     @Operation(summary = "답변 투표 수 수정", description = "답변 식별자(answerId)에 해당하는 투표 수를 수정합니다.")

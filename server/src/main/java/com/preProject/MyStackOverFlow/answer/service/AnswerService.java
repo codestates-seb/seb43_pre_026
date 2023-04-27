@@ -32,6 +32,7 @@ public class AnswerService {
 
         Board findBoard = boardService.findVerifiedBoard(answer.getBoard().getBoardId());
         answer.setBoard(findBoard); // 2.게시글 외래키 등록
+        answer.setMemberNickname(memberService.findByMemberId(answer.getMember().getMemberId()).getMemberNickname());
 
         answer.setLikeCount(0);
         if(answer.getParent() != null){
