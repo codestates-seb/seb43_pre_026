@@ -108,15 +108,10 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        '/process_login',
+        'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/process_login',
         {
           username: loginFormData.username,
           password: loginFormData.password,
-        },
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
         }
       );
       // const memberId = response.memberId;

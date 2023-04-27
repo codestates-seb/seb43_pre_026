@@ -36,12 +36,13 @@ const AnswerLikeCount = ({ likeCount, answerId }) => {
   if (accessToken) {
     const tokenData = JSON.parse(accessToken);
     memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
   const handleLike = () => {
     axios
       .patch(
-        `/answers/vote`,
+        `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/answers/vote/${answerId}`,
         {
           memberId: memberId,
           answerId,
@@ -61,7 +62,7 @@ const AnswerLikeCount = ({ likeCount, answerId }) => {
   const handleDisLike = () => {
     axios
       .patch(
-        `/answers/vote`,
+        `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/answers/vote/${answerId}`,
         {
           memberId: memberId,
           answerId,

@@ -106,17 +106,12 @@ const SignupForm = () => {
     e.preventDefault();
     axios
       .post(
-        '/members',
+        'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members',
         {
           memberNickname: formData.nickname,
           memberName: formData.username,
           memberEmail: formData.email,
           memberPassword: formData.password,
-        },
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
         }
       )
       .then(() => {

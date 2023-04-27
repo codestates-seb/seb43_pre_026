@@ -80,14 +80,21 @@ const Comment = ({ memberId, boardId }) => {
     e.preventDefault();
     setShowCommentForm(false);
     setComment('');
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    }
 
     axios
-      .post('/answer', {
-        comment,
-        memberId,
-        boardId,
-        answerCheck: false,
-      })
+      .post(
+        'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/answer',
+        {
+          comment,
+          memberId,
+          boardId,
+          answerCheck: false,
+        }
+      )
       .then(() => {
         alert('댓글이 등록 되었습니다!');
       })

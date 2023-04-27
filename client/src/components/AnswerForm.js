@@ -10,23 +10,19 @@ const Answer = ({ boardId }) => {
   if (accessToken) {
     const tokenData = JSON.parse(accessToken);
     memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
   const handleAnswerSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post(
-        '/answer',
+        'http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/answer',
         {
           memberId: memberId,
           boardId: boardId,
           content: answer,
           answerCheck: true,
-        },
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
         }
       );
       setAnswer('');

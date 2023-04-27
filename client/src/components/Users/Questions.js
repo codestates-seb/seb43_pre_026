@@ -41,15 +41,14 @@ const Questions = () => {
   if (accessToken) {
     const tokenData = JSON.parse(accessToken);
     memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
   useEffect(() => {
     const getQuestionData = async () => {
       try {
-        const response = await axios.get(`/members/${memberId}`, {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = await axios.get(
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members/${memberId}`
+        );
 
         setData(response.data.data.memberBoards);
       } catch (error) {

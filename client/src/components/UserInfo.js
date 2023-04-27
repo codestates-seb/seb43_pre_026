@@ -63,6 +63,7 @@ const UserInfo = () => {
   if (accessToken) {
     const tokenData = JSON.parse(accessToken);
     memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
   const [userData, setUserData] = useState({
@@ -74,11 +75,9 @@ const UserInfo = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`/members/${memberId}`, {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = await axios.get(
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members/${memberId}`
+        );
         const { memberNickname, profileImage, joined } = response.data.data;
 
         setUserData({

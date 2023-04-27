@@ -147,6 +147,13 @@ const Header = () => {
   const [selectedOption, setSelectedOption] = useState('keyword');
   const [inputValue, SetInputValue] = useState('');
   const [profileImage, setProfileImage] = useState(profile);
+  let memberId;
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    const tokenData = JSON.parse(accessToken);
+    memberId = tokenData.memberId;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  }
 
   useEffect(() => {
     // const accessToken = localStorage.getItem('accessToken');
@@ -156,11 +163,9 @@ const Header = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/members/1', {
-          headers: {
-            'ngrok-skip-browser-warning': '69420',
-          },
-        });
+        const response = await axios.get(
+          `http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members/${memberId}`
+        );
         const { profileImage } = response.data.data;
 
         setProfileImage(profileImage || profile);
