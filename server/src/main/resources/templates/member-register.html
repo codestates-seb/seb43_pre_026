@@ -5,25 +5,53 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Hello Spring Security Coffee Shop</title>
+    <script>
+        function sendJsonData() {
+            var memberEmail = document.getElementsByName("memberEmail")[0].value;
+            var memberName = document.getElementsByName("memberName")[0].value;
+            var memberNickname = document.getElementsByName("memberNickname")[0].value;
+            var memberPassword = document.getElementsByName("memberPassword")[0].value;
+
+            var data = {
+                "memberEmail": memberEmail,
+                "memberName": memberName,
+                "memberNickname": memberNickname,
+                "memberPassword": memberPassword
+            };
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members");
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+        }
+    </script>
 </head>
+    <!-- 회원 가입 폼 -->
 <body>
 <hr />
 <div class="container" layout:fragment="content">
     <!-- 회원 가입 폼 -->
-    <form action="/members/register" method="post">
+    <form action="http://ec2-13-124-206-153.ap-northeast-2.compute.amazonaws.com:8080/members" method="post">
         <div class="row">
             <div class="col-xs-2">
-                <input type="text" name="fullName" class="form-control" placeholder="User Name"/>
+                <input type="text" name="memberEmail" class="form-control" placeholder="Email"/>
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
             <div class="col-xs-2">
-                <input type="email" name="email" class="form-control" placeholder="Email"/>
+                <input type="text" name="memberName" class="form-control" placeholder="name"/>
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
             <div class="col-xs-2">
-                <input type="password" name="password" class="form-control" placeholder="Password"/>
+                <input type="text" name="memberNickname" class="form-control" placeholder="nickname"/>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xs-2">
+                <input type="password" name="memberPassword" class="form-control" placeholder="Password"/>
             </div>
         </div>
 

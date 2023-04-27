@@ -35,7 +35,6 @@ import java.net.URL;
 @RestController
 @RequestMapping("/members")
 @Validated
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "MemberController", description = "회원 정보 API")
 @Slf4j
 public class MemberController {
